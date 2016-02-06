@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="orbitable">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="orbitable team">
+  <!-- <link rel="icon" href="favicon.ico"> -->
+
+  <title>Orbitable</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="./css/template.css" rel="stylesheet">
+
+  <!--  Angular -->
+  <script src="./js/angular.min.js" ></script>
+
+  <!--  Custom Angular Module-->
+  <script src="./js/app.js" ></script>
+
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top" ng-controller="UserController as u">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Orbitable</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" ng-hide="user">
+          <li><a href="#">Sign Up</a></li>
+          <li><a href="#">Sign In</a></li>
+        </ul>
+        <div class="btn-group navbar-right" role="group"ng-show="user">
+          <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-list-alt"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Simulation TODO</a></li>
+              <li><a href="#">Another Simulation</a></li>
+            </ul>
+          </div>
+        </div>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="template" ng-controller="BodyController as b">
+    <li>{{b.body.y}}</li>
+    <li>{{b.body.x}}</li>
+    <p> template test text</p>
+    <canvas id="main-canvas" width="auto" height="100%"/>
+  </div>
+
+  <div id="admin-panel" ng-controller="AdminController as a">
+    <div class="panel panel-default" ng-show="admin">
+      <div class="panel-body">
+        <div class="col-md-3">
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-plus" ></span>
+          </button>
+        </div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-minus" ></span>
+          </button>
+        </div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-play" ></span>
+          </button>
+        </div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-pause" ></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="./js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="./js/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="./js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>
