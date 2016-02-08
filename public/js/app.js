@@ -16,21 +16,47 @@
     ctx.stroke();
   });
 
-  // render a body
+  //
   app.controller('BodyController', function(){
-    this.body = body;
   });
 
 
   // admin panel
   app.controller('AdminController', function($scope){
     $scope.admin = true;
+    this.add = function() {
+      console.log("add function()");
+    }
+    this.remove = function() {
+      console.log("remove function()");
+    }
+    this.save = function() {
+      console.log("save function()");
+    }
+    this.tip = function() {
+      console.log("tip function()");
+    }
+    this.record = function() {
+      console.log("record function()");
+    }
   });
 
   // user functions
   app.controller('UserController', function($scope){
     $scope.user = true;
+
+    this.play = function() {
+      console.log("play function()");
+    }
+    this.pause = function() {
+      console.log("pause function()");
+    }
+    this.refresh = function() {
+      console.log("refresh function()");
+    }
   });
+  // user prototype functions
+
   // determine size of client window and initalize canvas
 
   var body = {
