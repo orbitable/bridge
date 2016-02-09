@@ -13,7 +13,7 @@ npm-debug.log
 # OS-specific
 .DS_Store
 
-# Build artificats
+# Build artifacts
 dist
 
 # Bower components
