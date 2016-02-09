@@ -1,0 +1,29 @@
+{
+  "name": "bridge",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Michael Kinsey",
+      "email": "michael.kinsey@umontana.edu"
+    },
+    {
+      "name": "Benjamin Campbell",
+      "email": "benji@benjica.com"
+    }
+  ],
+  "main": [
+    "dist/bridge.js",
+    "dist/bridge.min.js"
+  ],
+  "ignore": [
+    "src",
+    "test",
+    "**/.*"
+  ],
+  "dependencies": {
+    "angular": ">=1.2.0"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
