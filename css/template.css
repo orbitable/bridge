@@ -1,0 +1,44 @@
+ body {
+    font-family: 'Inconsolata','Courier New',Courier,monospace;
+    background-color: #222222;
+  }
+  canvas {
+    width: 100%;
+  }
+
+  .template {
+    /*font size: 13px;*/
+    text-align: center;
+  }
+
+  #admin panel {
+    position: absolute;
+  }
+
+/* Bootstrap class overrides*/
+  .panel {
+    background-color: #303030;
+    border-color: #303030;
+    color: white;
+  }
+
+  .btn-default {
+    background-color: #464545;
+    border-color: #464545;
+  }
+
+  .navbar {
+    /*background-color: #375a7f;*/
+    background-color: #222222;
+    border-color: #375a7f;
+    border-color: #222222;
+  }
+
+  .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    background-color: #303030;
+    border-color: #303030;
+    color: white;
+  }
+  .navbar-brand {
+    color: white !important;
+  }
