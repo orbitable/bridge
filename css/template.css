@@ -1,44 +1,62 @@
- body {
-    font-family: 'Inconsolata','Courier New',Courier,monospace;
-    background-color: #222222;
-  }
-  canvas {
-    width: 100%;
-  }
+body {
+  font-family: 'Inconsolata','Courier New',Courier,monospace;
+  background-color: #222222;
+  padding-top: 50px;
+}
+@media screen and (max-width: 768px) {
+  body { padding-top: 0px; }
+}
+canvas {
+  width: 100%;
+}
 
-  .template {
-    /*font size: 13px;*/
-    text-align: center;
-  }
+#sidebar{
+  height: 50%;
+  padding: 20% 0; /* adds north and south padding to "center" */
+}
 
-  #admin panel {
-    position: absolute;
-  }
+#admin-menu{
+  height: 10%;
+  width: 0%;
+  text-align: center;
+}
+
+#navbar {
+  /*float: none;
+  display: inline-block;*/
+}
+#user-menu{
+  text-align: center;
+}
+
+.template {
+  text-align: center;
+}
 
 /* Bootstrap class overrides*/
-  .panel {
-    background-color: #303030;
-    border-color: #303030;
-    color: white;
-  }
+.panel {
+  background-color: #303030;
+  border-color: #303030;
+  color: white;
+}
 
-  .btn-default {
-    background-color: #464545;
-    border-color: #464545;
-  }
+.btn-default {
+  background-color: #464545;
+  border-color: #464545;
+}
 
-  .navbar {
-    /*background-color: #375a7f;*/
-    background-color: #222222;
-    border-color: #375a7f;
-    border-color: #222222;
-  }
+.navbar {
+  /*background-color: #375a7f;*/
+  background-color: #222222;
+  border-color: #375a7f;
+  border-color: #222222;
+}
 
-  .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-    background-color: #303030;
-    border-color: #303030;
-    color: white;
-  }
-  .navbar-brand {
-    color: white !important;
-  }
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  background-color: #303030;
+  border-color: #303030;
+  color: white;
+}
+.navbar-brand {
+  color: white !important;
+}
