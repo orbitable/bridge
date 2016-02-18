@@ -9,11 +9,12 @@ angular.module('bridge.directives')
       intervalId = $interval(function() {
         var state = eventPump.paused ? 'Paused' : 'Running';
         element.text('State: ' + state + ' FPS: ' + count);
-
+        eventPump.simulator.printState(); // I want to move this to simulator_pump.js
         count = 0;
       }, 1000);
 
       var updateCallback = eventPump.register(function() {
+        eventPump.simulator.update(0.015); // I want to move this to simulator_pump.js
         count++;
       });
 

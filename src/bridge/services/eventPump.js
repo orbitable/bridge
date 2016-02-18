@@ -2,6 +2,7 @@
 function EventPump() {
   this.observers = [];
   this.paused = true;
+  this.simulator = new Simulator();
 }
 
 EventPump.prototype.register = function(callback) {
