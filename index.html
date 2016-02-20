@@ -15,6 +15,7 @@
   <!--  Angular -->
   <script src="bower_components/angular/angular.js" ></script>
   <script src="dist/bridge.js" ></script>
+  <script src="bower_components/d3/d3.js" ></script>
 
 </head>
 
@@ -68,9 +69,11 @@
 
 <div class="template" ng-controller="bodyController as b">
   <!-- <canvas id="main-canvas" width="auto" height="100%"/> -->
-  <svg style="width: 100%; height: 830px" >
+
+  <div id="planet"></div>
+  <!--<svg style="width: 100%; height: 830px" >
     <circle cx="850" cy="350" r="100" fill="red" />
-  </svg>
+  </svg> -->
 </div>
 
 <div id="admin-panel" class="col-sm-10 col-sm-offset-1" ng-controller="adminController as a">
@@ -98,5 +101,11 @@
 </div>
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/d3/d3.js"></script>
+  <script src="src/bridge/engine/vector.js"></script>
+  <script src="src/bridge/engine/body.js"></script>
+  <script src="src/bridge/engine/engine.js"></script>
+  <script src="src/bridge/engine/app.js"></script>
+
 </body>
 </html>
