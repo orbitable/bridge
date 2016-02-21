@@ -1,0 +1,68 @@
+body {
+  font-family: 'Inconsolata','Courier New',Courier,monospace;
+  background-color: #222222;
+  padding-top: 60px;
+}
+@media screen and (max-width: 768px) {
+  body { padding-top: 0px; }
+}
+canvas {
+  width: 100%;
+}
+
+#sidebar{
+  height: 50%;
+  padding: 20% 0; /* adds north and south padding to "center" */
+}
+
+#admin-menu{
+  height: 10%;
+  width: 0%;
+  text-align: center;
+}
+
+#navbar {
+  /*float: none;
+  display: inline-block;*/
+}
+#user-menu{
+  text-align: center;
+}
+.axis text { display: none; }
+.axis path, .axis line {
+  fill: none;
+  stroke: #000000;
+}
+
+
+.template {
+  text-align: center;
+}
+
+/* Bootstrap class overrides*/
+.panel {
+  background-color: #303030;
+  border-color: #303030;
+  color: white;
+}
+
+.btn-default {
+  background-color: #464545;
+  border-color: #464545;
+}
+
+.navbar {
+  /*background-color: #375a7f;*/
+  background-color: #222222;
+  border-color: #375a7f;
+  border-color: #222222;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  background-color: #303030;
+  border-color: #303030;
+  color: white;
+}
+.navbar-brand {
+  color: white !important;
+}

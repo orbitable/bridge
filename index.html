@@ -12,106 +12,107 @@
   <!-- Bootstrap core CSS -->
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- Custom CSS-->
+  <link href="css/template.css" rel="stylesheet">
+
   <!--  Angular -->
   <script src="bower_components/angular/angular.js" ></script>
   <script src="dist/bridge.js" ></script>
   <script src="http://d3js.org/d3.v3.min.js"></script>
-  <style>
-    .axis text { display: none; }    
-    .axis path,
-    .axis line {
-      fill: none;
-      stroke: #000000;
-    }
-
-  </style>
 </head>
 
 <body>
 
   <!-- Fixed navbar -->
   <nav class="navbar navbar-default navbar-fixed-top" ng-controller="userController as u">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
         data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Orbitable</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <div id="user-menu" class="btn-group navbar-nav navbar-right" role="group"ng-show="user">
+        <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
+          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
         </button>
-        <a class="navbar-brand" href="#">Orbitable</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li> <li><a href="#about">About</a></li>
+        <button type="button" class="btn btn-default btn-lg" ng-click="u.play()">
+          <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-lg" ng-click="u.pause()">
+          <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+        </button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default btn-lg dropdown-toggle"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="glyphicon glyphicon-list-alt"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Simulation TODO</a></li>
+          <li><a href="#">Another Simulation</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right" ng-hide="user">
-          <li><a href="#">Sign Up</a></li>
-          <li><a href="#">Sign In</a></li>
-        </ul>
-        <div class="btn-group navbar-nav navbar-right" role="group"ng-show="user">
-          <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
-            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-          </button>
-          <button type="button" class="btn btn-default btn-lg" ng- ng-click="u.play()">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-          </button>
-          <button type="button" class="btn btn-default btn-lg" ng-click="u.pause()">
-            <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-          </button>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default btn-lg dropdown-toggle"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="glyphicon glyphicon-list-alt"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">Simulation TODO</a></li>
-            <li><a href="#">Another Simulation</a></li>
-          </ul>
-        </div>
       </div>
-    </div><!--/.nav-collapse -->
-  </div>
+    </div>
+    <ul class="nav navbar-nav navbar-right" ng-hide="user">
+      <li><a href="#">Sign Up</a></li>
+      <li><a href="#">Sign In</a></li>
+    </ul>
+  </div><!--/.nav-collapse -->
+</div>
 </nav>
 
-<div class="template" ng-controller="bodyController as b">
-  <!-- <canvas id="main-canvas" width="auto" height="100%"/> -->
-  <svg id="svg" style="width: 100%; height: 830px">
-    <g id="svgGroup" style="width: 100%; height: 830px">     
-      <g id="xAxis" style="width: 100%; height: 830px"></g>
-       <g id="yAxis" style="width: 100%; height: 830px" ></g>
-      <g id="bodyGroup">
-          <circle cx="350" cy="350" r="50" fill="blue" />
-          <circle cx="850" cy="350" r="100" fill="red" />
-     </g>
-    </g>
-  </svg>
+<div class="container-fluid">
+  <div class="col-sm-1 sidebar" id="sidebar">
+    <nav>
+      <ul class="nav nav-stacked" id="admin-menu" ng-controller="adminController as a">
+        <li>
+          <div class="btn-group-vertical" role="group" ng-show="admin">
+            <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
+              <span class="glyphicon glyphicon-plus" ></span>
+            </button>
+            <button type="button" class="btn btn-default btn-lg" ng-click="a.remove()" ng-disabled="true">
+              <span class="glyphicon glyphicon-minus" ></span>
+            </button>
+            <button type="button" class="btn btn-default btn-lg" ng-click="a.save()">
+              <span class="glyphicon glyphicon-floppy-disk" ></span>
+            </button>
+            <button type="button" class="btn btn-default btn-lg" ng-click="a.tip()">
+              <span class="glyphicon glyphicon-comment" ></span>
+            </button>
+            <button type="button" class="btn btn-default btn-lg" ng-click="a.record()">
+              <span class="glyphicon glyphicon-record" ></span>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="col-sm-11 template" ng-controller="bodyController as b">
+    <svg id="svg" style="width: 100%; height: 830px">
+      <g id="svgGroup" style="width: 100%; height: 830px">
+        <g id="xAxis" style="width: 100%; height: 830px"></g>
+        <g id="yAxis" style="width: 100%; height: 830px" ></g>
+        <g id="bodyGroup">
+          <circle cx="350" cy="350" r="50" fill="rgb(260, 140, 10)" />
+          <circle cx="850" cy="350" r="100" fill="rgb(250, 240, 100)" />
+        </g>
+      </g>
+    </svg>
+  </div>
+
 </div>
 
-<div id="admin-panel" class="col-sm-10 col-sm-offset-1" ng-controller="adminController as a">
-  <counter></counter>
-  <div class="panel panel-default" ng-show="admin">
-    <div class="panel-body">
-      <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
-        <span class="glyphicon glyphicon-plus" ></span>
-      </button>
-      <button type="button" class="btn btn-default btn-lg" ng-click="a.remove()" ng-disabled="true">
-        <span class="glyphicon glyphicon-minus" ></span>
-      </button>
-      <button type="button" class="btn btn-default btn-lg" ng-click="a.save()">
-        <span class="glyphicon glyphicon-floppy-disk" ></span>
-      </button>
-      <button type="button" class="btn btn-default btn-lg" ng-click="a.tip()">
-        <span class="glyphicon glyphicon-comment" ></span>
-      </button>
-      <button type="button" class="btn btn-default btn-lg" ng-click="a.record()">
-        <span class="glyphicon glyphicon-record" ></span>
-      </button>
-    </div>
-  </div>
-</div>
-</div>
+</div>  <!-- end container -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 </body>
