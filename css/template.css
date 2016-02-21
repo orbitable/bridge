@@ -1,7 +1,7 @@
 body {
   font-family: 'Inconsolata','Courier New',Courier,monospace;
   background-color: #222222;
-  padding-top: 50px;
+  padding-top: 60px;
 }
 @media screen and (max-width: 768px) {
   body { padding-top: 0px; }
@@ -28,6 +28,12 @@ canvas {
 #user-menu{
   text-align: center;
 }
+.axis text { display: none; }
+.axis path, .axis line {
+  fill: none;
+  stroke: #000000;
+}
+
 
 .template {
   text-align: center;
