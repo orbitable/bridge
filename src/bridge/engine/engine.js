@@ -31,9 +31,13 @@ function Simulator(bodies) {
 function Simulator() {
 
     this.bodies = [
-        new Body(200, new Vector(200,0), new Vector(0,0), 50),
+       // new Body(200, new Vector(200,0), new Vector(0,0), 50),
+       // new Body(12, new Vector(200,100) , new Vector(40,0), 10)
 
-        new Body(12, new Vector(200,100) , new Vector(40,0), 10)
+        new Body(1000, new Vector(200,0), new Vector(0,0), 50),
+
+        new Body(12, new Vector(200,100) , new Vector(80,-5), 10)
+
     ]
 
 
@@ -251,15 +255,23 @@ Simulator.prototype.resume = function () {
 
 // };
 
+
+function add_body(mass,cx,cy,velx,vely,rad){
+   var temp = new Body(mass, new Vector(cx,cy),new Vector(velx,vely), rad);
+    this.bodies.push(temp);
+
+    // calls inital rendering setup
+    setup(this.bodies);
+
+
+}
+
+
 /**
  * Prints the state of bodies in the scene
  *
  */
 Simulator.prototype.printState = function() {
-
-
-   // update(this.bodies);
-
 
     console.log("-- CURRENT STATE -- (" + this.step + ")");
     console.log("dT: " + this.deltaTime);

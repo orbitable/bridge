@@ -17,4 +17,7 @@ angular.module('bridge.controllers')
       this.refresh = function() {
         console.log("refresh");
       };
+
+
+
   }]);
