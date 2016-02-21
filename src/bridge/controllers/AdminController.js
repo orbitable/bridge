@@ -1,3 +1,5 @@
+var angular = require('angular');
+
 angular.module('bridge.controllers')
   .controller('adminController', function($scope) {
     $scope.admin = true;
