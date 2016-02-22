@@ -1,3 +1,5 @@
+var angular = require('angular');
+
 angular.module('bridge.controllers')
   .controller('userController', ['$scope', 'eventPump', function($scope, eventPump) {
       $scope.user = true;

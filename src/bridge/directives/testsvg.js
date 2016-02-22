@@ -1,3 +1,5 @@
+var angular = require('angular');
+
 angular.module('bridge.directives')
   .directive('testsvg', ['$interval', 'eventPump', function($interval, eventPump) {
 
