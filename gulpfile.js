@@ -1,9 +1,10 @@
-var gulp = require('gulp');
 var concat = require('gulp-concat');
+var gulp = require('gulp');
+var browserify = require('browserify');
 var path = require('path');
 var runSequence = require('run-sequence');
+var source = require('vinyl-source-stream');
 var webserver = require('gulp-webserver');
-
 
 var rootDirectory = path.resolve('.');
 var sourceDirectory = path.join(rootDirectory, 'src');
@@ -14,18 +15,23 @@ var sourceFiles = [
 ];
 
 gulp.task('build', function() {
-  gulp.src(sourceFiles)
+  return gulp.src(sourceFiles)
     .pipe(concat('bridge.js'))
     .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('webserver', function() {
+gulp.task('browserify', ['build'], function() {
+  return browserify('./dist/bridge.js')
+    .bundle()
+    .pipe(source('app.js'))
+    .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('webserver', ['build', 'browserify'], function() {
   gulp.src(rootDirectory)
     .pipe(webserver({fallback: 'index.html', open: true}));
 });
 
-gulp.watch('src/**/*.js', ['build']);
+gulp.watch('src/**/*.js', ['build', 'browserify']);
 
-gulp.task('default', function () {
-  runSequence('build', 'webserver');
-});
+gulp.task('default', ['build', 'browserify', 'webserver']);

@@ -1,3 +1,4 @@
+var angular = require('angular');
 
 function EventPump() {
   this.observers = [];
