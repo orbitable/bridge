@@ -1,8 +1,9 @@
-var angular = require('angular');
-
 angular.module('bridge.controllers')
   .controller('userController', ['$scope', 'eventPump', function($scope, eventPump) {
+
+      /* DEMO */
       $scope.user = true;
+      $scope.name = "Donald Knuth"
 
         width = document.getElementById("svg").offsetWidth;
         height =  document.getElementById("svg").offsetHeight;
@@ -32,19 +33,18 @@ angular.module('bridge.controllers')
           .scaleExtent([0.1, 2])
           .on("zoom", zoomed);
 
-
-        var  svg = d3.select(document.getElementById("svg"))
+        var  svg = d3.select("#svg")
             .call(zoom);
 
-        var  bodyGrp= d3.select(document.getElementById("bodyGroup"))
+        var  bodyGrp= d3.select("#bodyGroup")
            .call(zoom);
 
-       d3.select(document.getElementById("xAxis"))
+       d3.select("#xAxis")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
-       d3.select(document.getElementById("yAxis"))
+       d3.select("#yAxis")
         .attr("class", "y axis")
         .call(yAxis);
 
@@ -69,4 +69,8 @@ angular.module('bridge.controllers')
       this.refresh = function() {
         console.log("refresh");
       };
+
+      this.logout = function(){
+        $scope.user = false;
+      }
   }]);

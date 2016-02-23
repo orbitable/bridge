@@ -3,11 +3,12 @@ body {
   background-color: #222222;
 }
 
+g {
+  width: 100%;
+  height: 100%;
+}
+
 #view{
-  /* testing */
-  padding: 1%;
-  border-color: red;
-  /* /testing */
   padding: 0;
 }
 
@@ -27,11 +28,17 @@ body {
   padding: 10% 0; /* adds north and south padding to "center" */
   position: fixed;
 }
-/*counter {
+counter {
   width: 100%;
   height: 100%;
-  position: absolute;
-}*/
+  color: white;
+}
+#counter{
+
+  position: fixed;
+  bottom: 0%;
+  right: 0%;
+}
 
 #admin-menu{
   height: 10%;
@@ -58,6 +65,7 @@ body {
 }
 
 /* Bootstrap class overrides*/
+
 .panel {
   background-color: #303030;
   border-color: #303030;
@@ -71,14 +79,20 @@ body {
 
 .navbar {
   /*background-color: #375a7f;*/
-  background-color: #222222;
+  background-color: rgba(34, 34, 34, 0.5);
   border-color: #375a7f;
   border-color: #222222;
-  opacity: .50;
+  /*opacity: .70;*/
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-  background-color: #303030;
+  background-color: rgba(48, 48, 48, 0.5);
+  border-color: #303030;
+  color: white;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+  background-color: rgba(48, 48, 48, 0.5);
   border-color: #303030;
   color: white;
 }
@@ -87,7 +101,7 @@ body {
   color: white !important;
 }
 
-.dropdown-menu {
+#drop-left {
   top: 0;
   left: 100%;
 }
