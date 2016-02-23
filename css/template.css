@@ -4,8 +4,11 @@ body {
 }
 
 #view{
+  /* testing */
   padding: 1%;
-  /*border-color: #ffffff;*/
+  border-color: red;
+  /* /testing */
+  padding: 0;
 }
 
 #svg{
@@ -33,14 +36,14 @@ body {
 #admin-menu{
   height: 10%;
   width: 0%;
-  padding: 20% 0; /* adds north and south padding to "center" */
+  padding: 100% 0;
   text-align: center;
 }
 
 #user-menu{
   height: 10%;
   width: 0;
-  padding: 20% 0; /* adds north and south padding to "center" */
+  padding: 100% 0;
   text-align: center;
 }
 .axis text { display: none; }
