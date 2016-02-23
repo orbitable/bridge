@@ -10,10 +10,22 @@ canvas {
   width: 100%;
 }
 
-#sidebar{
-  height: 50%;
-  padding: 20% 0; /* adds north and south padding to "center" */
+/* testing */
+#svg{
+  background-color: white;
 }
+
+#sidebar{
+  width: 100%
+  height: 100%;
+  padding: 20% 0; /* adds north and south padding to "center" */
+  position: absolute;
+}
+/*counter {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}*/
 
 #admin-menu{
   height: 10%;
@@ -64,5 +76,6 @@ canvas {
   color: white;
 }
 .navbar-brand {
+  font-family: Helvetica;
   color: white !important;
 }
