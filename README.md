@@ -3,7 +3,20 @@ A collection of web components and UI related to the Orbitable Application
 
 ## Quick start
 
-Install node and bower
+#### Install engine
+
+Download most recent version of engine **[here](https://github.com/orbitable/engine)**.
+
+Place engine in same folder as bridge, e.g.
+
+> orbitable/bridge
+
+> orbitable/engine
+
+
+
+
+#### Install node and bower
 
 `sudo npm install -g gulp bower`
 
@@ -13,7 +26,7 @@ Install project components
 
 Once dependencies are installed you can launch a test webserver which hosts an example of the angular application.
 
-`glup`
+`gulp`
 
 ## Troubleshooting
 

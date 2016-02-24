@@ -1,3 +1,4 @@
+var angular = require('angular');
 
 angular.module('bridge.directives')
   .directive('counter', ['$interval', 'eventPump', function($interval, eventPump) {
