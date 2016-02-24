@@ -95,7 +95,7 @@ angular.module('bridge.directives')
           //The line SVG Path
           var lineGraph = bodyGroup.append("path")
                                       .attr("d", lineFunction(lineData))
-                                      .attr("stroke", "orange")
+                                      .attr("stroke", "green")
                                       .attr("stroke-width", 2)
                                       .attr("fill", "none");
 
@@ -114,10 +114,11 @@ angular.module('bridge.directives')
             })
             .attr('fill', function(d) {
               if(d.radius < 20){
-                return 'blue';
-              } else{return 'red';}
+                return 'red';
+              } else{return 'yellow';}
 
-            });
+            })
+          .on("click", function(){console.log('TESTING ALL THE THINGS!!!!!!!!!!!!!!');});
             //  .on("click", function(){d3.select(this).style("fill", "magenta");});
         });
       }
