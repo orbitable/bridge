@@ -11,7 +11,7 @@ var sourceDirectory = path.join(rootDirectory, 'src');
 var testDirectory = path.join(rootDirectory, 'test/unit');
 var sourceFiles = [
   path.join(sourceDirectory, '/**/*.module.js'),
-  path.join(sourceDirectory, '/**/*.js'),
+  path.join(sourceDirectory, '/**/*.js')
 ];
 
 gulp.task('build', function() {
