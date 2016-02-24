@@ -1,37 +1,62 @@
 body {
   font-family: 'Inconsolata','Courier New',Courier,monospace;
   background-color: #222222;
-  padding-top: 60px;
 }
-@media screen and (max-width: 768px) {
-  body { padding-top: 0px; }
-}
-canvas {
+
+g {
   width: 100%;
+  height: 100%;
+}
+
+#view{
+  padding: 0;
+}
+
+#svg{
+  /* testing */
+  /*background-color: white;*/
+  /* /testing */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
 }
 
 #sidebar{
-  height: 50%;
-  padding: 20% 0; /* adds north and south padding to "center" */
+  width: 100%
+  height: 100%;
+  padding: 10% 0; /* adds north and south padding to "center" */
+  position: fixed;
+}
+counter {
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+#counter{
+
+  position: fixed;
+  bottom: 0%;
+  right: 0%;
 }
 
 #admin-menu{
   height: 10%;
   width: 0%;
+  padding: 100% 0;
   text-align: center;
 }
 
-#navbar {
-  /*float: none;
-  display: inline-block;*/
-}
 #user-menu{
+  height: 10%;
+  width: 0;
+  padding: 100% 0;
   text-align: center;
 }
 .axis text { display: none; }
 .axis path, .axis line {
   fill: none;
-  stroke: #000000;
+  stroke: #303030;
 }
 
 
@@ -40,6 +65,7 @@ canvas {
 }
 
 /* Bootstrap class overrides*/
+
 .panel {
   background-color: #303030;
   border-color: #303030;
@@ -53,16 +79,29 @@ canvas {
 
 .navbar {
   /*background-color: #375a7f;*/
-  background-color: #222222;
+  background-color: rgba(34, 34, 34, 0.5);
   border-color: #375a7f;
   border-color: #222222;
+  /*opacity: .70;*/
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-  background-color: #303030;
+  background-color: rgba(48, 48, 48, 0.5);
+  border-color: #303030;
+  color: white;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+  background-color: rgba(48, 48, 48, 0.5);
   border-color: #303030;
   color: white;
 }
 .navbar-brand {
+  font-family: Helvetica;
   color: white !important;
+}
+
+#drop-left {
+  top: 0;
+  left: 100%;
 }
