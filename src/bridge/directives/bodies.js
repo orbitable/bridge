@@ -1,5 +1,7 @@
 
 var angular = require('angular');
+var delay_counter = 0;
+var lineData = [];
 
 angular.module('bridge.directives')
   .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
@@ -69,6 +71,35 @@ angular.module('bridge.directives')
         eventPump.register(function() {
           bodyGroup.selectAll('*').remove();
 
+          //#### RENDERING #####
+
+
+          //The data for our line
+          delay_counter = delay_counter + 1;
+
+          if(delay_counter > 10){
+
+            delay_counter = 0;
+          //  lineData.push({ "x": simulation.bodies[0].position.x,   "y": simulation.bodies[0].position.y});
+            lineData.push({ "x": simulation.bodies[1].position.x,   "y": simulation.bodies[1].position.y});
+            console.log(simulation.bodies[0].position.x);
+
+          }
+
+          //This is the accessor function
+          var lineFunction = d3.svg.line()
+                                   .x(function(d) { return d.x; })
+                                   .y(function(d) { return d.y; })
+                                   .interpolate("linear");
+
+          //The line SVG Path
+          var lineGraph = bodyGroup.append("path")
+                                      .attr("d", lineFunction(lineData))
+                                      .attr("stroke", "orange")
+                                      .attr("stroke-width", 2)
+                                      .attr("fill", "none");
+
+
           var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
           var circleEnter = circle.enter()
             .append("circle")
@@ -82,8 +113,12 @@ angular.module('bridge.directives')
               return d === null ? 0 : d.radius;
             })
             .attr('fill', function(d) {
-              return 'red';
+              if(d.radius < 20){
+                return 'blue';
+              } else{return 'red';}
+
             });
+            //  .on("click", function(){d3.select(this).style("fill", "magenta");});
         });
       }
     };
