@@ -23,18 +23,8 @@
 
   <div id="view" class="container-fluid">
     <div ng-controller="bodyController as b">
-      <svg id="svg">
-        <g id="svgGroup">  <!-- moved styles to template.css -->
-          <g id="xAxis"></g>
-          <g id="yAxis"></g>
-          <g id="bodyGroup">
-            <circle cx="350" cy="350" r="50" fill="rgb(260, 140, 10)" />
-            <circle cx="850" cy="350" r="100" fill="rgb(250, 240, 100)" />
-          </g>
-        </g>
-      </svg>
+      <bodies></bodies>
       <div>
-
         <!-- Fixed navbar -->
         <nav class="navbar navbar-default navbar-fixed-top" >
           <div class="container-fluid">

@@ -3,7 +3,7 @@ angular.module('bridge.controllers')
 
       /* DEMO */
       $scope.user = true;
-      $scope.name = "Donald Knuth"
+      $scope.name = "Donald Knuth";
 
         width = document.getElementById("svg").offsetWidth;
         height =  document.getElementById("svg").offsetHeight;
@@ -72,5 +72,5 @@ angular.module('bridge.controllers')
 
       this.logout = function(){
         $scope.user = false;
-      }
+      };
   }]);
