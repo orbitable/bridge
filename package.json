@@ -34,6 +34,6 @@
   },
   "dependencies": {
     "angular": "^1.5.0",
-    "engine": "git+https://github.com/orbitable/engine.git#issue#14/common_js_modules"
+    "engine": "git+https://github.com/orbitable/engine.git#0.0.1"
   }
 }
