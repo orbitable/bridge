@@ -76,10 +76,18 @@ angular.module('bridge.directives')
           }
 
 
+          // Color scale
+          var color_scale = d3.scale.ordinal()
+              .range(["blue","green","yellow","red","orange","cyan","magenta"]) // 7 items
+              .domain(d3.range(0,7));
+
+
+          // Render paths function
+
           function render_path(index){
 
             //The data from the object is pushed onto the array
-            if(delayCount > 10) {
+            if(delayCount > 5) {
 
               try {
                 if (lineData[index].length >= MAX_PATH) {
@@ -100,7 +108,8 @@ angular.module('bridge.directives')
                 .y(function (d) {
                   return d.y;
                 })
-                .interpolate("linear");
+                .interpolate("basis");
+
 
             //The SVG Container
             var svgContainer = bodyGroup;
@@ -108,9 +117,15 @@ angular.module('bridge.directives')
             //The line SVG Path we draw
             var lineGraph = svgContainer.append("path")
                 .attr("d", lineFunction(lineData[index]))
-                .attr("stroke", "blue")
+                .attr("stroke", color_scale(index))
                 .attr("stroke-width", 2)
                 .attr("fill", "none");
+
+       //     d3.select("path")
+       //         .transition()
+       //         .duration(500)
+       //         .attr("stroke", "hsl(" + (Math.random() * 360) + ",100%,50%)")
+
           }
 
 
@@ -123,7 +138,7 @@ angular.module('bridge.directives')
               render_path(i);
 
             }
-            if (delayCount > 10){delayCount = 0;}
+            if (delayCount > 5){delayCount = 0;}
 
 
             var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
