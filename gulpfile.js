@@ -29,7 +29,7 @@ gulp.task('browserify', ['build'], function() {
 
 gulp.task('webserver', ['build', 'browserify'], function() {
   gulp.src(rootDirectory)
-    .pipe(webserver({fallback: 'index.html', open: true}));
+    .pipe(webserver({host: '0.0.0.0', fallback: 'index.html', open: true}));
 });
 
 gulp.watch('src/**/*.js', ['build', 'browserify']);
