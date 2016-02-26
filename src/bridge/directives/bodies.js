@@ -1,126 +1,147 @@
 
 var angular = require('angular');
-var delay_counter = 0;
 var lineData = [];
+var delayCount = 0;
+var MAX_PATH = 300;
 
 angular.module('bridge.directives')
-  .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
-    return {
-      link: function(scope, elem, attr) {
-        var svg = d3.select(elem[0])
-          .append('svg')
-          .attr('id', 'svg');
+    .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
+      return {
+        link: function(scope, elem, attr) {
+          var svg = d3.select(elem[0])
+              .append('svg')
+              .attr('id', 'svg');
 
-        var svgGroup = svg.append('g')
-          .attr('id', 'svgGroup');
+          var svgGroup = svg.append('g')
+              .attr('id', 'svgGroup');
 
-        var bodyGroup = svgGroup.append('g')
-          .attr('id', 'bodyGroup');
-
-        // TODO: Get dimensions from element
-        var width  = document.getElementById('svg').offsetWidth;
-        var height = document.getElementById('svg').offsetHeight;
-
-        var x = d3.scale.linear()
-          .domain([-width / 2, width / 2])
-          .range([0, width]);
-
-        var y = d3.scale.linear()
-          .domain([-height / 2, height / 2])
-          .range([height, 0]);
-
-        var xAxis = d3.svg.axis()
-          .scale(x)
-          .ticks(width/70)
-          .orient("bottom")
-          .tickSize(-height);
-
-        var yAxis = d3.svg.axis()
-          .scale(y)
-          .orient("left")
-          .ticks(height/70)
-          .tickSize(-width);
-
-        var zoom = d3.behavior.zoom()
-          .x(x)
-          .y(y)
-          .scaleExtent([0.1, 2])
-          .on("zoom", function() {
-            svg.select(".x.axis").call(xAxis);
-            svg.select(".y.axis").call(yAxis);
-            bodyGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-          });
-
-        svg.call(zoom);
-        bodyGroup.call(zoom);
-
-        svgGroup.append('g')
-          .attr('id', 'xAxis')
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
-
-        svgGroup.append('g')
-          .attr("class", "y axis")
-          .call(yAxis);
-
-        $interval(function () {
-          console.log(simulation.bodies);
-        }, 1000);
-
-        eventPump.register(function() {
-          bodyGroup.selectAll('*').remove();
-
-          //#### RENDERING #####
+          var bodyGroup = svgGroup.append('g')
+              .attr('id', 'bodyGroup');
 
 
-          //The data for our line
-          delay_counter = delay_counter + 1;
+          // TODO: Get dimensions from element
+          var width  = document.getElementById('svg').offsetWidth;
+          var height = document.getElementById('svg').offsetHeight;
 
-          if(delay_counter > 10){
+          var x = d3.scale.linear()
+              .domain([-width / 2, width / 2])
+              .range([0, width]);
 
-            delay_counter = 0;
-          //  lineData.push({ "x": simulation.bodies[0].position.x,   "y": simulation.bodies[0].position.y});
-            lineData.push({ "x": simulation.bodies[1].position.x,   "y": simulation.bodies[1].position.y});
-            console.log(simulation.bodies[0].position.x);
+          var y = d3.scale.linear()
+              .domain([-height / 2, height / 2])
+              .range([height, 0]);
 
+          var xAxis = d3.svg.axis()
+              .scale(x)
+              .ticks(width/70)
+              .orient("bottom")
+              .tickSize(-height);
+
+          var yAxis = d3.svg.axis()
+              .scale(y)
+              .orient("left")
+              .ticks(height/70)
+              .tickSize(-width);
+
+          var zoom = d3.behavior.zoom()
+              .x(x)
+              .y(y)
+              .scaleExtent([0.1, 2])
+              .on("zoom", function() {
+                svg.select(".x.axis").call(xAxis);
+                svg.select(".y.axis").call(yAxis);
+                bodyGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+              });
+
+          svg.call(zoom);
+          bodyGroup.call(zoom);
+
+          svgGroup.append('g')
+              .attr('id', 'xAxis')
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+          svgGroup.append('g')
+              .attr("class", "y axis")
+              .call(yAxis);
+
+          $interval(function () {
+            console.log(simulation.bodies);
+          }, 1000);
+
+          for (i = 0; i < simulation.bodies.length; i++) {
+            var temp = [];
+            lineData.push(temp);
           }
 
-          //This is the accessor function
-          var lineFunction = d3.svg.line()
-                                   .x(function(d) { return d.x; })
-                                   .y(function(d) { return d.y; })
-                                   .interpolate("linear");
 
-          //The line SVG Path
-          var lineGraph = bodyGroup.append("path")
-                                      .attr("d", lineFunction(lineData))
-                                      .attr("stroke", "green")
-                                      .attr("stroke-width", 2)
-                                      .attr("fill", "none");
+          function render_path(index){
+
+            //The data from the object is pushed onto the array
+            if(delayCount > 10) {
+
+              try {
+                if (lineData[index].length >= MAX_PATH) {
+                  lineData[index] = [];
+                } else {
+                  lineData[index].push({x: simulation.bodies[index].position.x, y: simulation.bodies[index].position.y});
+                }
+              }
+              catch (e) {
+                lineData[index] = [];
+              }
+            }
+            //This is the accessor function we talked about above
+            var lineFunction = d3.svg.line()
+                .x(function (d) {
+                  return d.x;
+                })
+                .y(function (d) {
+                  return d.y;
+                })
+                .interpolate("linear");
+
+            //The SVG Container
+            var svgContainer = bodyGroup;
+
+            //The line SVG Path we draw
+            var lineGraph = svgContainer.append("path")
+                .attr("d", lineFunction(lineData[index]))
+                .attr("stroke", "blue")
+                .attr("stroke-width", 2)
+                .attr("fill", "none");
+          }
 
 
-          var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
-          var circleEnter = circle.enter()
-            .append("circle")
-            .attr('cx', function(d) {
-              return d === null ? 0 : d.position.x;
-            })
-            .attr('cy', function(d) {
-              return d === null ? 0 : d.position.y;
-            })
-            .attr('r', function(d) {
-              return d === null ? 0 : d.radius;
-            })
-            .attr('fill', function(d) {
-              if(d.radius < 20){
-                return 'red';
-              } else{return 'yellow';}
+          eventPump.register(function() {
+            bodyGroup.selectAll('*').remove();
 
-            })
-          .on("click", function(){console.log('TESTING ALL THE THINGS!!!!!!!!!!!!!!');});
-            //  .on("click", function(){d3.select(this).style("fill", "magenta");});
-        });
-      }
-    };
-  }]);
+            delayCount += 1;
+            for (i = 0; i < simulation.bodies.length; i++) {
+
+              render_path(i);
+
+            }
+            if (delayCount > 10){delayCount = 0;}
+
+
+            var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
+            var circleEnter = circle.enter()
+                .append("circle")
+                .attr('cx', function(d) {
+                  return d === null ? 0 : d.position.x;
+                })
+                .attr('cy', function(d) {
+                  return d === null ? 0 : d.position.y;
+                })
+                .attr('r', function(d) {
+                  return d === null ? 0 : d.radius;
+                })
+                .attr('fill', function(d) {
+                  return 'red';
+                });
+          });
+        }
+      };
+    }]);
