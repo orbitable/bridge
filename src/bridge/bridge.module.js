@@ -11,7 +11,7 @@ angular.module('bridge', [
   ])
   .run(function($interval, Simulation, simulator) {
     // On application load reset the simulation with the latest simulation state
-    Simulation.query(function(simulations) {
-      simulator.reset(simulations[simulations.length - 1].bodies);
+    Simulation.get({id: 'random'}, function(simulation) {
+      simulator.reset(simulation.bodies);
     });
   });
