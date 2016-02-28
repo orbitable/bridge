@@ -62,10 +62,6 @@ angular.module('bridge.directives')
           .attr("class", "y axis")
           .call(yAxis);
 
-        $interval(function () {
-          console.log(simulation.bodies);
-        }, 1000);
-
         eventPump.register(function() {
           bodyGroup.selectAll('*').remove();
 

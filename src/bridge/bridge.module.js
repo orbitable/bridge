@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers', []);
-angular.module('bridge.services', []);
+angular.module('bridge.services', [require('angular-resource')]);
 angular.module('bridge.directives', []);
 
 angular.module('bridge', [
@@ -9,8 +9,9 @@ angular.module('bridge', [
     'bridge.controllers',
     'bridge.directives'
   ])
-  .run(function($interval, simulator) {
-     $interval(function() {
-       simulator.printState();
-     }, 1000);
+  .run(function($interval, Simulation, simulator) {
+    // On application load reset the simulation with the latest simulation state
+    Simulation.query(function(simulations) {
+      simulator.reset(simulations[simulations.length - 1].bodies);
+    });
   });
