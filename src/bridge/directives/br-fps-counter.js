@@ -10,7 +10,6 @@ angular.module('bridge.directives')
       intervalId = $interval(function() {
         var state = eventPump.paused ? 'Paused' : 'Running';
         element.text('State: ' + state + ' FPS: ' + count);
-
         count = 0;
       }, 1000);
 
