@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "angular": "^1.5.0",
-    "engine": "git+https://github.com/orbitable/engine.git#0.0.1"
+    "angular-resource": "^1.5.0",
+    "engine": "git+https://github.com/orbitable/engine.git#0.0.2"
   }
 }
