@@ -9,11 +9,11 @@ angular.module('bridge.directives')
           .append('svg')
           .attr('id', 'svg');
 
-        var svgGroup = svg.append('g')
-          .attr('id', 'svgGroup');
+        var svgGroup = svg.append('g').attr('id', 'svgGroup');
 
-        var bodyGroup = svgGroup.append('g')
-          .attr('id', 'bodyGroup');
+        var axisGroup = svgGroup.append('g').attr('id', 'axisGroup');
+
+        var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
 
         // TODO: Get dimensions from element
         var width  = document.getElementById('svg').offsetWidth;
@@ -44,7 +44,7 @@ angular.module('bridge.directives')
           .y(y)
           .scaleExtent([0.1, 2])
           .on("zoom", function() {
-            svg.select(".x.axis").call(xAxis);
+            svg.select(".x.axis") .call(xAxis);
             svg.select(".y.axis").call(yAxis);
             bodyGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
           });
@@ -52,13 +52,14 @@ angular.module('bridge.directives')
         svg.call(zoom);
         bodyGroup.call(zoom);
 
-        svgGroup.append('g')
+        axisGroup.append('g')
           .attr('id', 'xAxis')
           .attr("class", "x axis")
           .attr("transform", "translate(0," + height + ")")
           .call(xAxis);
 
-        svgGroup.append('g')
+        axisGroup.append('g')
+          .attr('id', 'yAxis')
           .attr("class", "y axis")
           .call(yAxis);
 
@@ -78,7 +79,7 @@ angular.module('bridge.directives')
               return d === null ? 0 : d.radius;
             })
             .attr('fill', function(d) {
-              return 'red';
+              return 'white';
             });
         });
       }
