@@ -79,8 +79,49 @@ angular.module('bridge.directives')
               return d === null ? 0 : d.radius;
             })
             .attr('fill', function(d) {
-              return 'white';
+              return getColor(d);
             });
+
+            function getColor(d)
+            {
+               //Constant from Stefan-Boltzmann Law
+               sigma = 5.6704* Math.pow(10,-8)
+               //Uncomment the below line to test the changing of star colors based on luminostiy and radius
+               //d.luminosity = 3
+               if (d!==null&&d.luminosity>=0  ) {
+                    //convert solar units to watts for temp calculation
+                    lum =d.luminosity *3.827*Math.pow(10,26);
+                    //this assumes that the radius is stored as the #.## term of #.## *10^8 meters, may need to change later
+                    rad = d.radius*Math.pow(10,8)
+                    temp = Math.pow((lum/(4 *Math.PI* Math.pow(rad,2)*sigma)),.25)
+
+                    if (temp>=28000) {
+                      color = "#1a1aff";
+                    }
+                    else if (temp>=10000) {
+                     color="#80d4ff"
+                    }
+                    else if (temp>=7500) {
+                      color="#ffffff"
+                    }
+                    else if (temp>=6000) {
+                      color="#ffff80"
+                    }
+                    else if (temp>=4900) {
+                      color="#ffff1a"
+                    }
+                    else if (temp>=3500) {
+                      color = "#ff6600"
+                    }
+                    else{
+                      color ="#ff0000"
+                    }
+                  }
+                  else{
+                    color="green"
+                  }
+                  return color;
+            }
         });
       }
     };
