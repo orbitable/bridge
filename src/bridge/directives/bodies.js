@@ -15,6 +15,19 @@ angular.module('bridge.directives')
 
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
 
+        // selecting bodies
+          bodyGroup.on("mousedown", function(d) {
+            // stops event from propogating up the DOM
+          console.log("clicked", d);
+          d3.selectAll("circle").style("opacity", "0.2");
+          d3.event.stopPropagation();
+          // d3.select(this).style("opacity", "1");
+          // prepareToDeselect = false;
+          // scope.$apply(function() {
+          //   scope.currentBody = d;
+          // });
+        });
+
         // TODO: Get dimensions from element
         var width  = document.getElementById('svg').offsetWidth;
         var height = document.getElementById('svg').offsetHeight;
@@ -80,8 +93,18 @@ angular.module('bridge.directives')
             })
             .attr('fill', function(d) {
               return 'white';
-            });
+            })
+            // .call(drag);
         });
+        // var drag = d3.behavior.drag()
+        // .on("drag", dragmove);
+        //
+        // function dragmove(d) {
+        //   var x = d3.event.x;
+        //   var y = d3.event.y;
+        //   console.log("drag");
+        //   d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
+        // }
       }
     };
   }]);
