@@ -27,9 +27,6 @@ g {
 }
 
 #svg{
-  /* testing */
-  /*background-color: white;*/
-  /* /testing */
   width: 100%;
   height: 100%;
   position: absolute;
@@ -41,6 +38,9 @@ g {
   height: 100%;
   padding: 10% 0; /* adds north and south padding to "center" */
   position: fixed;
+  bottom: 0%;
+  /*display: flex;*/
+  /*align-items: center;*/
 }
 counter {
   width: 100%;
@@ -48,7 +48,6 @@ counter {
   color: white;
 }
 #counter{
-
   position: fixed;
   bottom: 0%;
   right: 0%;
@@ -57,17 +56,24 @@ counter {
 #admin-menu{
   height: 10%;
   width: 0%;
-  padding: 100% 0;
+  padding: 20% 0;
   text-align: center;
 }
 
 #user-menu{
   height: 10%;
   width: 0;
-  padding: 100% 0;
+  padding: 20% 0;
   text-align: center;
 }
+
+#drop-left {
+  top: 0;
+  left: 100%;
+}
+
 .axis text { display: none; }
+
 .axis path, .axis line {
   fill: none;
   stroke: #303030;
@@ -75,6 +81,12 @@ counter {
 
 
 .template {
+  text-align: center;
+}
+
+.narrow {
+  margin: auto;
+  max-width: 780px;
   text-align: center;
 }
 
@@ -115,7 +127,6 @@ counter {
   color: white !important;
 }
 
-#drop-left {
-  top: 0;
-  left: 100%;
+.form-signin-heading{
+  font-family: Helvetica;
 }
