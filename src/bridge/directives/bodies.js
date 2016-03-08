@@ -91,12 +91,13 @@ angular.module('bridge.directives')
                //Constant from Stefan-Boltzmann Law
                sigma = 5.6704* Math.pow(10,-8)
                //Uncomment the below line to test the changing of star colors based on luminostiy and radius
-               //d.luminosity = 3
+               //d.luminosity = 1
+               
                if (d!==null&&d.luminosity>=0  ) {
                     //convert solar units to watts for temp calculation
                     lum =d.luminosity *3.827*Math.pow(10,26);
                     //this assumes that the radius is stored as the #.## term of #.## *10^8 meters, may need to change later
-                    rad = d.radius*Math.pow(10,8)
+                    rad = d.radius
                     temp = Math.pow((lum/(4 *Math.PI* Math.pow(rad,2)*sigma)),.25)
 
                     if (temp>=28000) {
@@ -126,22 +127,26 @@ angular.module('bridge.directives')
                   }
                   return color;
             }
-            function calcHabitableZone(body,circleEnter)
+            function calcHabitableZone(body)
             {
               //conversion factor for au to M
-              auKMConver = 1.496*Math.pow(10,8);
+              auKMConver = 1.496*Math.pow(10,11);
+              
+              
               //calculate the inner and outer radius
               innerRadius = Math.pow(body.luminosity/1.1,.5)*auKMConver;
               outerRadius = Math.pow(body.luminosity/0.53,.5)*auKMConver;
-
+              innerRadius = innerRadius/ 1496000000;
+              outerRadius = outerRadius/1496000000;
+              
                 //draw habitable zone around star (divide radius by the scale of the radius (for now its assumed to be 10^8))
                 bodyGroup.append("circle")
                  .attr("cx",body.position.x)
                  .attr("cy",body.position.y)
-                 .attr("r",((outerRadius-innerRadius)/2+innerRadius)/Math.pow(10,8)+body.radius)
+                 .attr("r",((outerRadius-innerRadius)/2+innerRadius))
                  .attr("fill-opacity",0)
                  .attr("stroke","green")
-                 .attr("stroke-width",(outerRadius-innerRadius)/Math.pow(10,8))
+                 .attr("stroke-width",(outerRadius-innerRadius))
                  .attr("stroke-opacity",.25)
              }
         });
