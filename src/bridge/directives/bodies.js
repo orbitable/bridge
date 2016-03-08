@@ -130,12 +130,12 @@ angular.module('bridge.directives')
             function calcHabitableZone(body)
             {
               //conversion factor for au to M
-              auKMConver = 1.496*Math.pow(10,11);
+              auMConver = 1.496*Math.pow(10,11);
               
               
               //calculate the inner and outer radius
-              innerRadius = Math.pow(body.luminosity/1.1,.5)*auKMConver;
-              outerRadius = Math.pow(body.luminosity/0.53,.5)*auKMConver;
+              innerRadius = Math.pow(body.luminosity/1.1,.5)*auMConver;
+              outerRadius = Math.pow(body.luminosity/0.53,.5)*auMConver;
               innerRadius = innerRadius/ 1496000000;
               outerRadius = outerRadius/1496000000;
               
