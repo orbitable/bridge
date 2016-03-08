@@ -22,11 +22,19 @@ g {
   overflow: hidden;
 }
 
-#sidebar{
+#left-sidebar{
   width: 100%
   height: 100%;
   padding: 10% 0; /* adds north and south padding to "center" */
   position: fixed;
+}
+
+#right-sidebar{
+  width: 100%
+  height: 100%;
+  padding: 10% 0; /* adds north and south padding to "center" */
+  position: fixed;
+  right: 0%
 }
 counter {
   width: 100%;

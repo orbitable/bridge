@@ -82,12 +82,18 @@ angular.module('bridge.directives')
               return 'white';
             })
             .on('mousedown', function(d){
+              // d.style({fill: "red"});
+              // d3.select(this).style({fill: "red"});
+              // console.log(d3.select(this).property('r'));
               select(d);
             });
         });
 
         var select = function(body){
-          console.log(body);
+          console.log(body.radius);
+          console.log(body.mass);
+          console.log(body.density);
+          console.log(body.position);
         };
       }
     };
