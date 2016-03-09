@@ -4,6 +4,7 @@ var angular = require('angular');
 angular.module('bridge.directives')
   .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
     return {
+      scope: false, // use parent scope
       link: function(scope, elem, attr) {
         var svg = d3.select(elem[0])
           .append('svg')
@@ -85,16 +86,10 @@ angular.module('bridge.directives')
               // d.style({fill: "red"});
               // d3.select(this).style({fill: "red"});
               // console.log(d3.select(this).property('r'));
-              select(d);
+              scope.selectedBody = d;
+              $('#right-sidebar').show();
             });
         });
-
-        var select = function(body){
-          console.log(body.radius);
-          console.log(body.mass);
-          console.log(body.density);
-          console.log(body.position);
-        };
       }
     };
   }]);

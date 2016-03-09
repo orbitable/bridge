@@ -34,7 +34,8 @@ g {
   height: 100%;
   padding: 10% 0; /* adds north and south padding to "center" */
   position: fixed;
-  right: 0%
+  right: 0%;
+  text-align: right;
 }
 counter {
   width: 100%;
