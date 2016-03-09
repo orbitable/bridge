@@ -24,7 +24,7 @@ angular.module('bridge.services')
       // TODO: Be able to query eventPump for current FPS to adjust dt
       // accordingly such that the same amount of dt accumlates per second
       // irregardless of FSP.
-      simulator.update(0.015);
+      simulator.update(40000);
     });
 
     return simulator;

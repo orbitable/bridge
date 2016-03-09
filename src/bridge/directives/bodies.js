@@ -83,13 +83,13 @@ angular.module('bridge.directives')
           var circleEnter = circle.enter()
             .append("circle")
             .attr('cx', function(d) {
-              return d === null ? 0 : d.position.x;
+              return d === null ? 0 : d.position.x / 1496000000;
             })
             .attr('cy', function(d) {
-              return d === null ? 0 : d.position.y;
+              return d === null ? 0 : d.position.y / 1496000000;
             })
             .attr('r', function(d) {
-              return d === null ? 0 : d.radius;
+              return d === null ? 0 : Math.log10(d.radius / 14960);
             })
             .attr('fill', function(d) {
 
