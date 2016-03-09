@@ -8,7 +8,11 @@ angular.module('bridge.directives')
       link: function(scope, elem, attr) {
         var svg = d3.select(elem[0])
           .append('svg')
-          .attr('id', 'svg');
+          .attr('id', 'svg')
+          .on('mousedown', function(){
+            $('#right-sidebar').hide();
+            scope.selectedBody = null;
+          });
 
         var svgGroup = svg.append('g').attr('id', 'svgGroup');
 
@@ -86,6 +90,7 @@ angular.module('bridge.directives')
               // d.style({fill: "red"});
               // d3.select(this).style({fill: "red"});
               // console.log(d3.select(this).property('r'));
+              d3.event.stopPropagation();
               scope.selectedBody = d;
               $('#right-sidebar').show();
             });
