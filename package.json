@@ -1,12 +1,13 @@
 {
   "name": "bridge",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A collection of web components and UI related to the Orbitable Application",
   "main": "dist/bridge.min.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "start": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -34,6 +35,10 @@
   },
   "dependencies": {
     "angular": "^1.5.0",
-    "engine": "git+https://github.com/orbitable/engine.git#issue#14/common_js_modules"
+    "angular-resource": "^1.5.0",
+    "bootstrap": "^3.3.6",
+    "d3": "^3.5.16",
+    "engine": "git+https://github.com/orbitable/engine.git#0.0.2",
+    "jquery": "^2.2.1"
   }
 }
