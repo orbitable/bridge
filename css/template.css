@@ -33,7 +33,7 @@ g {
   overflow: hidden;
 }
 
-#sidebar{
+#left-sidebar{
   width: 100%
   height: 100%;
   padding: 10% 0; /* adds north and south padding to "center" */
@@ -41,6 +41,15 @@ g {
   bottom: 0%;
   /*display: flex;*/
   /*align-items: center;*/
+}
+
+#right-sidebar{
+  width: 100%
+  height: 100%;
+  padding: 10% 0; /* adds north and south padding to "center" */
+  position: fixed;
+  right: 0%;
+  text-align: right;
 }
 counter {
   width: 100%;

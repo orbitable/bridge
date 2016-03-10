@@ -17,10 +17,15 @@ var angular = require('angular');
 angular.module('bridge.directives')
   .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
     return {
+      scope: false, // use parent scope
       link: function(scope, elem, attr) {
         var svg = d3.select(elem[0])
           .append('svg')
-          .attr('id', 'svg');
+          .attr('id', 'svg')
+          .on('mousedown', function(){
+            $('#right-sidebar').hide();
+            scope.selectedBody = null;
+          });
 
         var svgGroup = svg.append('g').attr('id', 'svgGroup');
 
@@ -97,6 +102,15 @@ angular.module('bridge.directives')
                 calcHabitableZone(d);
               }
               return getColor(d);
+            })
+
+            .on('mousedown', function(d){
+              // d.style({fill: "red"});
+              // d3.select(this).style({fill: "red"});
+              // console.log(d3.select(this).property('r'));
+              d3.event.stopPropagation();
+              scope.selectedBody = d;
+              $('#right-sidebar').show();
             });
 
             function getColor(d)
@@ -105,7 +119,7 @@ angular.module('bridge.directives')
                sigma = 5.6704* Math.pow(10,-8)
                //Uncomment the below line to test the changing of star colors based on luminostiy and radius
                //d.luminosity = 1
-               
+
                if (d!==null&&d.luminosity>=0  ) {
                     //convert solar units to watts for temp calculation
                     lum =d.luminosity *3.827*Math.pow(10,26);
@@ -144,14 +158,14 @@ angular.module('bridge.directives')
             {
               //conversion factor for au to M
               auMConver = 1.496*Math.pow(10,11);
-              
-              
+
+
               //calculate the inner and outer radius
               innerRadius = Math.pow(body.luminosity/1.1,.5)*auMConver;
               outerRadius = Math.pow(body.luminosity/0.53,.5)*auMConver;
               innerRadius = innerRadius/ 1496000000;
               outerRadius = outerRadius/1496000000;
-              
+
                 //draw habitable zone around star (divide radius by the scale of the radius (for now its assumed to be 10^8))
                 bodyGroup.append("circle")
                  .attr("cx",body.position.x)

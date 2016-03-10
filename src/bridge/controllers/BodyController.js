@@ -13,5 +13,7 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', function($scope, eventPump) {}
+  .controller('bodyController', ['$scope', 'eventPump', function($scope, eventPump) {
+    $scope.selectedBody = {};
+  }
   ]);
