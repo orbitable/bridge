@@ -1,8 +1,6 @@
 
 var angular = require('angular');
-var lineData = [];
-var delayCount = 0;
-var MAX_PATH = 300;
+
 
 angular.module('bridge.directives')
     .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
@@ -70,77 +68,10 @@ angular.module('bridge.directives')
             console.log(simulation.bodies);
           }, 1000);
 
-          for (i = 0; i < simulation.bodies.length; i++) {
-            var temp = [];
-            lineData.push(temp);
-          }
-
-
-          // Color scale
-          var color_scale = d3.scale.ordinal()
-              .range(["blue","green","yellow","red","orange","cyan","magenta"]) // 7 items
-              .domain(d3.range(0,7));
-
-
-          // Render paths function
-
-          function render_path(index){
-
-            //The data from the object is pushed onto the array
-            if(delayCount > 5) {
-
-              try {
-                if (lineData[index].length >= MAX_PATH) {
-                  lineData[index] = [];
-                } else {
-                  lineData[index].push({x: simulation.bodies[index].position.x, y: simulation.bodies[index].position.y});
-                }
-              }
-              catch (e) {
-                lineData[index] = [];
-              }
-            }
-            //This is the accessor function we talked about above
-            var lineFunction = d3.svg.line()
-                .x(function (d) {
-                  return d.x;
-                })
-                .y(function (d) {
-                  return d.y;
-                })
-                .interpolate("basis");
-
-
-            //The SVG Container
-            var svgContainer = bodyGroup;
-
-            //The line SVG Path we draw
-            var lineGraph = svgContainer.append("path")
-                .attr("d", lineFunction(lineData[index]))
-                .attr("stroke", color_scale(index))
-                .attr("stroke-width", 2)
-                .attr("fill", "none");
-
-       //     d3.select("path")
-       //         .transition()
-       //         .duration(500)
-       //         .attr("stroke", "hsl(" + (Math.random() * 360) + ",100%,50%)")
-
-          }
-
 
           eventPump.register(function() {
             bodyGroup.selectAll('*').remove();
-
-            delayCount += 1;
-            for (i = 0; i < simulation.bodies.length; i++) {
-
-              render_path(i);
-
-            }
-            if (delayCount > 5){delayCount = 0;}
-
-
+              
             var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
             var circleEnter = circle.enter()
                 .append("circle")
