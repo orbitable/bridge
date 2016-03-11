@@ -13,7 +13,7 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('userController', ['$scope', 'eventPump', function($scope, eventPump) {
+  .controller('userController', ['$scope', 'eventPump', 'Simulation', 'simulator',  function($scope, eventPump, Simulation, simulator) {
 
       // default state is anon. may be a better way to do this
       $scope.user = {"auth": false};
@@ -46,7 +46,7 @@ angular.module('bridge.controllers')
       };
 
       this.refresh = function() {
-        console.log("refresh");
+        Simulation.get({id: 'random'}, (s) => simulator.reset(s.bodies));
       };
 
       this.logout = function(){
