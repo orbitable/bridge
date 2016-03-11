@@ -19,10 +19,8 @@
 <body>
 
   <div ng-controller="userController as u">
-    <div id="view" class="container-fluid">
-      <div ng-controller="bodyController as b">
+    <div id="view" class="container-fluid" ng-controller="bodyController as b">
         <bodies></bodies>
-      </div>
       <!-- Fixed navbar -->
       <nav class="navbar navbar-default navbar-fixed-top" >
         <div class="container-fluid">
@@ -55,6 +53,38 @@
             </a>
             <ul class="dropdown-menu">
               <li><a href="#" ng-click="u.logout()">Sign Out</a></li>
+      </nav>
+      <div class="container-fluid">
+      <div id="right-sidebar">
+          <div class="panel panel-default">
+              <div class="panel-body" body-data></div>
+          </div>
+      </div>
+        <div id="left-sidebar">
+          <nav>
+            <ul id="user-menu" class="nav nav-stacked" ng-controller="userController as u">
+              <li>
+                <div class="btn-group-vertical" role="group">
+                  <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
+                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="btn btn-default btn-lg" ng-click="u.play()">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="btn btn-default btn-lg" ng-click="u.pause()">
+                    <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                  </button>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-lg dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                  </button>
+                  <ul id="drop-left" class="dropdown-menu">
+                    <li><a href="#">Simulation TODO</a></li>
+                    <li><a href="#">Another Simulation</a></li>
+                  </ul>
+                </div>
+              </div>
             </ul>
           </li>
         </ul>

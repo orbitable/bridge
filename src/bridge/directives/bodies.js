@@ -14,20 +14,27 @@
 
 var angular = require('angular');
 var lineData = [];
+var delayVal = 20;
 var delayCount = 0;
 var MAX_PATH = 300;
 
 angular.module('bridge.directives')
   .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
     return {
+      scope: false, // use parent scope
       link: function(scope, elem, attr) {
         var svg = d3.select(elem[0])
           .append('svg')
-          .attr('id', 'svg');
+          .attr('id', 'svg')
+          .on('mousedown', function(){
+            $('#right-sidebar').hide();
+            scope.selectedBody = null;
+          });
 
         var svgGroup = svg.append('g').attr('id', 'svgGroup');
 
         var axisGroup = svgGroup.append('g').attr('id', 'axisGroup');
+        var zoneGroup = svgGroup.append('g').attr('id', 'zoneGroup');
 
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
 
@@ -62,7 +69,8 @@ angular.module('bridge.directives')
           .on("zoom", function() {
             svg.select(".x.axis") .call(xAxis);
             svg.select(".y.axis").call(yAxis);
-            bodyGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+            bodyGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+            zoneGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
           });
 
         svg.call(zoom);
@@ -79,30 +87,32 @@ angular.module('bridge.directives')
           .attr("class", "y axis")
           .call(yAxis);
 
-          // ######### Render paths ###########
-
           // Color scale
           var color_scale = d3.scale.ordinal()
               .range(["blue","green","yellow","red","orange","cyan","magenta"]) // 7 items
               .domain(d3.range(0,7));
 
 
+          // Render paths function
+
           function render_path(index){
 
               //The data from the object is pushed onto the array
-              if(delayCount > 5) {
-
+              if(delayCount > delayVal) {
+                       // if(index > lineData.length){lineData.push([])}
                   try {
                       if (lineData[index].length >= MAX_PATH) {
                           lineData[index] = [];
                       } else {
-                          lineData[index].push({x: simulation.bodies[index].position.x, y: simulation.bodies[index].position.y});
+                          lineData[index].push({x: simulation.bodies[index].position.x / 1496000000, y: simulation.bodies[index].position.y / 1496000000});
                       }
                   }
                   catch (e) {
                       lineData[index] = [];
                   }
               }
+
+
               //This is the accessor function we talked about above
               var lineFunction = d3.svg.line()
                   .x(function (d) {
@@ -113,29 +123,53 @@ angular.module('bridge.directives')
                   })
                   .interpolate("basis");
 
+
+              //The SVG Container
+              var svgContainer = bodyGroup;
+
               //The line SVG Path we draw
-              var lineGraph = svgContainer.append("path")
-                  .attr("d", lineFunction(lineData[index]))
-                  .attr("stroke", color_scale(index))
-                  .attr("stroke-width", 2)
-                  .attr("fill", "none");
+              try {
+                  var lineGraph = svgContainer.append("path")
+                      .attr("d", lineFunction(lineData[index]))
+                      .attr("stroke", color_scale(index))
+                      .attr("stroke-width", 2)
+                      .attr("fill", "none")
+                      .on('mouseover', function () {
+                          d3.select(this)
+                              .transition()
+                              //.duration(500)
+                              .attr("stroke", "green")
+                              .attr('stroke-width', 5)
+                      })
+                      .on('mouseout', function () {
+                          d3.select(this)
+                              .transition()
+                              .duration(500)
+                              .attr("stroke", color_scale(index))
+                              .attr('stroke-width', 2)
+                      });
 
-          } // End of path section
-
+              }catch(e){}
+          }
 
 
           eventPump.register(function() {
           bodyGroup.selectAll('*').remove();
+          zoneGroup.selectAll('*').remove();
 
-              //------ Begin Render path call -----
               delayCount += 1;
               for (i = 0; i < simulation.bodies.length; i++) {
-                  render_path(i);
-              }
-              if (delayCount > 5){delayCount = 0;}
-              //----- End render pat call -----
 
-          var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
+                  render_path(i);
+
+              }
+              if (delayCount > delayVal){delayCount = 0;}
+
+
+
+              var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
+          var zone = bodyGroup.selectAll('circle').data(simulation.bodies);
+
           var circleEnter = circle.enter()
             .append("circle")
             .attr('cx', function(d) {
@@ -149,25 +183,43 @@ angular.module('bridge.directives')
             })
             .attr('fill', function(d) {
 
-              if (d!==null &&d.luminosity >=0 && d.radius >0) {
+              if (d!==null &&d.luminosity > 0 && d.radius > 0) {
                 calcHabitableZone(d);
               }
               return getColor(d);
+            })
+              .on('mouseover',function() {
+                  d3.select(this)
+                      .transition()
+                      .duration(50)
+                      .attr("stroke", "orange")
+                      .attr('stroke-width',5)
+              })
+              .on('mouseout',function () {
+                  d3.select(this)
+                      .transition()
+                      .duration(500)
+                      .attr('stroke-width',0)
+              })
+            .on('mousedown', function(d){
+              d3.event.stopPropagation();
+              scope.selectedBody = d;
+              $('#right-sidebar').show();
             });
 
             function getColor(d)
             {
                //Constant from Stefan-Boltzmann Law
-               sigma = 5.6704* Math.pow(10,-8)
+               sigma = 5.6704* Math.pow(10,-8);
                //Uncomment the below line to test the changing of star colors based on luminostiy and radius
                //d.luminosity = 1
-               
-               if (d!==null&&d.luminosity>=0  ) {
+
+               if (d!==null&&d.luminosity>0  ) {
                     //convert solar units to watts for temp calculation
-                    lum =d.luminosity *3.827*Math.pow(10,26);
+                    lum = d.luminosity *3.827*Math.pow(10,26);
                     //this assumes that the radius is stored as the #.## term of #.## *10^8 meters, may need to change later
-                    rad = d.radius
-                    temp = Math.pow((lum/(4 *Math.PI* Math.pow(rad,2)*sigma)),.25)
+                    rad = d.radius;
+                    temp = Math.pow((lum/(4 *Math.PI* Math.pow(rad,2)*sigma)),.25);
 
                     if (temp>=28000) {
                       color = "#1a1aff";
@@ -200,23 +252,23 @@ angular.module('bridge.directives')
             {
               //conversion factor for au to M
               auMConver = 1.496*Math.pow(10,11);
-              
-              
+
+
               //calculate the inner and outer radius
-              innerRadius = Math.pow(body.luminosity/1.1,.5)*auMConver;
-              outerRadius = Math.pow(body.luminosity/0.53,.5)*auMConver;
-              innerRadius = innerRadius/ 1496000000;
-              outerRadius = outerRadius/1496000000;
-              
+              innerRadius = Math.pow(body.luminosity / 1.1, 0.5) *auMConver;
+              outerRadius = Math.pow(body.luminosity / 0.53, 0.5) *auMConver;
+              innerRadius = innerRadius / 1496000000;
+              outerRadius = outerRadius / 1496000000;
+
                 //draw habitable zone around star (divide radius by the scale of the radius (for now its assumed to be 10^8))
-                bodyGroup.append("circle")
-                 .attr("cx",body.position.x)
-                 .attr("cy",body.position.y)
+                zoneGroup.append("circle")
+                 .attr("cx",body.position.x/1496000000)
+                 .attr("cy",body.position.y/1496000000)
                  .attr("r",((outerRadius-innerRadius)/2+innerRadius))
                  .attr("fill-opacity",0)
                  .attr("stroke","green")
                  .attr("stroke-width",(outerRadius-innerRadius))
-                 .attr("stroke-opacity",.25)
+                 .attr("stroke-opacity",0.25);
              }
         });
       }
