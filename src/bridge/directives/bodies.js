@@ -30,6 +30,7 @@ angular.module('bridge.directives')
         var svgGroup = svg.append('g').attr('id', 'svgGroup');
 
         var axisGroup = svgGroup.append('g').attr('id', 'axisGroup');
+        var zoneGroup = svgGroup.append('g').attr('id', 'zoneGroup');
 
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
 
@@ -64,7 +65,8 @@ angular.module('bridge.directives')
           .on("zoom", function() {
             svg.select(".x.axis") .call(xAxis);
             svg.select(".y.axis").call(yAxis);
-            bodyGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+            bodyGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+            zoneGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
           });
 
         svg.call(zoom);
@@ -83,8 +85,11 @@ angular.module('bridge.directives')
 
         eventPump.register(function() {
           bodyGroup.selectAll('*').remove();
+          zoneGroup.selectAll('*').remove();
 
           var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
+          var zone = bodyGroup.selectAll('circle').data(simulation.bodies);
+
           var circleEnter = circle.enter()
             .append("circle")
             .attr('cx', function(d) {
@@ -98,16 +103,13 @@ angular.module('bridge.directives')
             })
             .attr('fill', function(d) {
 
-              if (d!==null &&d.luminosity >=0 && d.radius >0) {
+              if (d!==null &&d.luminosity > 0 && d.radius > 0) {
                 calcHabitableZone(d);
               }
               return getColor(d);
             })
 
             .on('mousedown', function(d){
-              // d.style({fill: "red"});
-              // d3.select(this).style({fill: "red"});
-              // console.log(d3.select(this).property('r'));
               d3.event.stopPropagation();
               scope.selectedBody = d;
               $('#right-sidebar').show();
@@ -116,16 +118,16 @@ angular.module('bridge.directives')
             function getColor(d)
             {
                //Constant from Stefan-Boltzmann Law
-               sigma = 5.6704* Math.pow(10,-8)
+               sigma = 5.6704* Math.pow(10,-8);
                //Uncomment the below line to test the changing of star colors based on luminostiy and radius
                //d.luminosity = 1
 
-               if (d!==null&&d.luminosity>=0  ) {
+               if (d!==null&&d.luminosity>0  ) {
                     //convert solar units to watts for temp calculation
-                    lum =d.luminosity *3.827*Math.pow(10,26);
+                    lum = d.luminosity *3.827*Math.pow(10,26);
                     //this assumes that the radius is stored as the #.## term of #.## *10^8 meters, may need to change later
-                    rad = d.radius
-                    temp = Math.pow((lum/(4 *Math.PI* Math.pow(rad,2)*sigma)),.25)
+                    rad = d.radius;
+                    temp = Math.pow((lum/(4 *Math.PI* Math.pow(rad,2)*sigma)),.25);
 
                     if (temp>=28000) {
                       color = "#1a1aff";
@@ -161,20 +163,20 @@ angular.module('bridge.directives')
 
 
               //calculate the inner and outer radius
-              innerRadius = Math.pow(body.luminosity/1.1,.5)*auMConver;
-              outerRadius = Math.pow(body.luminosity/0.53,.5)*auMConver;
-              innerRadius = innerRadius/ 1496000000;
-              outerRadius = outerRadius/1496000000;
+              innerRadius = Math.pow(body.luminosity / 1.1, 0.5) *auMConver;
+              outerRadius = Math.pow(body.luminosity / 0.53, 0.5) *auMConver;
+              innerRadius = innerRadius / 1496000000;
+              outerRadius = outerRadius / 1496000000;
 
                 //draw habitable zone around star (divide radius by the scale of the radius (for now its assumed to be 10^8))
-                bodyGroup.append("circle")
+                zoneGroup.append("circle")
                  .attr("cx",body.position.x/1496000000)
                  .attr("cy",body.position.y/1496000000)
                  .attr("r",((outerRadius-innerRadius)/2+innerRadius))
                  .attr("fill-opacity",0)
                  .attr("stroke","green")
                  .attr("stroke-width",(outerRadius-innerRadius))
-                 .attr("stroke-opacity",.25)
+                 .attr("stroke-opacity",0.25);
              }
         });
       }
