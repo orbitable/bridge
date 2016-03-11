@@ -13,19 +13,19 @@
  */
 
 var angular = require('angular');
+var Simulator = require('engine');
 
-angular.module('bridge.controllers', []);
-angular.module('bridge.services', [require('angular-resource')]);
-angular.module('bridge.directives', []);
+angular.module('bridge.services')
+  .factory('simulator', ["eventPump", function(eventPump) {
+    var simulator = new Simulator();
 
-angular.module('bridge', [
-    'bridge.services',
-    'bridge.controllers',
-    'bridge.directives'
-  ])
-  .run(function($interval, Simulation, simulator) {
-    // On application load reset the simulation with the latest simulation state
-    Simulation.get({id: 'random'}, function(simulation) {
-      simulator.reset(simulation.bodies);
+    // Bind update function to event pump callback
+    eventPump.register(function() {
+      // TODO: Be able to query eventPump for current FPS to adjust dt
+      // accordingly such that the same amount of dt accumlates per second
+      // irregardless of FSP.
+      simulator.update(40000);
     });
-  });
+
+    return simulator;
+  }]);
