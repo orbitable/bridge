@@ -152,7 +152,30 @@ angular.module('bridge.directives')
                     }
                   }
                   else{
-                    color="green"
+                    var mod = d.mass % 700
+                    color = "mistyrose"
+                    if (mod >= 600) {
+                        color="darkturquoise"
+                    }
+                    else if (mod >= 500) {
+                        color="darkseagreen"
+                    }
+                    else if (mod >= 400) {
+                        color="lightsalmon"
+                    }
+                    else if (mod >= 300) {
+                        color="plum"
+                    }
+                    else if (mod >= 200) {
+                        color="lightsteelblue"
+                    }
+                    else if (mod >= 100) {
+                        color="lightseagreen"
+                    }
+                    else {
+                        color="lightgreen"
+                    }
+                    
                   }
                   return color;
             }
