@@ -14,9 +14,10 @@
 
 var angular = require('angular');
 var lineData = [];
-var delayVal = 20;
+var delayVal = 10;
 var delayCount = 0;
-var MAX_PATH = 300;
+var MAX_PATH = 500;
+var pathIndex = [];
 
 angular.module('bridge.directives')
   .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
@@ -92,8 +93,22 @@ angular.module('bridge.directives')
               .range(["blue","green","yellow","red","orange","cyan","magenta"]) // 7 items
               .domain(d3.range(0,7));
 
+          //function reduceArrayPoints(lineData){
+          //    var newData = [];
+          //    for(var i = 0; i < lineData.length;i++)
+          //    {
+          //        if(i%5 == 0){newData.push(lineData[i])}
+          //    }
+          //    return newData;
+          //}
 
           // Render paths function
+
+          function addPath(pathIdx){
+              if(jQuery.inArray( pathIdx, pathIndex) == -1){pathIndex.push(pathIdx)}
+             // else
+              //    pathIndex.splice(pathIdx, 1);
+          }
 
           function render_path(index){
 
@@ -102,10 +117,15 @@ angular.module('bridge.directives')
                        // if(index > lineData.length){lineData.push([])}
                   try {
                       if (lineData[index].length >= MAX_PATH) {
-                          lineData[index] = [];
-                      } else {
-                          lineData[index].push({x: simulation.bodies[index].position.x / 1496000000, y: simulation.bodies[index].position.y / 1496000000});
-                      }
+                          //if (lineData[index].length >= MAX_PATH && (lineData[index][0].x - simulation.bodies[index].position.x / 1496000000) < 10 && (lineData[index][0].y - simulation.bodies[index].position.y / 1496000000) < 10) {
+                              //lineData[index] = reduceArrayPoints(lineData[index]);
+                                lineDate[index] = [];
+                          } else {
+                              lineData[index].push({
+                                  x: simulation.bodies[index].position.x / 1496000000,
+                                  y: simulation.bodies[index].position.y / 1496000000
+                              });
+                          }
                   }
                   catch (e) {
                       lineData[index] = [];
@@ -132,7 +152,7 @@ angular.module('bridge.directives')
                   var lineGraph = svgContainer.append("path")
                       .attr("d", lineFunction(lineData[index]))
                       .attr("stroke", color_scale(index))
-                      .attr("stroke-width", 2)
+                      .attr("stroke-width", 1)
                       .attr("fill", "none")
                       .on('mouseover', function () {
                           d3.select(this)
@@ -146,7 +166,7 @@ angular.module('bridge.directives')
                               .transition()
                               .duration(500)
                               .attr("stroke", color_scale(index))
-                              .attr('stroke-width', 2)
+                              .attr('stroke-width', 1)
                       });
 
               }catch(e){}
@@ -158,9 +178,9 @@ angular.module('bridge.directives')
           zoneGroup.selectAll('*').remove();
 
               delayCount += 1;
-              for (i = 0; i < simulation.bodies.length; i++) {
+              for (i = 0; i < pathIndex.length; i++) {
 
-                  render_path(i);
+                  render_path(pathIndex[i]);
 
               }
               if (delayCount > delayVal){delayCount = 0;}
@@ -201,11 +221,16 @@ angular.module('bridge.directives')
                       .duration(500)
                       .attr('stroke-width',0)
               })
-            .on('mousedown', function(d){
-              d3.event.stopPropagation();
-              scope.selectedBody = d;
-              $('#right-sidebar').show();
-            });
+             .on('mousedown', function(d){
+               d3.event.stopPropagation();
+               scope.selectedBody = d;
+               $('#right-sidebar').show();
+             })
+              .on('mouseup', function(d){
+                  d3.event.stopPropagation();
+                  scope.selectedBody = d;
+                  addPath(simulation.bodies.indexOf(d));
+              });
 
             function getColor(d)
             {
