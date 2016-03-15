@@ -13,6 +13,11 @@
  */
 
 var angular = require('angular');
+var lineData = [];
+var delayVal = 10;
+var delayCount = 0;
+var MAX_PATH = 500;
+var pathIndex = [];
 
 angular.module('bridge.directives')
   .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
@@ -83,11 +88,87 @@ angular.module('bridge.directives')
           .attr("class", "y axis")
           .call(yAxis);
 
-        eventPump.register(function() {
+          // Color scale
+          var color_scale = d3.scale.ordinal()
+              .range(["blue","green","yellow","red","orange","cyan","magenta"]) // 7 items
+              .domain(d3.range(0,7));
+
+
+          // Adds or removes a body index from the array to render
+          function addPath(pathIdx){
+              if(jQuery.inArray(pathIdx, pathIndex) == -1){pathIndex.push(pathIdx)}
+              else{pathIndex.splice(pathIdx, 1);}
+          }
+
+          // Render paths function
+          function render_path(index){
+
+              //The data from the object is pushed onto the array
+              if(delayCount > delayVal) {
+                  try {
+                      if (lineData[index].length >= MAX_PATH) {
+                                lineData[index] = [];
+                          }
+                      else {
+                              lineData[index].push({
+                                  x: simulation.bodies[index].position.x / 1496000000,
+                                  y: simulation.bodies[index].position.y / 1496000000
+                              });
+                          }
+                  }
+                  catch (e) {
+                      lineData[index] = [];
+                  }
+              }
+
+              //This is the accessor function
+              var lineFunction = d3.svg.line()
+                  .x(function (d) {
+                      return d.x;
+                  })
+                  .y(function (d) {
+                      return d.y;
+                  })
+                  .interpolate("basis");
+
+
+              //The line SVG Path is drawn
+              try {
+                  var lineGraph = bodyGroup.append("path")
+                      .attr("d", lineFunction(lineData[index]))
+                      .attr("stroke", color_scale(index))
+                      .attr("stroke-width", 1)
+                      .attr("fill", "none")
+                      .on('mouseover', function () {
+                          d3.select(this)
+                              .transition()
+                              .duration(50)
+                              .attr("stroke", "green")
+                              .attr('stroke-width', 5)
+                      })
+                      .on('mouseout', function () {
+                          d3.select(this)
+                              .transition()
+                              .duration(500)
+                              .attr("stroke", color_scale(index))
+                              .attr('stroke-width', 1)
+                      });
+              }catch(e){}
+          }
+
+
+          eventPump.register(function() {
           bodyGroup.selectAll('*').remove();
           zoneGroup.selectAll('*').remove();
 
-          var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
+              // Calls the render path function for each path index
+              delayCount += 1;
+              pathIndex.map(function(i){render_path(i);return 0;});
+              if (delayCount > delayVal){delayCount = 0;}
+
+
+
+              var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
           var zone = bodyGroup.selectAll('circle').data(simulation.bodies);
 
           var circleEnter = circle.enter()
@@ -108,12 +189,29 @@ angular.module('bridge.directives')
               }
               return getColor(d);
             })
-
-            .on('mousedown', function(d){
-              d3.event.stopPropagation();
-              scope.selectedBody = d;
-              $('#right-sidebar').show();
-            });
+              .on('mouseover',function() {
+                  d3.select(this)
+                      .transition()
+                      .duration(50)
+                      .attr("stroke", "orange")
+                      .attr('stroke-width',5)
+              })
+              .on('mouseout',function () {
+                  d3.select(this)
+                      .transition()
+                      .duration(500)
+                      .attr('stroke-width',0)
+              })
+             .on('mousedown', function(d){
+               d3.event.stopPropagation();
+               scope.selectedBody = d;
+               $('#right-sidebar').show();
+             })
+              .on('mouseup', function(d){
+                  d3.event.stopPropagation();
+                  scope.selectedBody = d;
+                  addPath(simulation.bodies.indexOf(d));
+              });
 
             function getColor(d)
             {
