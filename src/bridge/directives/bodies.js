@@ -118,16 +118,18 @@ angular.module('bridge.directives')
             function getColor(d)
             {
                //Constant from Stefan-Boltzmann Law
-               sigma = 5.6704* Math.pow(10,-8);
+               var sigma = 5.6704* Math.pow(10,-8);
                //Uncomment the below line to test the changing of star colors based on luminostiy and radius
                //d.luminosity = 1
+               //
+               var color = "green";
 
                if (d!==null&&d.luminosity>0  ) {
                     //convert solar units to watts for temp calculation
-                    lum = d.luminosity *3.827*Math.pow(10,26);
+                    var lum = d.luminosity *3.827*Math.pow(10,26);
                     //this assumes that the radius is stored as the #.## term of #.## *10^8 meters, may need to change later
-                    rad = d.radius;
-                    temp = Math.pow((lum/(4 *Math.PI* Math.pow(rad,2)*sigma)),.25);
+                    var rad = d.radius;
+                    var temp = Math.pow((lum/(4 *Math.PI* Math.pow(rad,2)*sigma)),.25);
 
                     if (temp>=28000) {
                       color = "#1a1aff";
@@ -147,11 +149,7 @@ angular.module('bridge.directives')
                     else if (temp>=3500) {
                       color = "#ff6600"
                     }
-                    else{
-                      color ="#ff0000"
-                    }
-                  }
-                  else{
+                  } else {
                     var mod = d.mass % 700
                     color = "mistyrose"
                     if (mod >= 600) {
@@ -179,17 +177,15 @@ angular.module('bridge.directives')
                   }
                   return color;
             }
-            function calcHabitableZone(body)
-            {
+
+            function calcHabitableZone(body) {
               //conversion factor for au to M
-              auMConver = 1.496*Math.pow(10,11);
+              var auMConver = 1.496*Math.pow(10,11);
 
 
               //calculate the inner and outer radius
-              innerRadius = Math.pow(body.luminosity / 1.1, 0.5) *auMConver;
-              outerRadius = Math.pow(body.luminosity / 0.53, 0.5) *auMConver;
-              innerRadius = innerRadius / 1496000000;
-              outerRadius = outerRadius / 1496000000;
+              var innerRadius = Math.pow(body.luminosity / 1.1, 0.5) *auMConver / 1496000000;
+              var outerRadius = Math.pow(body.luminosity / 0.53, 0.5) *auMConver / 1496000000;
 
                 //draw habitable zone around star (divide radius by the scale of the radius (for now its assumed to be 10^8))
                 zoneGroup.append("circle")
