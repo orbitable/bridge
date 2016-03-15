@@ -15,11 +15,13 @@
 var angular = require('angular');
 
 angular.module('bridge.filters')
+
+  // Convert distance units from meters, format and add unit label
   .filter('distance', function($filter){
       var factor = {
         m:  1,
         km: 1000,
-        au: 149600000000
+        au: 149597870700
       };
 
       return function(distance, unit){
@@ -27,4 +29,28 @@ angular.module('bridge.filters')
         // call built in number filter to format new value nicely
         return (distance == null) ? distance : $filter('number')(distance / factor[unit]) +" "+ unit;
       };
-  });
+  })
+
+  // Convert mass units from kg, format and add unit label
+  .filter('mass', function($filter){
+    var factor = {
+      kg: 1,
+      t: 1000,
+      M: 1988435000000000000000000000000
+    };
+
+    return function(mass, unit){
+      return (mass == null) ? mass : $filter('number')(mass / factor[unit]) +" "+ unit;
+    };
+  })
+
+  .filter('velocity', function($filter){
+    var factor = {
+      s: 1
+    };
+
+    return function(v, distanceUnit, massUnit){
+      // TODO
+      return $filter('number')(v) +" "+distanceUnit+"/"+massUnit;
+    };
+  })
