@@ -116,14 +116,16 @@ angular.module('bridge.directives')
           });
 
 
-        svg.call(zoom.translate([width/2, height/2]).event);
-        svg.call(zoom);
-
-        bodyGroup.call(zoom.translate([width/2, height/2]).event);
-        bodyGroup.call(zoom);
-
-        zonesGroup.call(zoom.translate([width/2, height/2]).event);
-        zonesGroup.call(zoom);
+        // Translate the svg to the center of the element.
+        //
+        // Any group of elements which respond to zoom/pan must be translated
+        // and centered.
+        var windowCenter = [width/2, height/2];
+        [svg, bodyGroup, zonesGroup].forEach(function(group) {
+          group.call(zoom.translate(windowCenter).event);
+          group.call(zoom.center(windowCenter).event);
+          group.call(zoom);
+        })
 
         axisGroup.append('g')
           .attr('id', 'xAxis')
