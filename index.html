@@ -1,223 +1,179 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="bridge">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="orbitable team">
-  <link rel="icon" href="favicon.ico">
-
-  <title>Orbitable</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom CSS-->
-  <link href="css/template.css" rel="stylesheet">
-</head>
-
-<body>
-
-  <div ng-controller="userController as u">
-    <div id="view" class="container-fluid" ng-controller="bodyController as b">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="orbitable team">
+    <link rel="icon" href="favicon.ico">
+    <title>Orbitable</title>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/template.css" rel="stylesheet">
+  </head>
+  <body>
+    <div ng-controller="userController as u">
+      <div id="view" class="container-fluid" ng-controller="bodyController as b">
         <bodies></bodies>
-      <!-- Fixed navbar -->
-      <nav class="navbar navbar-default navbar-fixed-top" >
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top" >
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Orbitable</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse" >
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right" ng-hide="user.auth">
+                <li><a href="#" data-toggle="modal" data-target="#sign-up">Sign Up</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#sign-in">Sign In</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right" ng-show="user.auth">
+                <li>
+                  <a class="btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                    {{user.name}}
+                    <span class="glyphicon glyphicon-user"></span>
+                  </a>
+                </li>
+                <li><a href="#" ng-click="u.logout()">Sign Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
         <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-            data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Orbitable</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse" >
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right" ng-hide="user.auth">
-            <li><a href="#" data-toggle="modal" data-target="#sign-up">Sign Up</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#sign-in">Sign In</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right" ng-show="user.auth">
-            <li>
-              <!-- <div class="btn-group"> -->
-              <a class="btn-lg dropdown-toggle" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false" href="#">
-              {{user.name}}
-              <span class="glyphicon glyphicon-user"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="#" ng-click="u.logout()">Sign Out</a></li>
-      </nav>
-      <div class="container-fluid">
-      <div id="right-sidebar">
-          <div class="panel panel-default">
+          <div id="right-sidebar">
+            <div class="panel panel-default">
               <div class="panel-body" body-data></div>
+            </div>
           </div>
+          <div id="left-sidebar">
+            <nav>
+              <ul id="user-menu" class="nav nav-stacked" ng-controller="userController as u">
+                <li>
+                  <div class="btn-group-vertical" role="group">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
+                      <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="u.play()">
+                      <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="u.pause()">
+                      <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                    </button>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default btn-lg dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                      </button>
+                      <ul id="drop-left" class="dropdown-menu">
+                        <li><a href="#">Simulation TODO</a></li>
+                        <li><a href="#">Another Simulation</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+            <nav>
+              <ul class="nav nav-stacked" id="admin-menu" ng-controller="adminController as a">
+                <li>
+                  <div class="btn-group-vertical" role="group" ng-show="admin">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
+                      <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="a.remove()">
+                      <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="a.save()">
+                      <span class="glyphicon glyphicon-floppy-disk" ></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="a.tip()">
+                      <span class="glyphicon glyphicon-comment"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-lg" ng-click="a.record()">
+                      <span class="glyphicon glyphicon-record"></span>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
       </div>
-        <div id="left-sidebar">
-          <nav>
-            <ul id="user-menu" class="nav nav-stacked" ng-controller="userController as u">
-              <li>
-                <div class="btn-group-vertical" role="group">
-                  <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
-                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                  </button>
-                  <button type="button" class="btn btn-default btn-lg" ng-click="u.play()">
-                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                  </button>
-                  <button type="button" class="btn btn-default btn-lg" ng-click="u.pause()">
-                    <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-                  </button>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-lg dropdown-toggle"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-list-alt"></span>
-                  </button>
-                  <ul id="drop-left" class="dropdown-menu">
-                    <li><a href="#">Simulation TODO</a></li>
-                    <li><a href="#">Another Simulation</a></li>
-                  </ul>
-                </div>
+      <div class="container narrow">
+        <div id="sign-in" class="modal fade " tabindex="-1" role="dialog" >
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-body">
+                <form class="form-signin">
+                  <h2 class="form-signin-heading">Please sign in</h2>
+                  <label for="inputEmail" class="sr-only">Email address</label>
+                  <input type="email" ng-model="person.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                  <label for="inputPassword" class="sr-only">Password</label>
+                  <input type="password" ng-model="person.pass" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                  </div>
+                  <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="authorize(person)">Sign in</button>
+                </form>
               </div>
-            </ul>
-          </li>
-        </ul>
-      </div><!--/.nav-collapse -->
-    </div>
-  </nav>
-</div>
-<div class="container narrow">
-  <div id="sign-in" class="modal fade " tabindex="-1" role="dialog" >
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-body">
-          <form class="form-signin">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" ng-model="person.email" id="inputEmail"
-            class="form-control" placeholder="Email address" required autofocus>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" ng-model="person.pass" id="inputPassword"
-            class="form-control" placeholder="Password" required>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value="remember-me"> Remember me
-                <!--  TODO: remember user-->
-              </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit"
-            ng-click="authorize(person)">Sign in</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container narrow">
-  <div id="sign-up" class="modal fade " tabindex="-1" role="dialog" >
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class='modal-body'>
-          <form class="form-signin">
-            <h2 class="form-signin-heading">Register</h2>
-            <label for="inputName" class="sr-only">User name</label>
-            <input id="inputName" ng-model="p.name" class="form-control" placeholder="User name" required autofocus>
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email"  ng-model="p.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" ng-model="p.pass" id="inputPassword" class="form-control" placeholder="Password" required>
-            <label for="confirmPassword" class="sr-only">Confirm Password</label>
-            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value="remember-me"> Remember me
-              </label>
-            </div>
-            <button ng-click="register(p)" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container-fluid">
-  <div id="sidebar">
-    <nav>
-      <ul id="user-menu" class="nav nav-stacked" ng-show="user.auth">
-        <li>
-          <div class="btn-group-vertical" role="group">
-            <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
-              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="u.play()">
-              <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="u.pause()">
-              <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-            </button>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default btn-lg dropdown-toggle"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="glyphicon glyphicon-list-alt"></span>
-            </button>
-            <ul id="drop-left" class="dropdown-menu">
-              <li><a href="#">Simulation TODO</a></li>
-              <li><a href="#">Another Simulation</a></li>
-            </ul>
           </div>
         </div>
-      </ul>
-    </nav>
-    <nav>
-      <ul class="nav nav-stacked" id="admin-menu" ng-controller="adminController as a">
-        <li>
-          <div class="btn-group-vertical" role="group" ng-show="admin">
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
-              <span class="glyphicon glyphicon-plus" ></span>
-            </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.remove()">
-              <span class="glyphicon glyphicon-minus" ></span>
-            </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.save()">
-              <span class="glyphicon glyphicon-floppy-disk" ></span>
-            </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.tip()">
-              <span class="glyphicon glyphicon-comment" ></span>
-            </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.record()">
-              <span class="glyphicon glyphicon-record" ></span>
-            </button>
+      </div>
+      <div class="container narrow">
+        <div id="sign-up" class="modal fade " tabindex="-1" role="dialog" >
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class='modal-body'>
+                <form class="form-signin">
+                  <h2 class="form-signin-heading">Register</h2>
+                  <label for="inputName" class="sr-only">User name</label>
+                  <input id="inputName" ng-model="p.name" class="form-control" placeholder="User name" required autofocus>
+                  <label for="inputEmail" class="sr-only">Email address</label>
+                  <input type="email"  ng-model="p.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                  <label for="inputPassword" class="sr-only">Password</label>
+                  <input type="password" ng-model="p.pass" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                  <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                  </div>
+                  <button ng-click="register(p)" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </form>
+              </div>
+            </div>
           </div>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <div id="counter">
-    <counter></counter>
-  </div>
-</div>
-</div> <!-- end user controller-->
-
-</div>  <!-- end container -->
-<script src="node_modules/jquery/dist/jquery.js"></script>
-<script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
-<script src="dist/app.js" ></script>
-<script src=" node_modules/d3/d3.min.js"></script>
-<script>
+        </div>
+      </div>
+      <div id="counter">
+        <counter></counter>
+      </div>
+    </div>  <!-- end container -->
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="dist/app.js" ></script>
+    <script src=" node_modules/d3/d3.min.js"></script>
+    <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-74712646-1', 'auto');
 ga('send', 'pageview');
 
-</script>
-</body>
+    </script>
+  </body>
 </html>
