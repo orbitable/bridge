@@ -93,34 +93,23 @@ angular.module('bridge.directives')
               .range(["blue","green","yellow","red","orange","cyan","magenta"]) // 7 items
               .domain(d3.range(0,7));
 
-          //function reduceArrayPoints(lineData){
-          //    var newData = [];
-          //    for(var i = 0; i < lineData.length;i++)
-          //    {
-          //        if(i%5 == 0){newData.push(lineData[i])}
-          //    }
-          //    return newData;
-          //}
 
-          // Render paths function
-
+          // Adds or removes a body index from the array to render
           function addPath(pathIdx){
-              if(jQuery.inArray( pathIdx, pathIndex) == -1){pathIndex.push(pathIdx)}
-             // else
-              //    pathIndex.splice(pathIdx, 1);
+              if(jQuery.inArray(pathIdx, pathIndex) == -1){pathIndex.push(pathIdx)}
+              else{pathIndex.splice(pathIdx, 1);}
           }
 
+          // Render paths function
           function render_path(index){
 
               //The data from the object is pushed onto the array
               if(delayCount > delayVal) {
-                       // if(index > lineData.length){lineData.push([])}
                   try {
                       if (lineData[index].length >= MAX_PATH) {
-                          //if (lineData[index].length >= MAX_PATH && (lineData[index][0].x - simulation.bodies[index].position.x / 1496000000) < 10 && (lineData[index][0].y - simulation.bodies[index].position.y / 1496000000) < 10) {
-                              //lineData[index] = reduceArrayPoints(lineData[index]);
-                                lineDate[index] = [];
-                          } else {
+                                lineData[index] = [];
+                          }
+                      else {
                               lineData[index].push({
                                   x: simulation.bodies[index].position.x / 1496000000,
                                   y: simulation.bodies[index].position.y / 1496000000
@@ -132,8 +121,7 @@ angular.module('bridge.directives')
                   }
               }
 
-
-              //This is the accessor function we talked about above
+              //This is the accessor function
               var lineFunction = d3.svg.line()
                   .x(function (d) {
                       return d.x;
@@ -144,12 +132,9 @@ angular.module('bridge.directives')
                   .interpolate("basis");
 
 
-              //The SVG Container
-              var svgContainer = bodyGroup;
-
-              //The line SVG Path we draw
+              //The line SVG Path is drawn
               try {
-                  var lineGraph = svgContainer.append("path")
+                  var lineGraph = bodyGroup.append("path")
                       .attr("d", lineFunction(lineData[index]))
                       .attr("stroke", color_scale(index))
                       .attr("stroke-width", 1)
@@ -157,7 +142,7 @@ angular.module('bridge.directives')
                       .on('mouseover', function () {
                           d3.select(this)
                               .transition()
-                              //.duration(500)
+                              .duration(50)
                               .attr("stroke", "green")
                               .attr('stroke-width', 5)
                       })
@@ -168,7 +153,6 @@ angular.module('bridge.directives')
                               .attr("stroke", color_scale(index))
                               .attr('stroke-width', 1)
                       });
-
               }catch(e){}
           }
 
@@ -177,12 +161,9 @@ angular.module('bridge.directives')
           bodyGroup.selectAll('*').remove();
           zoneGroup.selectAll('*').remove();
 
+              // Calls the render path function for each path index
               delayCount += 1;
-              for (i = 0; i < pathIndex.length; i++) {
-
-                  render_path(pathIndex[i]);
-
-              }
+              pathIndex.map(function(i){render_path(i);return 0;});
               if (delayCount > delayVal){delayCount = 0;}
 
 
