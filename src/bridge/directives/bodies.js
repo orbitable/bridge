@@ -16,7 +16,7 @@ var angular = require('angular');
 var lineData = [];
 var delayVal = 10;
 var delayCount = 0;
-var MAX_PATH = 500;
+var MAX_PATH = 1000;
 var pathIndex = [];
 
 angular.module('bridge.directives')
@@ -101,26 +101,22 @@ angular.module('bridge.directives')
           }
 
           // Render paths function
-          function render_path(index){
-
+          function buildPath(index) {
               //The data from the object is pushed onto the array
-              if(delayCount > delayVal) {
-                  try {
-                      if (lineData[index].length >= MAX_PATH) {
-                                lineData[index] = [];
-                          }
-                      else {
-                              lineData[index].push({
-                                  x: simulation.bodies[index].position.x / 1496000000,
-                                  y: simulation.bodies[index].position.y / 1496000000
-                              });
-                          }
-                  }
-                  catch (e) {
-                      lineData[index] = [];
-                  }
+              if (!lineData[index]) {
+                  lineData[index] = [];
               }
-
+              if (lineData[index].length >= MAX_PATH) {
+                  lineData[index] = [];
+              }
+              else {
+                  lineData[index].push({
+                      x: simulation.bodies[index].position.x / 1496000000,
+                      y: simulation.bodies[index].position.y / 1496000000
+                  });
+              }
+          }
+              function drawPaths(index){
               //This is the accessor function
               var lineFunction = d3.svg.line()
                   .x(function (d) {
@@ -131,30 +127,29 @@ angular.module('bridge.directives')
                   })
                   .interpolate("basis");
 
-
               //The line SVG Path is drawn
-              try {
-                  var lineGraph = bodyGroup.append("path")
-                      .attr("d", lineFunction(lineData[index]))
-                      .attr("stroke", color_scale(index))
-                      .attr("stroke-width", 1)
-                      .attr("fill", "none")
-                      .on('mouseover', function () {
-                          d3.select(this)
-                              .transition()
-                              .duration(50)
-                              .attr("stroke", "green")
-                              .attr('stroke-width', 5)
-                      })
-                      .on('mouseout', function () {
-                          d3.select(this)
-                              .transition()
-                              .duration(500)
-                              .attr("stroke", color_scale(index))
-                              .attr('stroke-width', 1)
-                      });
-              }catch(e){}
-          }
+                  if(lineData[index]) {
+                      var lineGraph = bodyGroup.append("path")
+                          .attr("d", lineFunction(lineData[index]))
+                          .attr("stroke", color_scale(index))
+                          .attr("stroke-width", 1)
+                          .attr("fill", "none")
+                          .on('mouseover', function () {
+                              d3.select(this)
+                                  .transition()
+                                  .duration(50)
+                                  .attr("stroke", "green")
+                                  .attr('stroke-width', 5)
+                          })
+                          .on('mouseout', function () {
+                              d3.select(this)
+                                  .transition()
+                                  .duration(500)
+                                  .attr("stroke", color_scale(index))
+                                  .attr('stroke-width', 1)
+                          });
+                  }
+                  }//End Draw paths
 
 
           eventPump.register(function() {
@@ -163,12 +158,13 @@ angular.module('bridge.directives')
 
               // Calls the render path function for each path index
               delayCount += 1;
-              pathIndex.map(function(i){render_path(i);return 0;});
-              if (delayCount > delayVal){delayCount = 0;}
+              if (delayCount > delayVal){
+                  pathIndex.map(function(i){buildPath(i);return 0;});
+                  delayCount = 0;}
 
+              pathIndex.map(function(i){drawPaths(i);return 0;});
 
-
-              var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
+          var circle = bodyGroup.selectAll('circle').data(simulation.bodies);
           var zone = bodyGroup.selectAll('circle').data(simulation.bodies);
 
           var circleEnter = circle.enter()
