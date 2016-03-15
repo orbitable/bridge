@@ -46,11 +46,16 @@ angular.module('bridge.filters')
 
   .filter('velocity', function($filter){
     var factor = {
-      s: 1
+      s: 1,
+      hr: 3600,
+      y: 31540000,
+      m:  1,
+      km: 1000,
+      au: 149597870700
     };
 
-    return function(v, distanceUnit, massUnit){
+    return function(v, distanceUnit, timeUnit){
       // TODO
-      return $filter('number')(v) +" "+distanceUnit+"/"+massUnit;
+      return (v == null) ? v : $filter('number')(v * (factor[timeUnit]/factor[distanceUnit])) +" "+distanceUnit+"/"+timeUnit;
     };
   })

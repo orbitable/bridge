@@ -111,7 +111,7 @@
         </div>
         <div class="container narrow">
           <div id="settings" class="modal fade " tabindex="-1" role="dialog" >
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-sm">
               <div class="modal-content">
                 <div class='modal-body'>
                   <form class="form-settings">
@@ -128,6 +128,13 @@
                       <option value="t">Metric ton (t)</option>
                       <option value="M">Solar Mass(M☉)</option>
                     </select>
+                    <label for="time">Time</label>
+                    <select ng-model="uTime" class="form-control">
+                      <option value="s" selected="selected">Seconds (s)</option>
+                      <option value="hr">Hours (hr)</option>
+                      <option value="y">Years (yr)</option>
+                    </select>
+
                   </form>
                 </div>
               </div>
