@@ -14,20 +14,17 @@
 
 var angular = require('angular');
 
-angular.module('bridge.controllers', []);
-angular.module('bridge.services', [require('angular-resource')]);
-angular.module('bridge.directives', []);
-angular.module('bridge.filters', []);
+angular.module('bridge.filters')
+  .filter('distance', function($filter){
+      var factor = {
+        m:  1,
+        km: 1000,
+        au: 149600000000
+      };
 
-angular.module('bridge', [
-    'bridge.services',
-    'bridge.controllers',
-    'bridge.directives',
-    'bridge.filters'
-  ])
-  .run(function($interval, Simulation, simulator) {
-    // On application load reset the simulation with the latest simulation state
-    Simulation.get({id: 'random'}, function(simulation) {
-      simulator.reset(simulation.bodies);
-    });
+      return function(distance, unit){
+        // if distance is null or undef, pass through.
+        // call built in number filter to format new value nicely
+        return (distance == null) ? distance : $filter('number')(distance / factor[unit]) +" "+ unit;
+      };
   });
