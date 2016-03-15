@@ -62,7 +62,7 @@ function getColor(d) {
 }
 
 angular.module('bridge.directives')
-  .directive('bodies', ['$interval', 'eventPump', 'simulator', function($interval, eventPump, simulation) {
+  .directive('bodies', ['eventPump', 'simulator', function(eventPump, simulation) {
     return {
       scope: false, // use parent scope
       link: function(scope, elem, attr) {
@@ -79,9 +79,10 @@ angular.module('bridge.directives')
         var zonesGroup = svgGroup.append('g').attr('id', 'zoneGroup');
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
 
-        // TODO: Get dimensions from element
-        var width  = document.getElementById('svg').offsetWidth;
-        var height = document.getElementById('svg').offsetHeight;
+        // Get bounding rect for the element
+        var rect = elem[0].firstChild.getBoundingClientRect();
+        var width  = rect.width;
+        var height = rect.height;
 
         var x = d3.scale.linear()
           .domain([-width / 2, width / 2])
