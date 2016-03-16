@@ -13,6 +13,11 @@
  */
 
 var angular = require('angular');
+var lineData = [];
+var delayVal = 10;
+var delayCount = 0;
+var MAX_PATH = 500;
+var pathIndex = [];
 
 function getColor(d) {
   //Constant from Stefan-Boltzmann Law
@@ -28,34 +33,34 @@ function getColor(d) {
     if (temp>=28000) {
       color = "#1a1aff";
     } else if (temp>=10000) {
-      color="#80d4ff"
+      color="#80d4ff";
     } else if (temp>=7500) {
-      color="#ffffff"
+      color="#ffffff";
     } else if (temp>=6000) {
-      color="#ffff80"
+      color="#ffff80";
     } else if (temp>=4900) {
-      color="#ffff1a"
+      color="#ffff1a";
     } else if (temp>=3500) {
-      color = "#ff6600"
+      color = "#ff6600";
     } else {
       color = "#ff0000";
     }
   } else {
-    var mod = d.mass % 700
+    var mod = d.mass % 700;
     if (mod >= 600) {
-      color="darkturquoise"
+      color="darkturquoise";
     } else if (mod >= 500) {
-      color="darkseagreen"
+      color="darkseagreen";
     } else if (mod >= 400) {
-      color="lightsalmon"
+      color="lightsalmon";
     } else if (mod >= 300) {
-      color="plum"
+      color="plum";
     } else if (mod >= 200) {
-      color="lightsteelblue"
+      color="lightsteelblue";
     } else if (mod >= 100) {
-      color="lightseagreen"
+      color="lightseagreen";
     } else {
-      color="lightgreen"
+      color="lightgreen";
     }
   }
   return color;
@@ -76,7 +81,8 @@ angular.module('bridge.directives')
 
         var svgGroup = svg.append('g').attr('id', 'svgGroup');
         var axisGroup = svgGroup.append('g').attr('id', 'axisGroup');
-        var zonesGroup = svgGroup.append('g').attr('id', 'zoneGroup');
+        var zonesGroup = svgGroup.append('g').attr('id', 'zonesGroup');
+        var linesGroup = svgGroup.append('g').attr('id', 'linesGroup');
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
 
         // Get bounding rect for the element
@@ -113,6 +119,7 @@ angular.module('bridge.directives')
             svg.select(".y.axis").call(yAxis);
             bodyGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
             zonesGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+            linesGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
           });
 
 
@@ -121,11 +128,11 @@ angular.module('bridge.directives')
         // Any group of elements which respond to zoom/pan must be translated
         // and centered.
         var windowCenter = [width/2, height/2];
-        [svg, bodyGroup, zonesGroup].forEach(function(group) {
+        [svg, bodyGroup, zonesGroup, linesGroup].forEach(function(group) {
           group.call(zoom.translate(windowCenter).event);
           group.call(zoom.center(windowCenter).event);
           group.call(zoom);
-        })
+        });
 
         axisGroup.append('g')
           .attr('id', 'xAxis')
@@ -149,22 +156,96 @@ angular.module('bridge.directives')
             .selectAll('circle')
             .data(data.filter(isHabitable));
 
-            function drawBody(bodies) {
-              bodies
-                .attr('cx', (d) => !d ? 0 : d.position.x / 1496000000)
-                .attr('cy', (d) => !d ? 0 : d.position.y / 1496000000)
-                .attr('r',  (d) => !d ? 0 : Math.log10((d.radius + 14961) / 14960))
-                .attr('fill', getColor)
-                .on('mousedown', function(d){
-                  d3.event.stopPropagation();
-                  scope.selectedBody = d;
-                  $('#right-sidebar').show();
-                });
-            }
+          var lines = linesGroup
+            .selectAll('path')
+            .data(lineData);
+          
+          // Color scale
+          var colors = ["blue","green","yellow","red","orange","cyan","magenta"];
+          var colorScale = d3.scale.ordinal()
+            .range(colors) 
+            .domain(d3.range(0,colors.length));
+              
+          //This is the accessor function
+          var lineFunction = d3.svg.line()
+            .x((d) => d.x)
+            .y((d) => d.y)
+            .interpolate("basis");
+
+          // Adds or removes a body index from the array to render
+          function addPath(pathIdx){
+              if(jQuery.inArray(pathIdx, pathIndex) == -1) {
+                pathIndex.push(pathIdx);
+              } else {
+                pathIndex.splice(pathIdx, 1);
+              }
+          }
+
+          // Render paths function
+          function renderPath(index){
+
+              //The data from the object is pushed onto the array
+              if(delayCount > delayVal) {
+                  try {
+                      if (lineData[index].length >= MAX_PATH) {
+                        lineData[index] = [];
+                      } else {
+                        lineData[index].push({
+                          x: simulation.bodies[index].position.x / 1496000000,
+                          y: simulation.bodies[index].position.y / 1496000000
+                        });
+                      }
+                  } catch (e) {
+                      lineData[index] = [];
+                  }
+              }
+          }
+
+          // Calls the render path function for each path index
+          delayCount += 1;
+          pathIndex.forEach(renderPath);
+
+          if (delayCount > delayVal) {
+            delayCount = 0;
+          }
+
+          function drawBody(bodies) {
+            bodies
+              .attr('cx', (d) => d.position.x / 1496000000)
+              .attr('cy', (d) => d.position.y / 1496000000)
+              .attr('r',  (d) => Math.log10((d.radius + 14961) / 14960))
+              .attr('fill', getColor)
+              .on('mousedown', function(d){
+                d3.event.stopPropagation();
+                scope.selectedBody = d;
+                $('#right-sidebar').show();
+              })
+            .on('mouseover',function() {
+              d3.select(this)
+                .transition()
+                .duration(50)
+                .attr("stroke", "orange")
+                .attr('stroke-width',5);
+            })
+            .on('mouseout',function () {
+              d3.select(this)
+                .transition()
+                .duration(500)
+                .attr('stroke-width',0);
+            })
+            .on('mousedown', function(d){
+              d3.event.stopPropagation();
+              scope.selectedBody = d;
+              $('#right-sidebar').show();
+
+              addPath(simulation.bodies.indexOf(d));
+            });
+
+          }
 
           function drawHabitableZone(zones) {
               //conversion factor for au to M
-              auMConver = 1.496*Math.pow(10,11);
+              var auMConver = 1.496*Math.pow(10,11);
 
               // calculate the inner and outer radius
               // TODO: get rid of magic numbers
@@ -182,17 +263,40 @@ angular.module('bridge.directives')
                  .attr("stroke-opacity", 0.25);
           }
 
+          function drawLines(lines) {
+            lines
+              .attr('d', (d) => d ? lineFunction(d) : '')
+              .attr("stroke", colorScale)
+              .attr("stroke-width", 1)
+              .attr("fill", "none")
+              .on('mouseover', function () {
+                d3.select(this)
+                  .transition()
+                  .duration(50)
+                  .attr("stroke", "green")
+                  .attr('stroke-width', 5);
+              })
+              .on('mouseout', function () {
+                d3.select(this)
+                  .transition()
+                  .duration(500)
+                  .attr("stroke", color_scale(index))
+                  .attr('stroke-width', 1);
+              });
+          }
+
           // Update existing
           drawBody(bodies);
           drawHabitableZone(zones);
+          drawLines(lines);
 
           // Add new
           drawBody(bodies.enter().append('circle'));
           drawHabitableZone(zones.enter().append('circle'));
+          drawLines(lines.enter().append('path'));
 
           // Remove missing
-          bodies.exit().remove();
-          zones.exit().remove();
+          [bodies, zones, lines].forEach((g) => g.exit().remove());
         }
 
         eventPump.register(() => update(simulation.bodies));
