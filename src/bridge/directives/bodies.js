@@ -276,7 +276,7 @@ angular.module('bridge.directives')
                 d3.select(this)
                   .transition()
                   .duration(500)
-                  .attr("stroke", color_scale(index))
+                  .attr("stroke", colorScale(index))
                   .attr('stroke-width', 1);
               });
           }
