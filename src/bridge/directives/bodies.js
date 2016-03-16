@@ -183,22 +183,18 @@ angular.module('bridge.directives')
 
           // Render paths function
           function renderPath(index){
-
-              //The data from the object is pushed onto the array
-              if(delayCount > delayVal) {
-                  try {
-                      if (lineData[index].length >= MAX_PATH) {
-                        lineData[index] = [];
-                      } else {
-                        lineData[index].push({
-                          x: simulation.bodies[index].position.x / 1496000000,
-                          y: simulation.bodies[index].position.y / 1496000000
-                        });
-                      }
-                  } catch (e) {
-                      lineData[index] = [];
-                  }
+            //The data from the object is pushed onto the array
+            if(delayCount > delayVal) {
+              // Use a new array if none exists or if it is too large
+              if (!lineData[index] || lineData[index].length >= MAX_PATH) {
+                lineData[index] = [];
+              } else {
+                lineData[index].push({
+                  x: simulation.bodies[index].position.x / 1496000000,
+                  y: simulation.bodies[index].position.y / 1496000000
+                });
               }
+            }
           }
 
           // Calls the render path function for each path index
