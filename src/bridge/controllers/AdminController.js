@@ -15,10 +15,13 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers')
-  .controller('adminController', function($scope) {
+  .controller('adminController', ['$scope', 'Simulation', 'simulator', function($scope, Simulation, simulator) {
     $scope.admin = true;
     this.add = function() {
-      console.log("add function()");
+      b.position = {
+        x: 1
+      };
+      Simulation.addBody();
     };
     this.remove = function() {
       console.log("remove function()");
@@ -32,4 +35,4 @@ angular.module('bridge.controllers')
     this.record = function() {
       console.log("record function()");
     };
-  });
+  }]);
