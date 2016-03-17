@@ -84,7 +84,10 @@ angular.module('bridge.directives')
         var zonesGroup = svgGroup.append('g').attr('id', 'zonesGroup');
         var linesGroup = svgGroup.append('g').attr('id', 'linesGroup');
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
-
+        var rulerGroup = svgGroup.append('g').attr('id', 'rulerGroup');
+        var rulerGroup = svgGroup.append('g')
+        .attr('id', 'rulerGroup')
+        .attr('visibility','hidden');
         // Get bounding rect for the element
         var rect = elem[0].firstChild.getBoundingClientRect();
         var width  = rect.width;
@@ -98,6 +101,28 @@ angular.module('bridge.directives')
           .domain([-height / 2, height / 2])
           .range([height, 0]);
 
+          
+          var rulerScale = d3.scale.linear()
+                    .domain([0,50])
+                    .range([0, 0]);
+          
+          
+          
+          var rulerAxis = d3.svg.axis()
+                           .scale(rulerScale)
+                           .ticks(10)
+                           .tickSize(-25);
+                           
+          var ruler= rulerGroup.append('g')
+                            .attr('id', 'xAxis')
+                            .attr("class", "x axis")
+                            .attr("transform", "translate(0," + height + ")")
+                            .attr("color","green")
+                            .attr('height','20')
+                            .call(rulerAxis);
+          
+           
+                           
         var xAxis = d3.svg.axis()
           .scale(x)
           .ticks(width/70)
@@ -144,6 +169,54 @@ angular.module('bridge.directives')
           .attr('id', 'yAxis')
           .attr("class", "y axis")
           .call(yAxis);
+          
+          
+           origPos = [0,0]
+          svg.on("click",function(d){
+            
+            if (document.getElementById("btn_ruler").style.backgroundColor=="white") {
+
+                origPos = d3.mouse(this);
+                //x2.domain([origPos[0],origPos[0]])
+                //.range([origPos[0], origPos[0]]);
+                 
+               
+                  rulerGroup.attr("visibility","visible");              
+                  line = rulerGroup.append("line")
+                  .attr("x1",origPos[0])
+                  .attr("y1",origPos[1])
+                  .attr("x2",100)
+                  .attr("y2",100)
+                  .attr("stroke","pink");
+               }
+          })
+          svg.on("mousemove",function(d)
+          { 
+            if (document.getElementById("btn_ruler").style.backgroundColor=="white") {
+               pos = d3.mouse(this);
+               //angle = Math.atan((pos[1]-origPos[1])/(pos[0]-origPos[0]))/Math.PI*180
+               //alert(angle);
+               //if (angle!==NaN) {
+                //rulerGroup.attr("transform","translate(" + origPos[0] + "," + origPos[1]  +")rotate("+angle+")")
+               //}
+              //line.attr("width", Math.abs(pos[0]-line.attr("width")))
+                //  .attr("rotate",angle );
+                rulerScale.domain([0,pos[0]])
+                .range([origPos[0], pos[0]]);
+                line.attr("x2",pos[0])
+                  .attr("y2",pos[1])
+                  rulerGroup.select('g').remove();
+                var ruler= rulerGroup.append('g')
+                            .attr('id', 'xAxis')
+                            .attr("class", "ruler")
+                            .attr("transform", "translate(0," + height + ")")
+                            .call(rulerAxis);
+          
+            }
+            else{
+              
+              }
+          })
 
         function update(data) {
           var bodies = bodyGroup

@@ -52,4 +52,16 @@ angular.module('bridge.controllers')
       this.logout = function(){
         $scope.user = false;
       };
+     this.ruler = function(){
+       
+       if(document.getElementById("btn_ruler").style.backgroundColor=="white")
+       { 
+          document.getElementById("btn_ruler").style.backgroundColor="";
+       }
+       else
+       {
+        document.getElementById("btn_ruler").style.backgroundColor="white";
+       }
+      }
+
   }]);

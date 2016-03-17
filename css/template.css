@@ -81,11 +81,18 @@ counter {
   left: 100%;
 }
 
-.axis text { display: none; }
+.axis text { display:  block; }
 
 .axis path, .axis line {
   fill: none;
   stroke: #303030;
+}
+
+.ruler text { display:  block; }
+
+.ruler path, .ruler line{
+  fill: none;
+  stroke: #68F448;
 }
 
 
