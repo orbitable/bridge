@@ -113,9 +113,14 @@
           <div id="settings" class="modal fade " tabindex="-1" role="dialog" >
             <div class="modal-dialog modal-sm">
               <div class="modal-content">
+                <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal"
+                          aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title">Settings</h4>
+                </div>
                 <div class='modal-body'>
                   <form class="form-settings">
-                    <h2 class="form-settings-heading">Settings</h2>
+                    <h2 class="form-settings-heading">Units</h2>
                     <label for="distance">Distance</label>
                     <select id="distance" ng-model="uDist" class="form-control">
                       <option value="m" selected="selected">Meters (m)</option>
