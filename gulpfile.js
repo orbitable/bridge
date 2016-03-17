@@ -1,6 +1,7 @@
+var babel = require('gulp-babel');
+var browserify = require('browserify');
 var concat = require('gulp-concat');
 var gulp = require('gulp');
-var browserify = require('browserify');
 var path = require('path');
 var runSequence = require('run-sequence');
 var source = require('vinyl-source-stream');
@@ -17,6 +18,7 @@ var sourceFiles = [
 gulp.task('build', function() {
   return gulp.src(sourceFiles)
     .pipe(concat('bridge.js'))
+    .pipe(babel({presets: ['es2015']}))
     .pipe(gulp.dest('dist/'));
 });
 
