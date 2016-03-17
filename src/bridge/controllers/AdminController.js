@@ -18,11 +18,55 @@ angular.module('bridge.controllers')
   .controller('adminController', ['$scope', 'Simulation', 'simulator', function($scope, Simulation, simulator) {
     $scope.admin = true;
     this.add = function() {
-      b.position = {
-        x: 1
-      };
-      Simulation.addBody();
+
+      var px, py = 0;
+      // add listener to svg
+      var svg = d3.select("#svg")
+      .on('mousemove', function(){
+        var pt = d3.mouse(this);
+        px = pt[0];
+        py = pt[1];
+        drawGhost(svg, pt[0], pt[1]);
+      })
+      .on('click', function(){
+        var body = {
+          mass: 9999999999999999999999999999999,
+          position: {x: px*1496000000, y: py*1496000000},
+          radius: 9999999999,
+          velocity: {x: 0, y: 0},
+        };
+        console.log(px,py);
+        simulator.addBody(body);
+
+        // clear listeners and ghost circle
+        svg.on('mousemove', null);
+        svg.on('mouseclick', null);
+        svg.selectAll("#ghost").remove();
+      });
+
     };
+
+    // Used by addBody. draws a circle that follows cursor.
+    function drawGhost(svg, x, y){
+      // select existing (at first this will be empty)
+      var ghost = svg.selectAll("#ghost");
+
+      //bind data. create ghost if it doesn't exist
+      ghost.data([[x,y]]).enter().append("circle").attr("id", "ghost");
+      ghost.attr({
+        "cx": function(d){
+          return d[0];
+        },
+        "cy": function(d){
+          return d[1];
+        },
+        "r": 7,
+        "fill": "white",
+        "id": "ghost",
+        "opacity": "0.5",
+      });
+    }
+
     this.remove = function() {
       console.log("remove function()");
     };
