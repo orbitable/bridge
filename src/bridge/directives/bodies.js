@@ -103,26 +103,13 @@ angular.module('bridge.directives')
 
           
           var rulerScale = d3.scale.linear()
-                    .domain([0,50])
-                    .range([0, 0]);
-          
-          
+            .domain([0,0])
+            .range([0, 0]);     
           
           var rulerAxis = d3.svg.axis()
                            .scale(rulerScale)
                            .ticks(10)
                            .tickSize(-25);
-                           
-          var ruler= rulerGroup.append('g')
-                            .attr('id', 'xAxis')
-                            .attr("class", "x axis")
-                            .attr("transform", "translate(0," + height + ")")
-                            .attr("color","green")
-                            .attr('height','20')
-                            .call(rulerAxis);
-          
-           
-                           
         var xAxis = d3.svg.axis()
           .scale(x)
           .ticks(width/70)
@@ -172,52 +159,68 @@ angular.module('bridge.directives')
           
           
            origPos = [0,0]
+           rulerSet = true
+          
           svg.on("click",function(d){
             
             if (document.getElementById("btn_ruler").style.backgroundColor=="white") {
-
+  
                 origPos = d3.mouse(this);
-                //x2.domain([origPos[0],origPos[0]])
-                //.range([origPos[0], origPos[0]]);
                  
-               
                   rulerGroup.attr("visibility","visible");              
-                  line = rulerGroup.append("line")
-                  .attr("x1",origPos[0])
-                  .attr("y1",origPos[1])
-                  .attr("x2",100)
-                  .attr("y2",100)
-                  .attr("stroke","pink");
+                 if (!rulerSet) {
+                  rulerSet = true;
+                 }
+                 else{
+                  rulerSet = false;
+                 }
                }
+               
           })
           svg.on("mousemove",function(d)
           { 
             if (document.getElementById("btn_ruler").style.backgroundColor=="white") {
-               pos = d3.mouse(this);
-               //angle = Math.atan((pos[1]-origPos[1])/(pos[0]-origPos[0]))/Math.PI*180
-               //alert(angle);
-               //if (angle!==NaN) {
-                //rulerGroup.attr("transform","translate(" + origPos[0] + "," + origPos[1]  +")rotate("+angle+")")
-               //}
-              //line.attr("width", Math.abs(pos[0]-line.attr("width")))
-                //  .attr("rotate",angle );
-                rulerScale.domain([0,pos[0]])
-                .range([origPos[0], pos[0]]);
-                line.attr("x2",pos[0])
-                  .attr("y2",pos[1])
-                  rulerGroup.select('g').remove();
+                           
+         
+               if (!rulerSet) {
+                pos = d3.mouse(this);
+               angle = Math.atan((pos[1]-origPos[1])/(pos[0]-origPos[0]))/Math.PI*180
+                rulerGroup.select('g').remove();
+                x2 = Math.pow((origPos[1]-pos[1]),2)
+                y2 = Math.pow((origPos[0]-pos[0]),2)
+                
+                  dist = Math.sqrt(x2+y2)
+                if (origPos[0]>pos[0]) {
+                   rulerScale.domain([dist,0])
+                  .range([-dist,0]);
+                }
+                else
+                {
+                   rulerScale.domain([dist,0])
+                  .range([dist,0]);
+                }
+                rulerGroup.select('g').remove();
+                   var rulerAxis = d3.svg.axis()
+                           .scale(rulerScale)
+                           .ticks(Math.floor(dist/35))
+                           .tickSize(25);
+                           
                 var ruler= rulerGroup.append('g')
                             .attr('id', 'xAxis')
                             .attr("class", "ruler")
-                            .attr("transform", "translate(0," + height + ")")
+                            .attr("transform", "translate("+origPos[0]+"," + origPos[1] + ") rotate(" + angle + ")")
                             .call(rulerAxis);
-          
-            }
+               } 
+          }
+            
             else{
-              
+              rulerGroup.select('g').remove();
+              rulerGroup.attr("visibility","hidden"); 
               }
+             
           })
 
+         
         function update(data) {
           var bodies = bodyGroup
             .selectAll('circle')
