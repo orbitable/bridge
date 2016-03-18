@@ -13,6 +13,7 @@
  */
 
 angular.module('bridge.services')
-  .factory('Session', ['$resource', function($resource) {
-      return $resource('//mission-control.orbitable.tech/sessions');
+  .factory('Users', ['$resource', function($resource) {
+      return $resource('//mission-control.orbitable.tech/users');
   }]);
+//TODO: Something Magical
