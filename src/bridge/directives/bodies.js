@@ -209,7 +209,7 @@ angular.module('bridge.directives')
             bodies
               .attr('cx', (d) => d.position.x / 1496000000)
               .attr('cy', (d) => d.position.y / 1496000000)
-              .attr('r',  (d) => Math.log10((d.radius + 14961) / 14960))
+              .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
               .attr('fill', getColor)
               .on('mousedown', function(d){
                 d3.event.stopPropagation();
