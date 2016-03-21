@@ -18,5 +18,6 @@ angular.module('bridge.controllers')
     $scope.uDist = 'm';
     $scope.uMass = 'kg';
     $scope.uTime = 's';
+    $scope.uLum  = 'L';
   }
   ]);

@@ -55,7 +55,16 @@ angular.module('bridge.filters')
     };
 
     return function(v, distanceUnit, timeUnit){
-      // TODO
       return (v == null) ? v : $filter('number')(v * (factor[timeUnit]/factor[distanceUnit])) +" "+distanceUnit+"/"+timeUnit;
     };
+  })
+
+  .filter('luminosity', function($filter){
+    var factor = {
+      L: 1
+    };
+
+    return function(l, unit){
+      return (l == null) ? l : $filter('number')(l / factor[unit])+" "+unit;
+    }
   })

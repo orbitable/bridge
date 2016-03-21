@@ -8,8 +8,10 @@ angular.module('bridge.directives')
       template:
       '<div>radius: {{selectedBody.radius | distance:uDist }}'+
       '<br> mass: {{selectedBody.mass | mass:uMass}}'+
-      // '<br>x: {{selectedBody.position.x | number}}'+
-      // '<br>y: {{selectedBody.position.y | number}}'+
+      '<span ng-show="selectedBody.luminosity"><br>luminosity: '+
+      '{{selectedBody.luminosity | luminosity:uLum}}</span>'+
+      '<br>x: {{selectedBody.position.x | number}}'+
+      '<br>y: {{selectedBody.position.y | number}}'+
       '<br>velocity x: {{selectedBody.velocity.x | velocity:uDist:uTime}}'+
       '<br>velocity y: {{selectedBody.velocity.y | velocity:uDist:uTime}}</div>'
     };
