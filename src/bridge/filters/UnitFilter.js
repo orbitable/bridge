@@ -27,7 +27,7 @@ angular.module('bridge.filters')
       return function(distance, unit){
         // if distance is null or undef, pass through.
         // call built in number filter to format new value nicely
-        return (distance == null) ? distance : $filter('number')(distance / factor[unit]) +" "+ unit;
+        return (distance == null) ? distance : $filter('number')(distance / factor[unit], 0) +" "+ unit;
       };
   })
 

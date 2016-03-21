@@ -49,7 +49,7 @@ g {
   padding: 10% 0; /* adds north and south padding to "center" */
   position: fixed;
   right: 0%;
-  text-align: right;
+  text-align: left;
 }
 counter {
   width: 100%;
