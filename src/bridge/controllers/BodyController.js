@@ -15,5 +15,9 @@
 angular.module('bridge.controllers')
   .controller('bodyController', ['$scope', 'eventPump', function($scope, eventPump) {
     $scope.selectedBody = {};
+    $scope.uDist = 'm';
+    $scope.uMass = 'kg';
+    $scope.uTime = 's';
+    $scope.uLum  = 'L';
   }
   ]);
