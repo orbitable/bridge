@@ -69,7 +69,7 @@
                     </button>
                     <div class="btn-group">
                       <button type="button" class="btn btn-default btn-lg dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="glyphicon glyphicon-list-alt"></span>
                       </button>
                       <ul id="drop-left" class="dropdown-menu">
@@ -77,6 +77,9 @@
                         <li><a href="#">Another Simulation</a></li>
                       </ul>
                     </div>
+                    <button type="button" class="btn btn-default btn-lg" data-toggle="modal"
+                      data-target="#settings">
+                      <span class="glyphicon glyphicon-cog"></span>
                   </div>
                 </li>
               </ul>
@@ -104,6 +107,43 @@
                 </li>
               </ul>
             </nav>
+          </div>
+        </div>
+        <div class="container narrow">
+          <div id="settings" class="modal fade " tabindex="-1" role="dialog" >
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal"
+                          aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title">Settings</h4>
+                </div>
+                <div class='modal-body'>
+                  <form class="form-settings">
+                    <h2 class="form-settings-heading">Units</h2>
+                    <label for="distance">Distance</label>
+                    <select id="distance" ng-model="uDist" class="form-control">
+                      <option value="m" selected="selected">Meters (m)</option>
+                      <option value="km">Kilometers (km)</option>
+                      <option value="au">Astronomical Units (au)</option>
+                    </select>
+                    <label for="mass">Mass</label>
+                    <select id="mass" ng-model="uMass" class="form-control">
+                      <option value="kg" selected="selected">Kilograms (kg)</option>
+                      <option value="t">Metric ton (t)</option>
+                      <option value="M">Solar Mass(M☉)</option>
+                    </select>
+                    <label for="time">Time</label>
+                    <select ng-model="uTime" class="form-control">
+                      <option value="s" selected="selected">Seconds (s)</option>
+                      <option value="hr">Hours (hr)</option>
+                      <option value="y">Years (yr)</option>
+                    </select>
+
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
