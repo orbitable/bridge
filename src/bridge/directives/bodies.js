@@ -159,13 +159,13 @@ angular.module('bridge.directives')
           var lines = linesGroup
             .selectAll('path')
             .data(lineData);
-          
+
           // Color scale
           var colors = ["blue","green","yellow","red","orange","cyan","magenta"];
           var colorScale = d3.scale.ordinal()
-            .range(colors) 
+            .range(colors)
             .domain(d3.range(0,colors.length));
-              
+
           //This is the accessor function
           var lineFunction = d3.svg.line()
             .x((d) => d.x)
@@ -210,6 +210,7 @@ angular.module('bridge.directives')
               .attr('cx', (d) => d.position.x / 1496000000)
               .attr('cy', (d) => d.position.y / 1496000000)
               .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
+              .attr('id', (d) => d.id)
               .attr('fill', getColor)
               .on('mousedown', function(d){
                 d3.event.stopPropagation();

@@ -67,8 +67,9 @@ angular.module('bridge.controllers')
       });
     }
 
-    this.remove = function() {
-      console.log("remove function()");
+    this.remove = function(id) {
+      // simulator.deleteBody(id);
+      simulator.printState();
     };
     this.save = function() {
       console.log("save function()");
