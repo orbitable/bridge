@@ -113,7 +113,7 @@ angular.module('bridge.directives')
         var zoom = d3.behavior.zoom()
           .x(x)
           .y(y)
-          .scaleExtent([0.1, 2])
+          .scaleExtent([0.1, 6])
           .on("zoom", function() {
             svg.select(".x.axis") .call(xAxis);
             svg.select(".y.axis").call(yAxis);
