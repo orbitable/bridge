@@ -17,6 +17,7 @@ var angular = require('angular');
 angular.module('bridge.controllers')
   .controller('adminController', ['$scope', 'Simulation', 'simulator', function($scope, Simulation, simulator) {
     $scope.admin = true;
+
     this.add = function() {
 
       var px, py = 0;
@@ -29,6 +30,7 @@ angular.module('bridge.controllers')
         drawGhost(svg, pt[0], pt[1]);
       })
       .on('click', function(){
+        // TODO: translate position
         var body = {
           mass: 9999999999999999999999999999999,
           position: {x: px*1496000000, y: py*1496000000},
@@ -40,7 +42,7 @@ angular.module('bridge.controllers')
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
-        svg.on('mouseclick', null);
+        svg.on('click', null);
         svg.selectAll("#ghost").remove();
       });
 
@@ -67,10 +69,6 @@ angular.module('bridge.controllers')
       });
     }
 
-    this.remove = function(id) {
-      // simulator.deleteBody(id);
-      simulator.printState();
-    };
     this.save = function() {
       console.log("save function()");
     };

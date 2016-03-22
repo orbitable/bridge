@@ -13,7 +13,13 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', function($scope, eventPump) {
+  .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
     $scope.selectedBody = {};
+
+
+    this.remove = function() {
+      var id = $scope.selectedBody.id;
+      simulator.deleteBody(id);
+    };
   }
   ]);
