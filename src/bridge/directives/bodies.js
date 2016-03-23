@@ -82,6 +82,7 @@ angular.module('bridge.directives')
         var svgGroup = svg.append('g').attr('id', 'svgGroup');
         var axisGroup = svgGroup.append('g').attr('id', 'axisGroup');
         var zonesGroup = svgGroup.append('g').attr('id', 'zonesGroup');
+        var vectorGroup = svgGroup.append('g').attr('id', 'vectorGroup');
         var linesGroup = svgGroup.append('g').attr('id', 'linesGroup');
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
 
@@ -118,6 +119,7 @@ angular.module('bridge.directives')
             svg.select(".x.axis") .call(xAxis);
             svg.select(".y.axis").call(yAxis);
             bodyGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+            vectorGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
             zonesGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
             linesGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
           });
@@ -145,7 +147,40 @@ angular.module('bridge.directives')
           .attr("class", "y axis")
           .call(yAxis);
 
-        function update(data) {
+
+        function getVectorData(index) {
+           // vectorGroup.remove();
+            //if (document.getElementById("btn_pause").style.backgroundColor == "white") {
+
+//             Draw an arrow to use for lines
+                vectorGroup.append("svg:defs")
+                    .append("svg:marker")
+                    .attr("id", "arrow")
+                    .attr("viewBox", "0 0 10 10")
+                    .attr("refX", 0)
+                    .attr("refY", 5)
+                    .attr("markerUnits", "strokeWidth")
+                    .style ("stroke", "red")
+                    .style ("fill", "red")
+                    .attr("markerWidth", 8)
+                    .attr("markerHeight", 6)
+                    .attr("orient", "auto")
+                    .append("svg:path")
+                    .attr("d", "M 0 0 L 10 5 L 0 10 z");
+
+                vectorGroup.append("line")
+                    .attr ("x1", simulation.bodies[index].position.x / 1496000000)
+                    .attr ("x2", (simulation.bodies[index].position.x / 1496000000) + (simulation.bodies[index].velocity.x )/500)
+                    .attr ("y1", simulation.bodies[index].position.y / 1496000000)
+                    .attr ("y2", (simulation.bodies[index].position.y / 1496000000) + (simulation.bodies[index].velocity.y )/500)
+                    .style ("stroke", "red")
+                    .attr ("stroke-width", 2)
+                    .attr ("marker-end", "url(\#arrow)");
+
+        }
+
+
+      function update(data) {
           var bodies = bodyGroup
             .selectAll('circle')
             .data(data);
@@ -183,6 +218,7 @@ angular.module('bridge.directives')
 
           // Render paths function
           function renderPath(index){
+           // lineData[index] = [];
             //The data from the object is pushed onto the array
             if(delayCount > delayVal) {
               // Use a new array if none exists or if it is too large
@@ -201,7 +237,13 @@ angular.module('bridge.directives')
           delayCount += 1;
           pathIndex.forEach(renderPath);
 
-          if (delayCount > delayVal) {
+        //if(delayCount > 1){
+        //  getVectorData(1);
+
+          //  runVector = false;
+       // }
+
+        if (delayCount > delayVal) {
             delayCount = 0;
           }
 
@@ -235,7 +277,10 @@ angular.module('bridge.directives')
               $('#right-sidebar').show();
 
               addPath(simulation.bodies.indexOf(d));
+              getVectorData(simulation.bodies.indexOf(d));
+
             });
+
 
           }
 
@@ -286,6 +331,7 @@ angular.module('bridge.directives')
           drawHabitableZone(zones);
           drawLines(lines);
 
+
           // Add new
           drawBody(bodies.enter().append('circle'));
           drawHabitableZone(zones.enter().append('circle'));
@@ -295,6 +341,7 @@ angular.module('bridge.directives')
           [bodies, zones, lines].forEach((g) => g.exit().remove());
         }
 
+        //eventPump.register(() => getVectorData(1));
         eventPump.register(() => update(simulation.bodies));
       }
     };
