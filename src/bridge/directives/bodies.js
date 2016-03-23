@@ -84,7 +84,6 @@ angular.module('bridge.directives')
         var zonesGroup = svgGroup.append('g').attr('id', 'zonesGroup');
         var linesGroup = svgGroup.append('g').attr('id', 'linesGroup');
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
-        var rulerGroup = svgGroup.append('g').attr('id', 'rulerGroup');
         var rulerGroup = svgGroup.append('g')
         .attr('id', 'rulerGroup')
         .attr('visibility','hidden');
@@ -132,7 +131,8 @@ angular.module('bridge.directives')
             bodyGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
             zonesGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
             linesGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
-          });
+            rulerGroup.attr("transform", " translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+ });
 
 
         // Translate the svg to the center of the element.
@@ -184,12 +184,12 @@ angular.module('bridge.directives')
          
                if (!rulerSet) {
                 pos = d3.mouse(this);
-               angle = Math.atan((pos[1]-origPos[1])/(pos[0]-origPos[0]))/Math.PI*180
+                angle = Math.atan((pos[1]-origPos[1])/(pos[0]-origPos[0]))/Math.PI*180
                 rulerGroup.select('g').remove();
                 x2 = Math.pow((origPos[1]-pos[1]),2)
                 y2 = Math.pow((origPos[0]-pos[0]),2)
                 
-                  dist = Math.sqrt(x2+y2)
+                  dist = Math.sqrt(x2+y2)/zoom.scale()
                 if (origPos[0]>pos[0]) {
                    rulerScale.domain([dist,0])
                   .range([-dist,0]);
@@ -204,11 +204,16 @@ angular.module('bridge.directives')
                            .scale(rulerScale)
                            .ticks(Math.floor(dist/35))
                            .tickSize(25);
+                           trans = d3.transform(rulerGroup.attr("transform")).translate
+                           zm = d3.transform(rulerGroup.attr("transform")).zoom
                            
+                  xpos = (origPos[0]-trans[0])/zoom.scale()
+                  ypos = (origPos[1]-trans[1])/zoom.scale()
+                  
                 var ruler= rulerGroup.append('g')
                             .attr('id', 'xAxis')
                             .attr("class", "ruler")
-                            .attr("transform", "translate("+origPos[0]+"," + origPos[1] + ") rotate(" + angle + ")")
+                            .attr("transform", "translate("+xpos+"," +ypos + ") rotate(" + angle + ")")
                             .call(rulerAxis);
                } 
           }
