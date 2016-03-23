@@ -46,7 +46,16 @@ angular.module('bridge.controllers')
       };
 
       this.refresh = function() {
-        Simulation.get({id: 'random'}, (s) => simulator.reset(s.bodies));
+        Simulation.get({id: 'random'}, function(s) {
+          simulator.reset(s.bodies);
+
+          // TODO: Global state is bad we need to resolve this
+          //
+          // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
+          // to capture adding a composite object to collect rendering objects.
+          lineData = [];
+          pathIndex = [];
+        });
       };
 
       this.logout = function(){
