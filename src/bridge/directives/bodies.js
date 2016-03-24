@@ -90,6 +90,25 @@ angular.module('bridge.directives')
         var width  = rect.width;
         var height = rect.height;
 
+        // Set up drag
+        var drag = d3.behavior.drag().on('drag', dragmove).on('dragend', sendBody);
+
+        // visually move body
+        function dragmove(d){
+          if(eventPump.paused){
+            var x = d3.event.x;
+            var y = d3.event.y;
+            d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
+          }
+        }
+
+        // update position in the simulator TODO
+        function sendBody(d) {
+          if(eventPump.paused){
+              simulation.updateBody(d);
+          }
+        }
+
         var x = d3.scale.linear()
           .domain([-width / 2, width / 2])
           .range([0, width]);
@@ -159,13 +178,13 @@ angular.module('bridge.directives')
           var lines = linesGroup
             .selectAll('path')
             .data(lineData);
-          
+
           // Color scale
           var colors = ["blue","green","yellow","red","orange","cyan","magenta"];
           var colorScale = d3.scale.ordinal()
-            .range(colors) 
+            .range(colors)
             .domain(d3.range(0,colors.length));
-              
+
           //This is the accessor function
           var lineFunction = d3.svg.line()
             .x((d) => d.x)
@@ -236,6 +255,13 @@ angular.module('bridge.directives')
 
               addPath(simulation.bodies.indexOf(d));
             });
+
+            // add drag behavior
+            d3.selectAll('circle').call(drag);
+            // .on('.drag', function(d){
+            //   console.log(d.position);
+            // });
+
 
           }
 
