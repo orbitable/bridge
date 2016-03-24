@@ -106,9 +106,10 @@ angular.module('bridge.directives')
             .range([0, 0]);     
           
           var rulerAxis = d3.svg.axis()
-                           .scale(rulerScale)
-                           .ticks(10)
-                           .tickSize(-25);
+            .scale(rulerScale)
+            .ticks(10)
+            .tickSize(-25);
+            
         var xAxis = d3.svg.axis()
           .scale(x)
           .ticks(width/70)
@@ -162,34 +163,35 @@ angular.module('bridge.directives')
            rulerSet = true
           
           svg.on("click",function(d){
-            
-            if (document.getElementById("btn_ruler").style.backgroundColor=="white") {
-  
-                origPos = d3.mouse(this);
-                 
-                  rulerGroup.attr("visibility","visible");              
+           
+            if (d3.select("#btn_ruler").property("className").indexOf("toggleOn")>-1) {
+              
+                    
                  if (!rulerSet) {
+                    
                   rulerSet = true;
                  }
                  else{
+                  origPos = d3.mouse(this); 
                   rulerSet = false;
                  }
-               }
-               
+            }
           })
           svg.on("mousemove",function(d)
           { 
-            if (document.getElementById("btn_ruler").style.backgroundColor=="white") {
-                           
-         
+            if (d3.select("#btn_ruler").property("className").indexOf("toggleOn")>-1) {      
                if (!rulerSet) {
                 pos = d3.mouse(this);
                 angle = Math.atan((pos[1]-origPos[1])/(pos[0]-origPos[0]))/Math.PI*180
+                
+                if(isNaN(angle)){
+                  angle = 0;
+                }
                 rulerGroup.select('g').remove();
                 x2 = Math.pow((origPos[1]-pos[1]),2)
                 y2 = Math.pow((origPos[0]-pos[0]),2)
+                dist = Math.sqrt(x2+y2)/zoom.scale()
                 
-                  dist = Math.sqrt(x2+y2)/zoom.scale()
                 if (origPos[0]>pos[0]) {
                    rulerScale.domain([dist,0])
                   .range([-dist,0]);
@@ -199,28 +201,29 @@ angular.module('bridge.directives')
                    rulerScale.domain([dist,0])
                   .range([dist,0]);
                 }
+                
                 rulerGroup.select('g').remove();
-                   var rulerAxis = d3.svg.axis()
-                           .scale(rulerScale)
-                           .ticks(Math.floor(dist/35))
-                           .tickSize(25);
-                           trans = d3.transform(rulerGroup.attr("transform")).translate
-                           zm = d3.transform(rulerGroup.attr("transform")).zoom
+                var rulerAxis = d3.svg.axis()
+                 .scale(rulerScale)
+                 .ticks(Math.floor(dist/35))
+                 .tickSize(25);
+                
+                trans = d3.transform(rulerGroup.attr("transform")).translate    
                            
-                  xpos = (origPos[0]-trans[0])/zoom.scale()
-                  ypos = (origPos[1]-trans[1])/zoom.scale()
+                xpos = (origPos[0]-trans[0])/zoom.scale()
+                ypos = (origPos[1]-trans[1])/zoom.scale()
+                  
                   
                 var ruler= rulerGroup.append('g')
-                            .attr('id', 'xAxis')
-                            .attr("class", "ruler")
-                            .attr("transform", "translate("+xpos+"," +ypos + ") rotate(" + angle + ")")
-                            .call(rulerAxis);
+                  .attr('id', 'xAxis')
+                  .attr("class", "ruler")
+                  .attr("transform", "translate("+xpos+"," +ypos + ") rotate(" + angle + ")")
+                  .call(rulerAxis);
                } 
           }
-            
             else{
               rulerGroup.select('g').remove();
-              rulerGroup.attr("visibility","hidden"); 
+              rulerSet = true;
               }
              
           })

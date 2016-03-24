@@ -53,14 +53,19 @@ angular.module('bridge.controllers')
         $scope.user = false;
       };
      this.ruler = function(){
-       
-       if(document.getElementById("btn_ruler").style.backgroundColor=="white")
-       { 
-          document.getElementById("btn_ruler").style.backgroundColor="";
+       btn = document.getElementById("btn_ruler")
+       index = btn.getAttribute("class").indexOf(" toggleOn")
+       ruler = document.getElementById("rulerGroup");
+       if(index>-1)
+       {
+          btn.setAttribute("class",btn.getAttribute("class").slice(0,index) + " toggleOff");
+          ruler.style.visibility = "hidden";
        }
        else
        {
-        document.getElementById("btn_ruler").style.backgroundColor="white";
+          index = btn.getAttribute("class").indexOf(" toggleOff")
+          btn.setAttribute("class",btn.getAttribute("class").slice(0,index) + " toggleOn");
+          ruler.style.visibility = "visible";
        }
       }
 

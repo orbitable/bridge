@@ -81,6 +81,7 @@ counter {
   left: 100%;
 }
 
+
 .axis text { display:  block; }
 
 .axis path, .axis line {
@@ -114,10 +115,25 @@ counter {
   color: white;
 }
 
+.toggleOn {
+  background-color: #ffffff;
+}
+
+.toggleOff {
+  background-color: #464545;
+  border-color: #464545; 
+}
+
+.toggleOff:hover {
+  background-color: #e6e6e6;
+  border-color: #e6e6e6;
+}
+
 .btn-default {
   background-color: #464545;
   border-color: #464545;
 }
+
 
 .navbar {
   /*background-color: #375a7f;*/
