@@ -290,9 +290,9 @@ angular.module('bridge.directives')
             .on('mouseover',function() {
               d3.select(this)
                 .transition()
-                .duration(50)
-                .attr("stroke", "orange")
-                .attr('stroke-width',5);
+                .duration(500)
+                .attr("stroke", "white")
+                .attr('stroke-width',(d) => ((Math.log((d.radius + 14961) / 14960)) / Math.LN10) + 30);
             })
             .on('mouseout',function () {
               d3.select(this)
