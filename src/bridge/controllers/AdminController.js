@@ -30,14 +30,22 @@ angular.module('bridge.controllers')
         drawGhost(svg, pt[0], pt[1]);
       })
       .on('click', function(){
-        // TODO: translate position
+        // TODO: move translation responsibility to a parent entity
+
+        // Get bounding rect for the element
+        var elem = document.getElementById("svg");
+        var transform = /\(([^)]+)\)/.exec(d3.select('#bodyGroup').attr('transform'))[1].split(",");
+        var rect = elem.getBoundingClientRect();
+        var width  = rect.width;
+        var height = rect.height;
+        var ox = width/2;
+        var oy = height/2;
+        var tx = (px-ox)*1496000000;
+        var ty = (py-oy)*1496000000;
         var body = {
-          mass: 9999999999999999999999999999999,
-          position: {x: px*1496000000, y: py*1496000000},
-          radius: 9999999999,
-          velocity: {x: 0, y: 0},
+          position: {x: tx, y:ty},
         };
-        console.log(px,py);
+        console.log(transform);
         simulator.addBody(body);
 
         // clear listeners and ghost circle
