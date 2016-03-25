@@ -105,7 +105,10 @@ angular.module('bridge.directives')
         // update position in the simulator TODO
         function sendBody(d) {
           if(eventPump.paused){
-              simulation.updateBody(d);
+              var b = {};
+              b.radius = d.radius;
+              simulation.updateBody(d.id, b);
+              console.log(d.id, b);
           }
         }
 
