@@ -46,27 +46,28 @@ angular.module('bridge.controllers')
       };
 
       this.refresh = function() {
-        Simulation.get({id: 'random'}, (s) => simulator.reset(s.bodies));
+        Simulation.get({id: 'random'}, function(s) { 
+          simulator.reset(s.bodies);
+          eventPump.step();
+        });
       };
 
       this.logout = function(){
         $scope.user = false;
       };
-     this.ruler = function(){
-       btn = document.getElementById("btn_ruler")
-       index = btn.getAttribute("class").indexOf(" toggleOn")
-       ruler = document.getElementById("rulerGroup");
-       if(index>-1)
-       {
-          btn.setAttribute("class",btn.getAttribute("class").slice(0,index) + " toggleOff");
+
+      this.ruler = function(){
+        var btn = document.getElementById("btn_ruler");
+        var index = btn.getAttribute("class").indexOf(" toggleOn");
+        var ruler = document.getElementById("rulerGroup");
+        if (index > -1) {
+          btn.setAttribute("class",btn.getAttribute("class").slice(0, index) + " toggleOff");
           ruler.style.visibility = "hidden";
-       }
-       else
-       {
-          index = btn.getAttribute("class").indexOf(" toggleOff")
-          btn.setAttribute("class",btn.getAttribute("class").slice(0,index) + " toggleOn");
+        } else {
+          index = btn.getAttribute("class").indexOf(" toggleOff");
+          btn.setAttribute("class",btn.getAttribute("class").slice(0, index) + " toggleOn");
           ruler.style.visibility = "visible";
-       }
-      }
+        }
+      };
 
   }]);

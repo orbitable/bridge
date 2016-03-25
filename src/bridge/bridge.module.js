@@ -25,9 +25,10 @@ angular.module('bridge', [
     'bridge.directives',
     'bridge.filters'
   ])
-  .run(function($interval, Simulation, simulator) {
+  .run(function($interval, Simulation, simulator, eventPump) {
     // On application load reset the simulation with the latest simulation state
     Simulation.get({id: 'random'}, function(simulation) {
       simulator.reset(simulation.bodies);
+      eventPump.step();
     });
   });

@@ -40,21 +40,29 @@ EventPump.prototype.pause = function() {
     this.paused = true;
 };
 
+EventPump.prototype.step = function (continious) {
+  var pump = this;
+  continious = continious || false;
+
+  var animationLoop = function(timestamp) {
+    pump.observers.forEach( function(callback) {
+      callback(timestamp);
+    });
+
+    if (continious && !pump.paused) {
+      window.requestAnimationFrame(animationLoop);
+    }
+  };
+
+  window.requestAnimationFrame(animationLoop);
+};
+
+
 EventPump.prototype.resume = function() {
   var self = this;
   self.paused = false;
 
-  var loop = function(timestamp) {
-    self.observers.forEach(function(callback) {
-      callback(timestamp);
-    });
-
-    if (!self.paused) {
-      window.requestAnimationFrame(loop);
-    }
-  };
-
-  window.requestAnimationFrame(loop);
+  this.step(true);
 };
 
 angular.module('bridge.services')
