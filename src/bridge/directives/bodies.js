@@ -84,7 +84,9 @@ angular.module('bridge.directives')
         var zonesGroup = svgGroup.append('g').attr('id', 'zonesGroup');
         var linesGroup = svgGroup.append('g').attr('id', 'linesGroup');
         var bodyGroup = svgGroup.append('g').attr('id', 'bodyGroup');
-
+        var rulerGroup = svgGroup.append('g')
+        .attr('id', 'rulerGroup')
+        .attr('visibility','hidden');
         // Get bounding rect for the element
         var rect = elem[0].firstChild.getBoundingClientRect();
         var width  = rect.width;
@@ -98,6 +100,16 @@ angular.module('bridge.directives')
           .domain([-height / 2, height / 2])
           .range([height, 0]);
 
+          
+          var rulerScale = d3.scale.linear()
+            .domain([0,0])
+            .range([0, 0]);     
+          
+          var rulerAxis = d3.svg.axis()
+            .scale(rulerScale)
+            .ticks(10)
+            .tickSize(-25);
+            
         var xAxis = d3.svg.axis()
           .scale(x)
           .ticks(width/70)
@@ -120,7 +132,8 @@ angular.module('bridge.directives')
             bodyGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
             zonesGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
             linesGroup.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
-          });
+            rulerGroup.attr("transform", " translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+ });
 
 
         // Translate the svg to the center of the element.
@@ -144,7 +157,78 @@ angular.module('bridge.directives')
           .attr('id', 'yAxis')
           .attr("class", "y axis")
           .call(yAxis);
+          
+          
+           origPos = [0,0]
+           rulerSet = true
+          
+          svg.on("click",function(d){
+           
+            if (d3.select("#btn_ruler").property("className").indexOf("toggleOn")>-1) {
+              
+                    
+                 if (!rulerSet) {
+                    
+                  rulerSet = true;
+                 }
+                 else{
+                  origPos = d3.mouse(this); 
+                  rulerSet = false;
+                 }
+            }
+          })
+          svg.on("mousemove",function(d)
+          { 
+            if (d3.select("#btn_ruler").property("className").indexOf("toggleOn")>-1) {      
+               if (!rulerSet) {
+                pos = d3.mouse(this);
+                angle = Math.atan((pos[1]-origPos[1])/(pos[0]-origPos[0]))/Math.PI*180
+                
+                if(isNaN(angle)){
+                  angle = 0;
+                }
+                rulerGroup.select('g').remove();
+                x2 = Math.pow((origPos[1]-pos[1]),2)
+                y2 = Math.pow((origPos[0]-pos[0]),2)
+                dist = Math.sqrt(x2+y2)/zoom.scale()
+                
+                if (origPos[0]>pos[0]) {
+                   rulerScale.domain([dist,0])
+                  .range([-dist,0]);
+                }
+                else
+                {
+                   rulerScale.domain([dist,0])
+                  .range([dist,0]);
+                }
+                
+                rulerGroup.select('g').remove();
+                var rulerAxis = d3.svg.axis()
+                 .scale(rulerScale)
+                 .ticks(Math.floor(dist/35))
+                 .tickSize(25);
+                
+                trans = d3.transform(rulerGroup.attr("transform")).translate    
+                           
+                xpos = (origPos[0]-trans[0])/zoom.scale()
+                ypos = (origPos[1]-trans[1])/zoom.scale()
+                  
+                  
+                var ruler= rulerGroup.append('g')
+                  .attr('id', 'xAxis')
+                  .attr("class", "ruler")
+                  .attr("transform", "translate("+xpos+"," +ypos + ") rotate(" + angle + ")")
+                  .call(rulerAxis);
+               } 
+          }
+            else{
+              rulerGroup.select('g').remove();
+              rulerSet = true;
+              }
+             
+          })
 
+         
         function update(data) {
           var bodies = bodyGroup
             .selectAll('circle')

@@ -52,4 +52,21 @@ angular.module('bridge.controllers')
       this.logout = function(){
         $scope.user = false;
       };
+     this.ruler = function(){
+       btn = document.getElementById("btn_ruler")
+       index = btn.getAttribute("class").indexOf(" toggleOn")
+       ruler = document.getElementById("rulerGroup");
+       if(index>-1)
+       {
+          btn.setAttribute("class",btn.getAttribute("class").slice(0,index) + " toggleOff");
+          ruler.style.visibility = "hidden";
+       }
+       else
+       {
+          index = btn.getAttribute("class").indexOf(" toggleOff")
+          btn.setAttribute("class",btn.getAttribute("class").slice(0,index) + " toggleOn");
+          ruler.style.visibility = "visible";
+       }
+      }
+
   }]);
