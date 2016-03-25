@@ -89,7 +89,7 @@ counter {
   stroke: #303030;
 }
 
-.ruler text { display:  block; }
+.ruler text { display:  block; stroke: #ffffff }
 
 .ruler path, .ruler line{
   fill: none;
