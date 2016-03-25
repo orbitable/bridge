@@ -46,36 +46,36 @@ angular.module('bridge.controllers')
       };
 
       this.refresh = function() {
-        Simulation.get({id: 'random'}, function(s) {
+        Simulation.get({id: 'random'}, function(s) { 
           simulator.reset(s.bodies);
-
+          eventPump.step();
+          
           // TODO: Global state is bad we need to resolve this
           //
           // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
           // to capture adding a composite object to collect rendering objects.
           lineData = [];
           pathIndex = [];
+
         });
       };
 
       this.logout = function(){
         $scope.user = false;
       };
-     this.ruler = function(){
-       btn = document.getElementById("btn_ruler")
-       index = btn.getAttribute("class").indexOf(" toggleOn")
-       ruler = document.getElementById("rulerGroup");
-       if(index>-1)
-       {
-          btn.setAttribute("class",btn.getAttribute("class").slice(0,index) + " toggleOff");
+
+      this.ruler = function(){
+        var btn = document.getElementById("btn_ruler");
+        var index = btn.getAttribute("class").indexOf(" toggleOn");
+        var ruler = document.getElementById("rulerGroup");
+        if (index > -1) {
+          btn.setAttribute("class",btn.getAttribute("class").slice(0, index) + " toggleOff");
           ruler.style.visibility = "hidden";
-       }
-       else
-       {
-          index = btn.getAttribute("class").indexOf(" toggleOff")
-          btn.setAttribute("class",btn.getAttribute("class").slice(0,index) + " toggleOn");
+        } else {
+          index = btn.getAttribute("class").indexOf(" toggleOff");
+          btn.setAttribute("class",btn.getAttribute("class").slice(0, index) + " toggleOn");
           ruler.style.visibility = "visible";
-       }
-      }
+        }
+      };
 
   }]);
