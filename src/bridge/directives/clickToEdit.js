@@ -37,7 +37,7 @@ angular.module('bridge.directives')
         };
 
         $scope.save = function() {
-          $scope.value = $scope.view.editableValue;
+          $scope.value = parseFloat($scope.view.editableValue);
           $scope.disableEditor();
         };
       }
