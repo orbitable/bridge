@@ -13,11 +13,15 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', function($scope, eventPump) {
+  .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
     $scope.selectedBody = {};
     $scope.uDist = 'm';
     $scope.uMass = 'kg';
     $scope.uTime = 's';
     $scope.uLum  = 'L';
+
+    this.sendBody = function(){
+      console.log('send function');
+    };
   }
   ]);
