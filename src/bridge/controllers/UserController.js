@@ -12,8 +12,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
+//Note: Assuming I have to add the services to this controller. correct?
 angular.module('bridge.controllers')
-  .controller('userController', ['$scope', 'eventPump', 'Simulation', 'simulator',  function($scope, eventPump, Simulation, simulator) {
+  .controller('userController', ['$scope', 'eventPump', 'Simulation', 'simulator', 'Sessions', 'Users'  function($scope, eventPump, Simulation, simulator, sessions, users) {
 
       // default state is anon. may be a better way to do this
       $scope.user = {"auth": false};

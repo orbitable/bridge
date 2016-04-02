@@ -18,3 +18,7 @@ dist
 
 # Bower components
 bower_components
+*.njsproj
+*.sln
+*.dat
+*.tmp
