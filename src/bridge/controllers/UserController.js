@@ -92,6 +92,20 @@ angular.module('bridge.controllers')
         }
       };
       
+       this.tracker = function(){
+        var btn = document.getElementById("btn_tracker");
+        var index = btn.getAttribute("class").indexOf(" toggleOn");
+        var tracker = document.getElementById("tracker-sidebar");
+        if (index > -1) {
+          btn.setAttribute("class",btn.getAttribute("class").slice(0, index) + " toggleOff");
+          tracker.style.visibility = "hidden";
+        } else {
+          index = btn.getAttribute("class").indexOf(" toggleOff");
+          btn.setAttribute("class",btn.getAttribute("class").slice(0, index) + " toggleOn");
+          tracker.style.visibility = "visible";
+        }
+      };
+      
       
 
   }]);
