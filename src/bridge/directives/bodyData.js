@@ -6,7 +6,7 @@ angular.module('bridge.directives')
     return {
       scope: false,
       template:
-      '<div>{{selectedBody.name}}'+
+      '<div><h4>{{selectedBody.name}}</h4>'+
       '<div>radius: {{selectedBody.radius | distance:uDist }}'+
       '<br> mass: {{selectedBody.mass | mass:uMass}}'+
       '<span ng-show="selectedBody.luminosity"><br>luminosity: '+

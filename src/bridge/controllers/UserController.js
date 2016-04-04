@@ -17,7 +17,6 @@ angular.module('bridge.controllers')
       var ctrl = this;
       $scope.l = {};
       $scope.user = null;
-      $scope.simulator = simulator;
 
       // TODO: Use modal controller instead of passing functions through scope.
       $scope.register = function(usr){
@@ -93,15 +92,6 @@ angular.module('bridge.controllers')
         }
       };
       
-      this.selectCenterBody = function(){
-          simulator.orbitTracker.centerBody = $scope.selectedBody || $scope.simulator.orbitTracker.centerBody;
-      };
-      
-      this.selectTargetBody = function(){
-          // TODO: NEED ACCESS TO selectedBody in user controller
-          simulator.orbitTracker.targetBody = $scope.selectedBody || $scope.simulator.orbitTracker.targetBody;
-          console.log($scope.selectedBody);
-      };
       
 
   }]);

@@ -13,11 +13,34 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', function($scope, eventPump) {
+  .controller('bodyController', ['$scope', 'eventPump', 'Simulation', 'simulator',  function($scope, eventPump, Simulation, simulator) {
     $scope.selectedBody = {};
     $scope.uDist = 'm';
     $scope.uMass = 'kg';
     $scope.uTime = 's';
     $scope.uLum  = 'L';
+    $scope.simulator = simulator;
+    
+    this.selectCenterBody = function(){
+        $scope.simulator.orbitTracker.setCenterBody(
+            $scope.selectedBody,
+            $scope.simulator.simulationTime
+        );
+    };
+      
+    this.selectTargetBody = function(){
+        $scope.simulator.orbitTracker.setTargetBody(
+            $scope.selectedBody,
+            $scope.simulator.simulationTime
+        );
+    };
+    
+    this.setState = function(state){
+        $scope.simulator.orbitTracker.setState(state,$scope.simulator.simulationTime);
+    };
+    
+    this.getState = function() {
+        return $scope.simulator.orbitTracker.running;
+    };
   }
   ]);

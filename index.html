@@ -62,13 +62,13 @@
                                 <h4><span class="label label-default">Center Body</span></h4>
                                 {{simulator.orbitTracker.centerBody.name}}
                                 <br>
-                                <button type="button" class="btn btn-light btn-block" ng-click="u.selectCenterBody()">Select</button>
+                                <button type="button" class="btn btn-light btn-block" ng-click="b.selectCenterBody()">Select</button>
                             </div>
                             <div class="col-md-6">
                                 <h4><span class="label label-default">Target Body</span></h4>
                                 {{simulator.orbitTracker.targetBody.name}}
                                 <br>
-                                <button type="button" class="btn btn-light btn-block" ng-click="u.selectTargetBody()">Select</button>
+                                <button type="button" class="btn btn-light btn-block" ng-click="b.selectTargetBody()">Select</button>
                             </div>
                         </div>
                         <br>
@@ -76,9 +76,10 @@
                         <br>
                         Average Time: {{simulator.orbitTracker.orbitTime}}
                         <br>
-                        Range: 0%
-                        <br><br>
-                        <button type="button" class="btn btn-light btn-block">Start</button>
+                        Range: {{simulator.orbitTracker.timeRange.toPrecision(3)}}%
+                        <br>
+                        <button type="button" class="btn btn-light btn-block" ng-click="b.setState(true)"  ng-show="!b.getState()">Start</button>
+                        <button type="button" class="btn btn-light btn-block" ng-click="b.setState(false)"  ng-show="b.getState()">Stop</button>
                     </div>
                 </div>
              </div>
