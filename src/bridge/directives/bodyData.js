@@ -2,10 +2,11 @@ var angular = require('angular');
 
 angular.module('bridge.directives')
   .directive('bodyData', [function(){
-    $('#right-sidebar').hide();
+    $('#bodies-sidebar').hide();
     return {
       scope: false,
       template:
+      '<div>{{selectedBody.name}}'+
       '<div>radius: {{selectedBody.radius | distance:uDist }}'+
       '<br> mass: {{selectedBody.mass | mass:uMass}}'+
       '<span ng-show="selectedBody.luminosity"><br>luminosity: '+

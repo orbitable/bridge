@@ -134,6 +134,12 @@ counter {
   border-color: #464545;
 }
 
+.btn-light {
+  background-color: #464545;
+  border-color: #464545;
+  color: white;
+}
+
 
 .navbar {
   /*background-color: #375a7f;*/

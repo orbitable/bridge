@@ -80,7 +80,7 @@ angular.module('bridge.directives')
               .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 scope.selectedBody = d;
-                $('#right-sidebar').show();
+                $('#bodies-sidebar').show();
               })
             .on('mouseover',function() {
               d3.select(this)
@@ -98,7 +98,8 @@ angular.module('bridge.directives')
             .on('mousedown', function(d) {
               d3.event.stopPropagation();
               scope.selectedBody = d;
-              $('#right-sidebar').show();
+              $('#bodies-sidebar').show();
+              
 
               lineData[d.id] = [];
             });
