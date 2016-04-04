@@ -13,9 +13,7 @@
   <body>
     <div ng-controller="userController as u">
       <div id="view" class="container-fluid" ng-controller="bodyController as b">
-        <!-- <bodies></bodies> -->
         <simulation></simulation>
-        <!-- Fixed navbar -->
         <nav class="navbar navbar-default navbar-fixed-top" >
           <div class="container-fluid">
             <div class="navbar-header">
@@ -32,14 +30,14 @@
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
               </ul>
-              <ul class="nav navbar-nav navbar-right" ng-hide="user.auth">
+              <ul class="nav navbar-nav navbar-right" ng-show="user == null ">
                 <li><a href="#" data-toggle="modal" data-target="#sign-up">Sign Up</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#sign-in">Sign In</a></li>
               </ul>
-              <ul class="nav navbar-nav navbar-right" ng-show="user.auth">
+              <ul class="nav navbar-nav navbar-right" ng-hide="user == null">
                 <li>
                   <a class="btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                    {{user.name}}
+                    {{user.username}}
                     <span class="glyphicon glyphicon-user"></span>
                   </a>
                 </li>
@@ -143,7 +141,6 @@
                       <option value="hr">Hours (hr)</option>
                       <option value="y">Years (yr)</option>
                     </select>
-
                   </form>
                 </div>
               </div>
@@ -159,15 +156,16 @@
                 <form class="form-signin">
                   <h2 class="form-signin-heading">Please sign in</h2>
                   <label for="inputEmail" class="sr-only">Email address</label>
-                  <input type="email" ng-model="person.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                  <input type="email" ng-model="l.username"  id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
                   <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" ng-model="person.pass" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <input type="password" ng-model="l.password" id="inputPassword" class="form-control" placeholder="Password" required>
                   <div class="checkbox">
                     <label>
                       <input type="checkbox" value="remember-me"> Remember me
                     </label>
                   </div>
-                  <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="authorize(person)">Sign in</button>
+                  <button class="btn btn-lg btn-primary btn-block" type="submit"
+                    ng-click="login(l)">Sign in</button>
                 </form>
               </div>
             </div>
@@ -181,12 +179,12 @@
               <div class='modal-body'>
                 <form class="form-signin">
                   <h2 class="form-signin-heading">Register</h2>
-                  <label for="inputName" class="sr-only">User name</label>
-                  <input id="inputName" ng-model="p.name" class="form-control" placeholder="User name" required autofocus>
+                  <label for="inputName" class="sr-only">Username</label>
+                  <input id="inputName" ng-model="p.username" class="form-control" placeholder="Username" required autofocus>
                   <label for="inputEmail" class="sr-only">Email address</label>
                   <input type="email"  ng-model="p.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
                   <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" ng-model="p.pass" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <input type="password" ng-model="p.password" id="inputPassword" class="form-control" placeholder="Password" required>
                   <label for="confirmPassword" class="sr-only">Confirm Password</label>
                   <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
                   <div class="checkbox">

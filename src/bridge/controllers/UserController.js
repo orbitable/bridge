@@ -13,26 +13,44 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('userController', ['$scope', 'eventPump', 'Simulation', 'simulator',  function($scope, eventPump, Simulation, simulator) {
+  .controller('userController', ['$scope', 'eventPump', 'Simulation', 'simulator', 'User',  function($scope, eventPump, Simulation, simulator, User) {
+      var ctrl = this;
+      $scope.l = {};
+      $scope.user = null;
 
-      // default state is anon. may be a better way to do this
-      $scope.user = {"auth": false};
-
-      $scope.register = function(person){
-        // TODO: integrate with back end auth service
-        $scope.user = angular.copy(person);
-        $scope.user.auth = true;
+      // TODO: Use modal controller instead of passing functions through scope.
+      $scope.register = function(usr){
+        ctrl.register(usr);
         $('#sign-up').modal('toggle');
       };
 
-      $scope.authorize = function(person){
-        // TODO: integrate with back end auth service
-        $scope.user = angular.copy(person);
-        $scope.user.name = 'user';
-        $scope.user.auth = true;
+      $scope.login = function(cred){
+        ctrl.login(cred.username, cred.password);
         $('#sign-in').modal('toggle');
       };
 
+      this.register = function(user) {
+        User.register(user).then(function(createdUser) {
+          console.log(user);
+          User.login(user.username, user.password).then(function(authUser) {
+            $scope.user = authUser;
+          }); 
+        }, console.warn);
+      };
+
+      this.login = function(username, password) {
+        User.login(username, password).then(function(authUser) {
+          $scope.user = authUser;
+        }, console.warn);
+      };
+
+      this.logout = function(){
+        User.logout().then(function() {
+          $scope.user = null; 
+        });
+      };
+
+      // TODO: Move these control functions into a seperate controller
       this.play = function() {
         eventPump.resume();
       };
@@ -58,10 +76,6 @@ angular.module('bridge.controllers')
           pathIndex = [];
 
         });
-      };
-
-      this.logout = function(){
-        $scope.user = false;
       };
 
       this.ruler = function(){
