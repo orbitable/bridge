@@ -23,7 +23,8 @@ angular.module('bridge', [
     'bridge.services',
     'bridge.controllers',
     'bridge.directives',
-    'bridge.filters'
+    'bridge.filters',
+    require('angular-cookies')
   ])
   .run(function($interval, Simulation, simulator, eventPump) {
     // On application load reset the simulation with the latest simulation state

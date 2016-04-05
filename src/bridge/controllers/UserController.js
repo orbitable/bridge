@@ -16,7 +16,7 @@ angular.module('bridge.controllers')
   .controller('userController', ['$scope', 'eventPump', 'Simulation', 'simulator', 'User',  function($scope, eventPump, Simulation, simulator, User) {
       var ctrl = this;
       $scope.l = {};
-      $scope.user = null;
+      $scope.user = User.current;
 
       // TODO: Use modal controller instead of passing functions through scope.
       $scope.register = function(usr){
