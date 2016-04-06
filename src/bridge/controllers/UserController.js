@@ -17,6 +17,7 @@ angular.module('bridge.controllers')
       var ctrl = this;
       $scope.l = {};
       $scope.user = null;
+      $scope.simulator = simulator;
 
       // TODO: Use modal controller instead of passing functions through scope.
       $scope.register = function(usr){
