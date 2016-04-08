@@ -22,7 +22,6 @@ angular.module('bridge.directives')
 
 
 
-
         function getVectorData(index) {
 
         var x1 = simulator.bodies[index].position.x / 1496000000;
@@ -53,12 +52,12 @@ angular.module('bridge.directives')
           var dragLine = d3.behavior.drag()
               .on('dragstart', function() {
                 d3.select('svg').on('mousedown.zoom',null);
-                d3.select(this).attr('fill', 'red'); })
+                d3.select(this).attr('stroke', 'orange'); })
               .on('drag', function() { d3.select(this).attr('x2', d3.event.x)
                 d3.select(this).attr('y2', d3.event.y); })
               .on('dragend', function() {
-                selection.call(zoom);
-                d3.select(this).attr('fill', 'black'); });
+                scope.svg.call(scope.zoom);
+                d3.select(this).attr('stroke', 'red'); });
 
 
           vectorGroup.append('svg:line')
