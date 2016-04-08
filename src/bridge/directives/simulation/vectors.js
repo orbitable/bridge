@@ -20,6 +20,9 @@ angular.module('bridge.directives')
         vectorGroup.call(scope.zoom.center(scope.windowCenter).event);
         vectorGroup.call(scope.zoom);
 
+
+
+
         function getVectorData(index) {
 
         var x1 = simulator.bodies[index].position.x / 1496000000;
@@ -43,22 +46,61 @@ angular.module('bridge.directives')
               .append("path")
               .attr("d", "M 0 0 L 10 5 L 0 10 z");
 
-          vectorGroup.append('circle')
-              .attr("r", 5)
-              .attr("cx", x2)
-              .attr("cy", y2)
-              .attr("hidden", true);
+        //  d3.select('svg').on('mousedown.zoom',null);
+         // zoom.on("zoom",null);
+         // selection.call(zoom);
 
-          vectorGroup.append("line")
+          var dragLine = d3.behavior.drag()
+              .on('dragstart', function() {
+                d3.select('svg').on('mousedown.zoom',null);
+                d3.select(this).attr('fill', 'red'); })
+              .on('drag', function() { d3.select(this).attr('x2', d3.event.x)
+                d3.select(this).attr('y2', d3.event.y); })
+              .on('dragend', function() {
+                selection.call(zoom);
+                d3.select(this).attr('fill', 'black'); });
+
+
+          vectorGroup.append('svg:line')
+              .attr('class', 'draggableLine')
               .attr ("x1", x1)
               .attr ("x2", x2)
               .attr ("y1", y1)
               .attr ("y2", y2)
+              .call(dragLine)
               .style ("stroke", "red")
               .attr ("stroke-width", 2)
               .attr ("marker-end", "url(\#arrow)");
 
+          //vectorGroup.append('circle')
+          //    .attr("r", 5)
+          //    .attr("cx", x2)
+          //    .attr("cy", y2)
+          //    .on('dragstart', function() {
+          //      circle.style('fill', 'red');
+          //    console.log('start');})
+          //    .on('drag', function() { circle.attr('cx', d3.event.x)
+          //        .attr('cy', d3.event.y); })
+          //    .on('dragend', function() { circle.style('fill', 'black'); });
+          //
+          //var drag = d3.behavior.drag()
+          //    .on('dragstart', function() { circle.style('fill', 'red'); })
+          //    .on('drag', function() { circle.attr('cx', d3.event.x)
+          //        .attr('cy', d3.event.y); })
+          //    .on('dragend', function() { circle.style('fill', 'black'); });
+          //
+          //var circle = vectorGroup
+          //    .append('svg:circle')
+          //    .attr('class', 'draggableCircle')
+          //    .attr('cx', x2)
+          //    .attr('cy', y2)
+          //    .attr('r', 5)
+          //    .call(drag)
+          //    .style('fill', 'black');
+
+
         }
+
 
 
       //  eventPump.register(() => update(lineData));
