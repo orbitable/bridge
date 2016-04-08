@@ -21,7 +21,7 @@ angular.module('bridge.directives')
         vectorGroup.call(scope.zoom);
 
 
-
+// Render the vectors
         function getVectorData(index) {
 
         var x1 = simulator.bodies[index].position.x / 1496000000;
