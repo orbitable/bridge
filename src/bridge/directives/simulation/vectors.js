@@ -28,7 +28,7 @@ angular.module('bridge.directives')
         var x2 = ((simulator.bodies[index].position.x / 1496000000) + (simulator.bodies[index].velocity.x )/1000);
         var y1 = (simulator.bodies[index].position.y / 1496000000);
         var y2 = ((simulator.bodies[index].position.y / 1496000000) + (simulator.bodies[index].velocity.y )/1000);
-        //arrows
+
 //             Draw an arrow to use for lines
           vectorGroup.append("defs")
               .append("marker")
@@ -52,12 +52,12 @@ angular.module('bridge.directives')
           var dragLine = d3.behavior.drag()
               .on('dragstart', function() {
                 d3.select('svg').on('mousedown.zoom',null);
-                d3.select(this).attr('stroke', 'orange'); })
+                d3.select(this).style ("stroke", "orange"); })
               .on('drag', function() { d3.select(this).attr('x2', d3.event.x)
                 d3.select(this).attr('y2', d3.event.y); })
               .on('dragend', function() {
                 scope.svg.call(scope.zoom);
-                d3.select(this).attr('stroke', 'red'); });
+                d3.select(this).style ("stroke", "red"); });
 
 
           vectorGroup.append('svg:line')
@@ -71,38 +71,8 @@ angular.module('bridge.directives')
               .attr ("stroke-width", 2)
               .attr ("marker-end", "url(\#arrow)");
 
-          //vectorGroup.append('circle')
-          //    .attr("r", 5)
-          //    .attr("cx", x2)
-          //    .attr("cy", y2)
-          //    .on('dragstart', function() {
-          //      circle.style('fill', 'red');
-          //    console.log('start');})
-          //    .on('drag', function() { circle.attr('cx', d3.event.x)
-          //        .attr('cy', d3.event.y); })
-          //    .on('dragend', function() { circle.style('fill', 'black'); });
-          //
-          //var drag = d3.behavior.drag()
-          //    .on('dragstart', function() { circle.style('fill', 'red'); })
-          //    .on('drag', function() { circle.attr('cx', d3.event.x)
-          //        .attr('cy', d3.event.y); })
-          //    .on('dragend', function() { circle.style('fill', 'black'); });
-          //
-          //var circle = vectorGroup
-          //    .append('svg:circle')
-          //    .attr('class', 'draggableCircle')
-          //    .attr('cx', x2)
-          //    .attr('cy', y2)
-          //    .attr('r', 5)
-          //    .call(drag)
-          //    .style('fill', 'black');
-
-
         }
 
-
-
-      //  eventPump.register(() => update(lineData));
         eventPump.register(function() {
           simulator.bodies.forEach(function(body){
             if (eventPump.paused) {
@@ -112,8 +82,6 @@ angular.module('bridge.directives')
               vectorGroup.selectAll("*").remove();
             }
             });
-
-         // getVectorData(2);
 
         });
       }
