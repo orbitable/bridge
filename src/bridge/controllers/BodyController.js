@@ -20,15 +20,11 @@ angular.module('bridge.controllers')
     $scope.uTime = 's';
     $scope.uLum  = 'L';
 
-
-    this.remove = function() {
-      var id = $scope.selectedBody.id;
-      console.log("id: ", id);
+    this.remove = function(id) {
+      $('#'+id).attr("r", 0);
       simulator.deleteBody(id);
+      $('#right-sidebar').hide();
     };
 
-    this.test = function() {
-      console.log("Test function");
-    };
   }
   ]);
