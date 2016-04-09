@@ -35,5 +35,6 @@ gulp.task('webserver', ['build', 'browserify'], function() {
 });
 
 gulp.watch('src/**/*.js', ['build', 'browserify']);
+gulp.watch('index.html', ['build', 'browserify']);
 
 gulp.task('default', ['build', 'browserify', 'webserver']);

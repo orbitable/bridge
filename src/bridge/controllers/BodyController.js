@@ -23,7 +23,12 @@ angular.module('bridge.controllers')
 
     this.remove = function() {
       var id = $scope.selectedBody.id;
+      console.log("id: ", id);
       simulator.deleteBody(id);
+    };
+
+    this.test = function() {
+      console.log("Test function");
     };
   }
   ]);

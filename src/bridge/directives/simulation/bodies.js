@@ -53,12 +53,15 @@ function getColor(d) {
 angular.module('bridge.directives')
   .directive('bodies', ['eventPump', 'simulator', function(eventPump, simulator) {
     return {
+      selectedBody: '=',
       link: function(scope, elem) {
         var bodyGroup = d3.select(elem[0]);
 
+        // scope event propogation
         scope.zoom.on('zoom.bodies', function() {
           bodyGroup.attr('transform', 'translate(' + d3.event.translate + ')' +
                           ' scale(' + d3.event.scale + ')');
+
         });
 
         // TODO: Generalize this for all directives
@@ -77,6 +80,7 @@ angular.module('bridge.directives')
               .attr('cy', (d) => d.position.y / 1496000000)
               .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
               .attr('fill', getColor)
+              .attr('id', (d) => d.id)
               .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 scope.selectedBody = d;

@@ -34,7 +34,7 @@ angular.module('bridge.controllers')
           console.log(user);
           User.login(user.username, user.password).then(function(authUser) {
             $scope.user = authUser;
-          }); 
+          });
         }, console.warn);
       };
 
@@ -46,7 +46,7 @@ angular.module('bridge.controllers')
 
       this.logout = function(){
         User.logout().then(function() {
-          $scope.user = null; 
+          $scope.user = null;
         });
       };
 
@@ -64,10 +64,10 @@ angular.module('bridge.controllers')
       };
 
       this.refresh = function() {
-        Simulation.get({id: 'random'}, function(s) { 
+        Simulation.get({id: 'random'}, function(s) {
           simulator.reset(s.bodies);
           eventPump.step();
-          
+
           // TODO: Global state is bad we need to resolve this
           //
           // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
