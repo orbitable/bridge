@@ -45,68 +45,6 @@
             </div>
           </div>
         </nav>
-        <div class="container-fluid">
-          <div id="right-sidebar">
-            <div class="panel panel-default">
-              <div class="panel-body" body-data ></div>
-            </div>
-          </div>
-          <div id="left-sidebar">
-            <nav>
-              <ul id="user-menu" class="nav nav-stacked" >
-                <li>
-                  <div class="btn-group-vertical" role="group">
-                    <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
-                      <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="u.play()">
-                      <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="u.pause()">
-                      <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-                    </button>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default btn-lg dropdown-toggle"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-list-alt"></span>
-                      </button>
-                      <ul id="drop-left" class="dropdown-menu">
-                        <li><a href="#">Simulation TODO</a></li>
-                        <li><a href="#">Another Simulation</a></li>
-                      </ul>
-                    </div>
-                    <button type="button" class="btn btn-default btn-lg" data-toggle="modal"
-                      data-target="#settings">
-                      <span class="glyphicon glyphicon-cog"></span>
-                  </div>
-                </li>
-              </ul>
-            </nav>
-            <nav>
-              <ul class="nav nav-stacked" id="admin-menu" ng-controller="adminController as a">
-                <li>
-                  <div class="btn-group-vertical" role="group" ng-show="admin">
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
-                      <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="b.test()">
-                      <span class="glyphicon glyphicon-minus"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.save()">
-                      <span class="glyphicon glyphicon-floppy-disk" ></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.tip()">
-                      <span class="glyphicon glyphicon-comment"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.record()">
-                      <span class="glyphicon glyphicon-record"></span>
-                    </button>
-                  </div>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
         <div ng-view></div>
         <div class="container narrow">
           <div id="settings" class="modal fade " tabindex="-1" role="dialog" >
