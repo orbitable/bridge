@@ -13,8 +13,6 @@
   <body>
     <div ng-controller="userController as u">
       <div id="view" class="container-fluid" ng-controller="bodyController as b">
-        <bodies></bodies>
-        <!-- Fixed navbar -->
         <nav class="navbar navbar-default navbar-fixed-top" >
           <div class="container-fluid">
             <div class="navbar-header">
@@ -31,14 +29,14 @@
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
               </ul>
-              <ul class="nav navbar-nav navbar-right" ng-hide="user.auth">
+              <ul class="nav navbar-nav navbar-right" ng-show="user == null ">
                 <li><a href="#" data-toggle="modal" data-target="#sign-up">Sign Up</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#sign-in">Sign In</a></li>
               </ul>
-              <ul class="nav navbar-nav navbar-right" ng-show="user.auth">
+              <ul class="nav navbar-nav navbar-right" ng-hide="user == null">
                 <li>
                   <a class="btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                    {{user.name}}
+                    {{user.username}}
                     <span class="glyphicon glyphicon-user"></span>
                   </a>
                 </li>
@@ -47,68 +45,7 @@
             </div>
           </div>
         </nav>
-        <div class="container-fluid">
-          <div id="right-sidebar">
-            <div class="panel panel-default">
-              <div class="panel-body" body-data></div>
-            </div>
-          </div>
-          <div id="left-sidebar">
-            <nav>
-              <ul id="user-menu" class="nav nav-stacked" ng-controller="userController as u">
-                <li>
-                  <div class="btn-group-vertical" role="group">
-                    <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
-                      <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="u.play()">
-                      <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="u.pause()">
-                      <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-                    </button>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default btn-lg dropdown-toggle"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-list-alt"></span>
-                      </button>
-                      <ul id="drop-left" class="dropdown-menu">
-                        <li><a href="#">Simulation TODO</a></li>
-                        <li><a href="#">Another Simulation</a></li>
-                      </ul>
-                    </div>
-                    <button type="button" class="btn btn-default btn-lg" data-toggle="modal"
-                      data-target="#settings">
-                      <span class="glyphicon glyphicon-cog"></span>
-                  </div>
-                </li>
-              </ul>
-            </nav>
-            <nav>
-              <ul class="nav nav-stacked" id="admin-menu" ng-controller="adminController as a">
-                <li>
-                  <div class="btn-group-vertical" role="group" ng-show="admin">
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
-                      <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.remove()">
-                      <span class="glyphicon glyphicon-minus"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.save()">
-                      <span class="glyphicon glyphicon-floppy-disk" ></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.tip()">
-                      <span class="glyphicon glyphicon-comment"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="a.record()">
-                      <span class="glyphicon glyphicon-record"></span>
-                    </button>
-                  </div>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
+        <div ng-view></div>
         <div class="container narrow">
           <div id="settings" class="modal fade " tabindex="-1" role="dialog" >
             <div class="modal-dialog modal-sm">
@@ -139,7 +76,6 @@
                       <option value="hr">Hours (hr)</option>
                       <option value="y">Years (yr)</option>
                     </select>
-
                   </form>
                 </div>
               </div>
@@ -155,15 +91,16 @@
                 <form class="form-signin">
                   <h2 class="form-signin-heading">Please sign in</h2>
                   <label for="inputEmail" class="sr-only">Email address</label>
-                  <input type="email" ng-model="person.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                  <input type="email" ng-model="l.username"  id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
                   <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" ng-model="person.pass" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <input type="password" ng-model="l.password" id="inputPassword" class="form-control" placeholder="Password" required>
                   <div class="checkbox">
                     <label>
                       <input type="checkbox" value="remember-me"> Remember me
                     </label>
                   </div>
-                  <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="authorize(person)">Sign in</button>
+                  <button class="btn btn-lg btn-primary btn-block" type="submit"
+                    ng-click="login(l)">Sign in</button>
                 </form>
               </div>
             </div>
@@ -177,12 +114,12 @@
               <div class='modal-body'>
                 <form class="form-signin">
                   <h2 class="form-signin-heading">Register</h2>
-                  <label for="inputName" class="sr-only">User name</label>
-                  <input id="inputName" ng-model="p.name" class="form-control" placeholder="User name" required autofocus>
+                  <label for="inputName" class="sr-only">Username</label>
+                  <input id="inputName" ng-model="p.username" class="form-control" placeholder="Username" required autofocus>
                   <label for="inputEmail" class="sr-only">Email address</label>
                   <input type="email"  ng-model="p.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
                   <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" ng-model="p.pass" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <input type="password" ng-model="p.password" id="inputPassword" class="form-control" placeholder="Password" required>
                   <label for="confirmPassword" class="sr-only">Confirm Password</label>
                   <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
                   <div class="checkbox">
@@ -196,9 +133,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div id="counter">
-        <counter></counter>
       </div>
     </div>  <!-- end container -->
     <script src="node_modules/jquery/dist/jquery.js"></script>

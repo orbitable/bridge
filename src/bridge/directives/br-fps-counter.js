@@ -31,8 +31,6 @@ angular.module('bridge.directives')
         count++;
       });
 
-      eventPump.resume();
-
       element.on('destroy', function() {
         eventPump.unregister(updateCallback);
         $interval.cancel(intervalId);
