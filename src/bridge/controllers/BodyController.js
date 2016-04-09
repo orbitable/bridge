@@ -26,5 +26,9 @@ angular.module('bridge.controllers')
       $('#right-sidebar').hide();
     };
 
+    this.close = function(){
+      $('#right-sidebar').hide();
+    };
+
   }
   ]);

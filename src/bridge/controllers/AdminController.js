@@ -22,7 +22,7 @@ angular.module('bridge.controllers')
 
       var px, py = 0;
       // add listener to svg
-      var svg = d3.select("#svg")
+      var svg = d3.select('#svg')
       .on('mousemove', function(){
         var pt = d3.mouse(this);
         px = pt[0];
@@ -34,7 +34,7 @@ angular.module('bridge.controllers')
 
         // Get bounding rect for the element
         var elem = document.getElementById("svg");
-        var transform = /\(([^)]+)\)/.exec(d3.select('#bodyGroup').attr('transform'))[1].split(",");
+        var transform = /\(([^)]+)\)/.exec(d3.select('#bodies').attr('transform'))[1].split(",");
         var rect = elem.getBoundingClientRect();
         var width  = rect.width;
         var height = rect.height;
@@ -70,10 +70,10 @@ angular.module('bridge.controllers')
         "cy": function(d){
           return d[1];
         },
-        "r": 7,
+        "r": 4,
         "fill": "white",
         "id": "ghost",
-        "opacity": "0.5",
+        "opacity": "0.7",
       });
     }
 
