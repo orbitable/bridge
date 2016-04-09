@@ -15,6 +15,10 @@
 angular.module('bridge.controllers')
   .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
     $scope.selectedBody = {};
+    $scope.uDist = 'm';
+    $scope.uMass = 'kg';
+    $scope.uTime = 's';
+    $scope.uLum  = 'L';
 
 
     this.remove = function() {
