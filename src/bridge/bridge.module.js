@@ -24,12 +24,25 @@ angular.module('bridge', [
     'bridge.controllers',
     'bridge.directives',
     'bridge.filters',
-    require('angular-cookies')
+    require('angular-cookies'),
+    require('angular-route')
   ])
-  .run(function($interval, Simulation, simulator, eventPump) {
-    // On application load reset the simulation with the latest simulation state
-    Simulation.get({id: 'random'}, function(simulation) {
-      simulator.reset(simulation.bodies);
-      eventPump.step();
+  .config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/s/', {
+      templateUrl: 'partials/simulation-list.html'
+    })
+    .when('/s/:simulation_id', {
+      templateUrl: 'partials/simulation.html',
+      controller: 'simulationController'
+    })
+    .when('/u/:user_id/', {
+      templateUrl: 'partials/simulation-list.html'
+    })
+    .when('/u/:user_id/:simulation_id', {
+      templateUrl: 'partials/simulation.html',
+      controller: 'simulationController'
+    })
+    .otherwise({
+      redirectTo: '/s/random'
     });
-  });
+  }]);
