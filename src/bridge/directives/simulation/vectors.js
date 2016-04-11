@@ -58,14 +58,15 @@ angular.module('bridge.directives')
               .on('dragend', function() {
                 scope.svg.call(scope.zoom);
                 d3.select(this).style ("stroke", "red");
+                  console.log(d3.select(this).attr('id'));
                   console.log(d3.select(this).attr('x2'));
                   console.log(d3.select(this).attr('y2'));
-                  //console.log(index);
               });
 
 
           vectorGroup.append('svg:line')
               .attr('class', 'draggableLine')
+              .attr('id', index)
               .attr ("x1", x1)
               .attr ("x2", x2)
               .attr ("y1", y1)
