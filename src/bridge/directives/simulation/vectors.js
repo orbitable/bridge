@@ -22,7 +22,7 @@ angular.module('bridge.directives')
 
 
 // Render the vectors
-        function getVectorData(index) {
+        function getVectorData(index,body) {
 
         var x1 = simulator.bodies[index].position.x / 1496000000;
         var x2 = ((simulator.bodies[index].position.x / 1496000000) + (simulator.bodies[index].velocity.x )/1000);
@@ -71,6 +71,11 @@ angular.module('bridge.directives')
               .attr ("x2", x2)
               .attr ("y1", y1)
               .attr ("y2", y2)
+              .on('mousedown', function(d) {
+                  d3.event.stopPropagation();
+                  scope.selectedBody = body;
+                  $('#right-sidebar').show();
+              })
               .call(dragLine)
               .style ("stroke", "red")
               .attr ("stroke-width", 2)
@@ -81,7 +86,7 @@ angular.module('bridge.directives')
         eventPump.register(function() {
           simulator.bodies.forEach(function(body){
             if (eventPump.paused) {
-              getVectorData(simulator.bodies.indexOf(body));
+              getVectorData(simulator.bodies.indexOf(body),body);
             }
             else{
               vectorGroup.selectAll("*").remove();
