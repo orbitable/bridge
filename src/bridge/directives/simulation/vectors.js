@@ -24,11 +24,14 @@ angular.module('bridge.directives')
 // Render the vectors
         function getVectorData(index,body) {
 
-        var x1 = simulator.bodies[index].position.x / 1496000000;
-        var x2 = ((simulator.bodies[index].position.x / 1496000000) + (simulator.bodies[index].velocity.x )/1000);
-        var y1 = (simulator.bodies[index].position.y / 1496000000);
-        var y2 = ((simulator.bodies[index].position.y / 1496000000) + (simulator.bodies[index].velocity.y )/1000);
+        var bodyPosition = {x: body.position.x / 1496000000, y: body.position.y / 1496000000};
+        var bodyVelocity = {x: body.velocity.x / 1000, y: body.velocity.y / 1000};
+        var bodyRadius = (Math.log((body.radius + 14961) / 14960)) / Math.LN10;
 
+        var x1 = bodyPosition.x;
+        var x2 = (bodyPosition.x + bodyVelocity.x) + bodyRadius*2;
+        var y1 = bodyPosition.y;
+        var y2 = (bodyPosition.y + bodyVelocity.y) + bodyRadius*2;
 
             //  d3.select('svg').on('mousedown.zoom',null);
             // zoom.on("zoom",null);
@@ -37,12 +40,21 @@ angular.module('bridge.directives')
             var dragLine = d3.behavior.drag()
                 .on('dragstart', function() {
                     d3.select('svg').on('mousedown.zoom',null);
-                    d3.select(this).style ("stroke", "orange"); })
-                .on('drag', function() { d3.select(this).attr('x2', d3.event.x)
-                    d3.select(this).attr('y2', d3.event.y); })
+                    d3.select(this).style ("stroke", "white"); })
+                .on('drag', function() { 
+                    d3.select(this).attr('x2', d3.event.x);
+                    d3.select(this).attr('y2', d3.event.y);
+                    
+                    simulator.bodies[index].update({
+                        velocity: {
+                            x: (d3.event.x - (bodyPosition.x) - bodyRadius*2) * 1000,
+                            y: (d3.event.y - (bodyPosition.y) - bodyRadius*2) * 1000
+                        }
+                    });
+                })
                 .on('dragend', function() {
                     scope.svg.call(scope.zoom);
-                    d3.select(this).style ("stroke", "red");
+                    d3.select(this).style ("stroke", "grey");
                     console.log(d3.select(this).attr('id'));
                     console.log(d3.select(this).attr('x2'));
                     console.log(d3.select(this).attr('y2'));
@@ -56,10 +68,10 @@ angular.module('bridge.directives')
               .attr("refX", 0)
               .attr("refY", 5)
               .attr("markerUnits", "strokeWidth")
-              .style ("stroke", "red")
-              .style ("fill", "red")
-              .attr("markerWidth", 4)
-              .attr("markerHeight", 3)
+              .style ("stroke", "grey")
+              .style ("fill", "grey")
+              .attr("markerWidth", 1)
+              .attr("markerHeight", 1)
               .attr("orient", "auto")
               .append("path")
               .attr("d", "M 0 0 L 10 5 L 0 10 z");
@@ -79,8 +91,8 @@ angular.module('bridge.directives')
                   $('#right-sidebar').show();
               })
               .call(dragLine)
-              .style ("stroke", "red")
-              .attr ("stroke-width", 2)
+              .style ("stroke", "grey")
+              .attr ("stroke-width", bodyRadius*2)
               .attr ("marker-end", "url(\#arrow)")
               .on('mouseup', function(d) {
                  // body.velocity.x = ((d3.select(this).attr('x2')*1000)*1496000000);
