@@ -29,6 +29,25 @@ angular.module('bridge.directives')
         var y1 = (simulator.bodies[index].position.y / 1496000000);
         var y2 = ((simulator.bodies[index].position.y / 1496000000) + (simulator.bodies[index].velocity.y )/1000);
 
+
+            //  d3.select('svg').on('mousedown.zoom',null);
+            // zoom.on("zoom",null);
+            // selection.call(zoom);
+
+            var dragLine = d3.behavior.drag()
+                .on('dragstart', function() {
+                    d3.select('svg').on('mousedown.zoom',null);
+                    d3.select(this).style ("stroke", "orange"); })
+                .on('drag', function() { d3.select(this).attr('x2', d3.event.x)
+                    d3.select(this).attr('y2', d3.event.y); })
+                .on('dragend', function() {
+                    scope.svg.call(scope.zoom);
+                    d3.select(this).style ("stroke", "red");
+                    console.log(d3.select(this).attr('id'));
+                    console.log(d3.select(this).attr('x2'));
+                    console.log(d3.select(this).attr('y2'));
+                });
+
 //             Draw an arrow to use for lines
           vectorGroup.append("defs")
               .append("marker")
@@ -45,23 +64,6 @@ angular.module('bridge.directives')
               .append("path")
               .attr("d", "M 0 0 L 10 5 L 0 10 z");
 
-        //  d3.select('svg').on('mousedown.zoom',null);
-         // zoom.on("zoom",null);
-         // selection.call(zoom);
-
-          var dragLine = d3.behavior.drag()
-              .on('dragstart', function() {
-                d3.select('svg').on('mousedown.zoom',null);
-                d3.select(this).style ("stroke", "orange"); })
-              .on('drag', function() { d3.select(this).attr('x2', d3.event.x)
-                d3.select(this).attr('y2', d3.event.y); })
-              .on('dragend', function() {
-                scope.svg.call(scope.zoom);
-                d3.select(this).style ("stroke", "red");
-                  console.log(d3.select(this).attr('id'));
-                  console.log(d3.select(this).attr('x2'));
-                  console.log(d3.select(this).attr('y2'));
-              });
 
 
           vectorGroup.append('svg:line')
@@ -79,7 +81,14 @@ angular.module('bridge.directives')
               .call(dragLine)
               .style ("stroke", "red")
               .attr ("stroke-width", 2)
-              .attr ("marker-end", "url(\#arrow)");
+              .attr ("marker-end", "url(\#arrow)")
+              .on('mouseup', function(d) {
+                 // body.velocity.x = ((d3.select(this).attr('x2')*1000)*1496000000);
+                 // body.velocity.y = ((d3.select(this).attr('y2')*1000)*1496000000);
+                 // d3.event.stopPropagation();
+                  scope.selectedBody = body;
+                  $('#right-sidebar').show();
+              });
 
         }
 
