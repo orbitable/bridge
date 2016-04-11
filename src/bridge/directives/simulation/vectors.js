@@ -57,7 +57,11 @@ angular.module('bridge.directives')
                 d3.select(this).attr('y2', d3.event.y); })
               .on('dragend', function() {
                 scope.svg.call(scope.zoom);
-                d3.select(this).style ("stroke", "red"); });
+                d3.select(this).style ("stroke", "red");
+                  console.log(d3.select(this).attr('x2'));
+                  console.log(d3.select(this).attr('y2'));
+                  //console.log(index);
+              });
 
 
           vectorGroup.append('svg:line')
