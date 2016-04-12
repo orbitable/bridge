@@ -14,44 +14,8 @@
 
 angular.module('bridge.controllers')
   .controller('userController', ['$scope', 'eventPump', 'Simulation', 'simulator', 'User',  function($scope, eventPump, Simulation, simulator, User) {
-    var ctrl = this;
-    $scope.l = {};
-    $scope.user = User.current;
     $scope.pump = 'play';
 
-    // TODO: Use modal controller instead of passing functions through scope.
-    $scope.register = function(usr) {
-        ctrl.register(usr);
-        $('#sign-up').modal('toggle');
-      };
-
-    $scope.login = function(cred) {
-        ctrl.login(cred.username, cred.password);
-        $('#sign-in').modal('toggle');
-      };
-
-    this.register = function(user) {
-        User.register(user).then(function(createdUser) {
-          console.log(user);
-          User.login(user.username, user.password).then(function(authUser) {
-            $scope.user = authUser;
-          });
-        }, console.warn);
-      };
-
-    this.login = function(username, password) {
-        User.login(username, password).then(function(authUser) {
-          $scope.user = authUser;
-        }, console.warn);
-      };
-
-    this.logout = function() {
-        User.logout().then(function() {
-          $scope.user = null;
-        });
-      };
-
-    // TODO: Move these control functions into a seperate controller
     this.togglePlay = function() {
         if (eventPump.paused) {
           eventPump.resume();
