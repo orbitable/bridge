@@ -9,15 +9,6 @@ angular.module('bridge.directives')
         var vectorGroup = d3.select(elem[0])
             .attr('id', 'vectorGroup');
 
-        scope.zoom.on('zoom.vectors', function() {
-          vectorGroup.attr('transform', 'translate(' + d3.event.translate + ')' +
-                          ' scale(' + d3.event.scale + ')');
-        });
-
-        // TODO: Generalize this for all directives
-        vectorGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        vectorGroup.call(scope.zoom);
-
         // Render the vectors
         function getVectorData(index, body) {
 

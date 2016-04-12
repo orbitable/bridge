@@ -7,15 +7,6 @@ angular.module('bridge.directives')
       link: function(scope, elem) {
         var zoneGroup = d3.select(elem[0]);
 
-        scope.zoom.on('zoom.zones', function() {
-          zoneGroup.attr('transform', 'translate(' + d3.event.translate + ')' +
-                          ' scale(' + d3.event.scale + ')');
-        });
-
-        // TODO: Generalize this for all directives
-        zoneGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        zoneGroup.call(scope.zoom);
-
         function update(data) {
           // A conditional function that asserts if a body has a habitable zone
           var isHabitable = (body) => body !== null && body.luminosity > 0 && body.radius > 0;

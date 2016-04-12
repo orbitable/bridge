@@ -56,13 +56,6 @@ angular.module('bridge.directives')
       link: function(scope, elem) {
         var bodyGroup = d3.select(elem[0]);
 
-        scope.zoom.on('zoom.bodies', function() {
-          bodyGroup.attr('transform', 'translate(' + d3.event.translate + ')' +
-                          ' scale(' + d3.event.scale + ')');
-        });
-
-        bodyGroup.call(scope.zoom);
-
         function update(data) {
           var bodies = bodyGroup
             .selectAll('circle')

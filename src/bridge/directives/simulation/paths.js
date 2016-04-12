@@ -13,15 +13,6 @@ angular.module('bridge.directives')
       link: function(scope, elem) {
         var pathsGroup = d3.select(elem[0]);
 
-        scope.zoom.on('zoom.paths', function() {
-          pathsGroup.attr('transform', 'translate(' + d3.event.translate + ')' +
-                          ' scale(' + d3.event.scale + ')');
-        });
-
-        // TODO: Generalize this for all directives
-        pathsGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        pathsGroup.call(scope.zoom);
-
         // Color scale
         var colors = ['blue','green','yellow','red','orange','cyan','magenta'];
         var colorScale = d3.scale.ordinal()
