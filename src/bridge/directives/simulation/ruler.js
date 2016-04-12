@@ -18,7 +18,6 @@ angular.module('bridge.directives')
 
         // TODO: Generalize this for all directives
         rulerGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        rulerGroup.call(scope.zoom.center(scope.windowCenter).event);
         rulerGroup.call(scope.zoom);
 
         var rulerScale = d3.scale.linear()

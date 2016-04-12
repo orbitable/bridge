@@ -14,7 +14,6 @@ angular.module('bridge.directives')
 
         // TODO: Generalize this for all directives
         zoneGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        zoneGroup.call(scope.zoom.center(scope.windowCenter).event);
         zoneGroup.call(scope.zoom);
 
         function update(data) {
@@ -35,8 +34,8 @@ angular.module('bridge.directives')
 
             //draw habitable zone around star (divide radius by the scale of the radius (for now its assumed to be 10^8))
             zones
-               .attr('cx', (d) => d.position.x / 1496000000)
-               .attr('cy', (d) => d.position.y / 1496000000)
+               .attr('cx', (d) => scope.xScale(d.position.x))
+               .attr('cy', (d) => scope.yScale(d.position.y))
                .attr('r', (d) => ((outerRadius(d) - innerRadius(d)) / 2 + innerRadius(d)))
                .attr('fill-opacity', 0)
                .attr('stroke','green')

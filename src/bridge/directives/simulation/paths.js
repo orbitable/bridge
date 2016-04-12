@@ -20,7 +20,6 @@ angular.module('bridge.directives')
 
         // TODO: Generalize this for all directives
         pathsGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        pathsGroup.call(scope.zoom.center(scope.windowCenter).event);
         pathsGroup.call(scope.zoom);
 
         // Color scale
@@ -83,8 +82,8 @@ angular.module('bridge.directives')
                 }
 
                 lineData[body.id].push({
-                  x: body.position.x / 1496000000,
-                  y: body.position.y / 1496000000
+                  x: scope.xScale(body.position.x),
+                  y: scope.yScale(body.position.y)
                 });
               }
             });
