@@ -6,8 +6,8 @@
     </div>
   </div>
   <div id="left-sidebar">
-    <nav>
-      <ul id="user-menu" class="nav nav-stacked" ng-controller="userController as u">
+    <nav ng-controller="userController as u">
+      <ul id="user-menu" class="nav nav-stacked" >
         <li>
           <div class="btn-group-vertical" role="group">
             <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
@@ -36,10 +36,10 @@
         </li>
       </ul>
     </nav>
-    <nav>
-      <ul class="nav nav-stacked" id="admin-menu" ng-controller="adminController as a">
+    <nav ng-show="user.current" ng-controller="adminController as a">
+      <ul class="nav nav-stacked" id="admin-menu">
         <li>
-          <div class="btn-group-vertical" role="group" ng-show="admin">
+          <div class="btn-group-vertical" role="group">
             <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
               <span class="glyphicon glyphicon-plus"></span>
             </button>

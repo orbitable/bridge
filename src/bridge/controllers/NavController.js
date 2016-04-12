@@ -12,25 +12,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var angular = require('angular');
-
 angular.module('bridge.controllers')
-  .controller('adminController', ['$scope', 'User', function($scope, User) {
+  .controller('navController', ['$scope', 'User',  function($scope, User) {
     $scope.user = User;
-
-    this.add = function() {
-      console.log('add function()');
-    };
-    this.remove = function() {
-      console.log('remove function()');
-    };
-    this.save = function() {
-      console.log('save function()');
-    };
-    this.tip = function() {
-      console.log('tip function()');
-    };
-    this.record = function() {
-      console.log('record function()');
-    };
   }]);
