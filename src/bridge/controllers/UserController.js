@@ -17,6 +17,7 @@ angular.module('bridge.controllers')
       var ctrl = this;
       $scope.l = {};
       $scope.user = User.current;
+      $scope.pump = 'play';
 
       // TODO: Use modal controller instead of passing functions through scope.
       $scope.register = function(usr){
@@ -34,7 +35,7 @@ angular.module('bridge.controllers')
           console.log(user);
           User.login(user.username, user.password).then(function(authUser) {
             $scope.user = authUser;
-          }); 
+          });
         }, console.warn);
       };
 
@@ -46,17 +47,19 @@ angular.module('bridge.controllers')
 
       this.logout = function(){
         User.logout().then(function() {
-          $scope.user = null; 
+          $scope.user = null;
         });
       };
 
       // TODO: Move these control functions into a seperate controller
-      this.play = function() {
-        eventPump.resume();
-      };
-
-      this.pause = function() {
-        eventPump.pause();
+      this.togglePlay = function() {
+        if (eventPump.paused) {
+          eventPump.resume();
+          $scope.pump = 'pause';
+        } else {
+          eventPump.pause();
+          $scope.pump = 'play';
+        }
       };
 
       this.paused = function() {
@@ -64,10 +67,10 @@ angular.module('bridge.controllers')
       };
 
       this.refresh = function() {
-        Simulation.get({id: 'random'}, function(s) { 
+        Simulation.get({id: 'random'}, function(s) {
           simulator.reset(s.bodies);
           eventPump.step();
-          
+
           // TODO: Global state is bad we need to resolve this
           //
           // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
