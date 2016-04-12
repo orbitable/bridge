@@ -11,6 +11,7 @@
  * CONDITIONS OF ANY KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 angular.module('bridge.services')
   .factory('User', ['$cookies', '$http', '$q', function($cookies, $http, $q) {
 
@@ -41,8 +42,7 @@ angular.module('bridge.services')
             d.resolve(self.current);
           },
           function(err) {
-            console.warn("Failed user registration: ", err);
-            d.reject(err); 
+            d.reject(err);
           });
 
       return d.promise;
@@ -52,9 +52,9 @@ angular.module('bridge.services')
       var d = $q.defer();
       var self = this;
 
-      $http.post(self.host + '/' + self.sessionEndpoint, {username: username, password: password}).then(
-          function(resp) {
-
+      $http.post(self.host + '/' + self.sessionEndpoint,
+        {username: username, password: password})
+          .then(function(resp) {
             self.session  = resp.data;
             self.current = self.session.owner;
 
@@ -62,24 +62,19 @@ angular.module('bridge.services')
             $cookies.putObject(SESSION_COOKIE_KEY, self.session);
 
             d.resolve(self.session.owner);
-          }, 
-          function(err) {
-            console.warn("Failed user login: ", err);
-            d.reject(err);
-          });
+          }, d.reject);
 
       return d.promise;
     }
 
-
     function logout() {
       // Bail if we never were logged in
-      if (this.session === null && this.current === null) return;
+      if (this.session === null && this.current === null) { return; }
 
       var d = $q.defer();
       var self = this;
 
-      var deleteValues = function (resolveValue) {
+      var deleteValues = function(resolveValue) {
         self.current = null;
         self.session = null;
 

@@ -13,7 +13,7 @@
   <body>
     <div ng-controller="userController as u">
       <div id="view" class="container-fluid" ng-controller="bodyController as b">
-        <nav class="navbar navbar-default navbar-fixed-top" >
+        <nav class="navbar navbar-default navbar-fixed-top" ng-controller="navController">
           <div class="container-fluid">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -29,18 +29,19 @@
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
               </ul>
-              <ul class="nav navbar-nav navbar-right" ng-show="user == null ">
-                <li><a href="#" data-toggle="modal" data-target="#sign-up">Sign Up</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#sign-in">Sign In</a></li>
+              <ul class="nav navbar-nav navbar-right" ng-show="user.current == null ">
+                <li><a data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
+                <li><a data-toggle="modal" data-target="#sign-in-modal">Sign In</a></li>
               </ul>
-              <ul class="nav navbar-nav navbar-right" ng-hide="user == null">
+              <ul class="nav navbar-nav navbar-right" ng-hide="user.current == null">
                 <li>
                   <a class="btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                    {{user.username}}
-                    <span class="glyphicon glyphicon-user"></span>
+                    {{user.current.username}} <span class="glyphicon glyphicon-user"></span>
                   </a>
                 </li>
-                <li><a href="#" ng-click="u.logout()">Sign Out</a></li>
+                <li>
+                  <a ng-click="user.logout()">Sign Out</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -84,50 +85,47 @@
         </div>
       </div>
       <div class="container narrow">
-        <div id="sign-in" class="modal fade " tabindex="-1" role="dialog" >
+        <div id="sign-in-modal" class="modal fade" tabindex="-1" role="dialog" ng-controller='signInModalController'>
           <div class="modal-dialog modal-sm">
             <div class="modal-content">
               <div class="modal-body">
-                <form class="form-signin">
-                  <h2 class="form-signin-heading">Please sign in</h2>
-                  <label for="inputEmail" class="sr-only">Email address</label>
-                  <input type="email" ng-model="l.username"  id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                  <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" ng-model="l.password" id="inputPassword" class="form-control" placeholder="Password" required>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value="remember-me"> Remember me
-                    </label>
+                <form ng-submit="submit()" class="form-signin">
+                  <h2 class="form-signin-heading">Please Sign In</h2>
+                  <div ng-show="message" class="alert" ng-class="{'alert-danger': didFail, 'alert-info': !didFail}" role="alert">
+                    {{message}}
                   </div>
-                  <button class="btn btn-lg btn-primary btn-block" type="submit"
-                    ng-click="login(l)">Sign in</button>
+                  <label for="inputEmail" class="sr-only">Username</label>
+                  <input type="email" ng-model="user.username"  id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                  <label for="inputPassword" class="sr-only">Password</label>
+                  <input type="password" ng-model="user.password" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+                  <a ng-click="submit()" ng-class='{disabled: isAuthenticating}' class="btn btn-lg btn-primary btn-block" role="button">Sign In</a>
                 </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="container narrow">
-        <div id="sign-up" class="modal fade " tabindex="-1" role="dialog" >
+      <div class="container narrow" ng-controller="registerModalController">
+        <div id="sign-up-modal" class="modal fade" tabindex="-1" role="dialog" >
           <div class="modal-dialog modal-sm">
             <div class="modal-content">
               <div class='modal-body'>
-                <form class="form-signin">
+                <form ng-submit='submit()' class="form-signin">
                   <h2 class="form-signin-heading">Register</h2>
-                  <label for="inputName" class="sr-only">Username</label>
-                  <input id="inputName" ng-model="p.username" class="form-control" placeholder="Username" required autofocus>
-                  <label for="inputEmail" class="sr-only">Email address</label>
-                  <input type="email"  ng-model="p.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                  <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" ng-model="p.password" id="inputPassword" class="form-control" placeholder="Password" required>
-                  <label for="confirmPassword" class="sr-only">Confirm Password</label>
-                  <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value="remember-me"> Remember me
-                    </label>
+                  <div ng-show="message !== null" class="alert" ng-class="{'alert-danger': didFail, 'alert-success': !didFail}" role="alert">
+                    {{message}}
                   </div>
-                  <button ng-click="register(p)" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                  <label for="inputName" class="sr-only">Username</label>
+                  <input id="inputName" ng-model="user.username" class="form-control" placeholder="Username" required autofocus>
+                  <label for="inputEmail" class="sr-only">Email address</label>
+                  <input type="email"  ng-model="user.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                  <label for="inputPassword" class="sr-only">Password</label>
+                  <input type="password" ng-model="user.password" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                  <input type="password" ng-model="user.passwordConfirm" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+                  <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+                  <a ng-click="submit()" ng-class='{disabled: isRegistering}' class="btn btn-lg btn-primary btn-block" role="button">Create User</a>
                 </form>
               </div>
             </div>
