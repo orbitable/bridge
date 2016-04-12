@@ -24,6 +24,7 @@ angular.module('bridge', [
     'bridge.controllers',
     'bridge.directives',
     'bridge.filters',
+    require('angular-cookies'),
     require('angular-route')
   ])
   .config(['$routeProvider', function($routeProvider) {

@@ -35,6 +35,7 @@ angular.module('bridge.directives')
          '<g axis></g>' +
          '<g habitable-zones></g>' +
          '<g paths></g>' +
+         '<g vectors></g>' +
          '<g bodies id="bodies"></g>' +
          '<g ruler></g>' +
        '</svg>',
