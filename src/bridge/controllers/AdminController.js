@@ -15,7 +15,7 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers')
-  .controller('adminController', ['$scope', 'Simulation', 'simulator', 'User', function($scope, Simulation, simulator, User) {
+  .controller('adminController', ['$scope', 'Simulation', 'simulator', 'User', 'eventPump', function($scope, Simulation, simulator, User, eventPump) {
     $scope.user = User;
 
     this.add = function() {
@@ -47,6 +47,7 @@ angular.module('bridge.controllers')
         };
         console.log(transform);
         simulator.addBody(body);
+        eventPump.step();
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
