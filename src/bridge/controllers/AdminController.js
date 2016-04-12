@@ -15,22 +15,22 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers')
-  .controller('adminController', ['$scope', 'User', function($scope, User) {
+  .controller('adminController', ['$scope', 'User', '$log', function($scope, User, $log) {
     $scope.user = User;
 
     this.add = function() {
-      console.log('add function()');
+      $log.debug('add function()');
     };
     this.remove = function() {
-      console.log('remove function()');
+      $log.debug('remove function()');
     };
     this.save = function() {
-      console.log('save function()');
+      $log.debug('save function()');
     };
     this.tip = function() {
-      console.log('tip function()');
+      $log.debug('tip function()');
     };
     this.record = function() {
-      console.log('record function()');
+      $log.debug('record function()');
     };
   }]);

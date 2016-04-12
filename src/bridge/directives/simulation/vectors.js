@@ -3,7 +3,7 @@ var d3 = require('d3');
 
 
 angular.module('bridge.directives')
-  .directive('vectors', ['eventPump', 'simulator', function(eventPump, simulator) {
+  .directive('vectors', ['eventPump', 'simulator', '$log', function(eventPump, simulator, $log) {
     return {
       link: function(scope, elem) {
 
@@ -55,9 +55,12 @@ angular.module('bridge.directives')
                 .on('dragend', function() {
                     scope.svg.call(scope.zoom);
                     d3.select(this).style ("stroke", "grey");
-                    console.log(d3.select(this).attr('id'));
-                    console.log(d3.select(this).attr('x2'));
-                    console.log(d3.select(this).attr('y2'));
+
+                    var id = d3.select(this).attr('id');
+                    var x2 = d3.select(this).attr('x2');
+                    var y2 = d3.select(this).attr('y2');
+
+                    $log.debug('Velocity arrow ' + id + ' (' + x2 + ', ' + y2 + ')');
                 });
 
 //             Draw an arrow to use for lines
