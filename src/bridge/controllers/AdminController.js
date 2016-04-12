@@ -15,37 +15,29 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers')
-  .controller('adminController', ['$scope', 'Simulation', 'simulator', 'User', 'eventPump', function($scope, Simulation, simulator, User, eventPump) {
+  .controller('adminController', ['$scope', 'Scale', 'Simulation', 'simulator', 'User', 'eventPump', function($scope, Scale, Simulation, simulator, User, eventPump) {
     $scope.user = User;
 
     this.add = function() {
-
       var px, py = 0;
+      var bodies = d3.select('#bodies');
+
       // add listener to svg
+      console.log(bodies);
       var svg = d3.select('#svg')
       .on('mousemove', function() {
-        var pt = d3.mouse(this);
+        var pt = d3.mouse(bodies[0][0]);
         px = pt[0];
         py = pt[1];
-        drawGhost(svg, pt[0], pt[1]);
+        drawGhost(bodies, pt[0], pt[1]);
       })
       .on('click', function() {
-        // TODO: move translation responsibility to a parent entity
 
-        // Get bounding rect for the element
-        var elem = document.getElementById('svg');
-        var transform = /\(([^)]+)\)/.exec(d3.select('#bodies').attr('transform'))[1].split(',');
-        var rect = elem.getBoundingClientRect();
-        var width  = rect.width;
-        var height = rect.height;
-        var ox = width / 2;
-        var oy = height / 2;
-        var tx = (px - ox) * 1496000000;
-        var ty = (py - oy) * 1496000000;
+        var pt = d3.mouse(bodies[0][0]);
         var body = {
-          position: {x: tx, y: ty},
+          position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
         };
-        console.log(transform);
+
         simulator.addBody(body);
         eventPump.step();
 
