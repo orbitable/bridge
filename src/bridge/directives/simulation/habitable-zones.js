@@ -7,16 +7,6 @@ angular.module('bridge.directives')
       link: function(scope, elem) {
         var zoneGroup = d3.select(elem[0]);
 
-        scope.zoom.on('zoom.zones', function() {
-          zoneGroup.attr('transform', 'translate(' + d3.event.translate + ')' +
-                          ' scale(' + d3.event.scale + ')');
-        });
-
-        // TODO: Generalize this for all directives
-        zoneGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        zoneGroup.call(scope.zoom.center(scope.windowCenter).event);
-        zoneGroup.call(scope.zoom);
-
         function update(data) {
           // A conditional function that asserts if a body has a habitable zone
           var isHabitable = (body) => body !== null && body.luminosity > 0 && body.radius > 0;
@@ -35,8 +25,8 @@ angular.module('bridge.directives')
 
             //draw habitable zone around star (divide radius by the scale of the radius (for now its assumed to be 10^8))
             zones
-               .attr('cx', (d) => d.position.x / 1496000000)
-               .attr('cy', (d) => d.position.y / 1496000000)
+               .attr('cx', (d) => scope.xScale(d.position.x))
+               .attr('cy', (d) => scope.yScale(d.position.y))
                .attr('r', (d) => ((outerRadius(d) - innerRadius(d)) / 2 + innerRadius(d)))
                .attr('fill-opacity', 0)
                .attr('stroke','green')

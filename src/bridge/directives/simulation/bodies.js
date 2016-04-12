@@ -56,16 +56,6 @@ angular.module('bridge.directives')
       link: function(scope, elem) {
         var bodyGroup = d3.select(elem[0]);
 
-        scope.zoom.on('zoom.bodies', function() {
-          bodyGroup.attr('transform', 'translate(' + d3.event.translate + ')' +
-                          ' scale(' + d3.event.scale + ')');
-        });
-
-        // TODO: Generalize this for all directives
-        bodyGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        bodyGroup.call(scope.zoom.center(scope.windowCenter).event);
-        bodyGroup.call(scope.zoom);
-
         function update(data) {
           var bodies = bodyGroup
             .selectAll('circle')
@@ -73,10 +63,10 @@ angular.module('bridge.directives')
 
           function drawBodies(bodies) {
             bodies
-              .attr('cx', (d) => d.position.x / 1496000000)
-              .attr('cy', (d) => d.position.y / 1496000000)
-              .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
-              .attr('fill', getColor)
+              .attr('cx', (d) => scope.xScale(d.position.x))
+             .attr('cy', (d) => scope.yScale(d.position.y))
+             .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
+             .attr('fill', getColor)
               .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 scope.selectedBody = d;
