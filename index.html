@@ -48,15 +48,22 @@
         </nav>
         <div class="container-fluid">
           <div id="right-sidebar">
-            <div class="panel panel-default">
-              <div class="panel-body" body-data></div>
-            </div>
-          </div>
-          <div id="clock-sidebar">
-            <div class="panel panel-default">
-              <div class="panel">
-                {{simulator.simulationTime}}
-              </div>
+              <div id="bodies-sidebar">
+                <div class="panel panel-default">
+                    <div class="panel-body" body-data></div>
+                </div>
+             </div>
+            <div id="clock-sidebar">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">
+                        <button type="button" class="close" aria-label="Close" ng-click="b.close()")"><span>&times;</span></button>
+                        Simulation Clock
+                    </div>
+                     <center><font size="4">
+                        <div id="clock-text" class="panel">
+                        </div>
+                    </font></center>
+                </div>
             </div>
           </div>
           <div id="left-sidebar">

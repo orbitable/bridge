@@ -25,6 +25,7 @@ angular.module('bridge.services')
       // accordingly such that the same amount of dt accumlates per second
       // irregardless of FSP.
       simulator.update(40000);
+      document.getElementById("clock-text").innerHTML = simulator.simulationTime + '<br> seconds';
     });
 
     return simulator;
