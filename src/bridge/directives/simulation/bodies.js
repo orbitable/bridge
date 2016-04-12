@@ -55,36 +55,50 @@ angular.module('bridge.directives')
     return {
       selectedBody: '=',
       link: function(scope, elem) {
+
+        scope.addBody = function(screen_x, screen_y) {
+          var body = {
+            position: {
+              x: scope.xScale.invert(screen_x),
+              y: scope.yScale.invert(screen_y)
+            },
+          };
+          console.log(body.position.x, body.position.y);
+          simulator.addBody(body);
+          eventPump.step();
+        };
+
         var bodyGroup = d3.select(elem[0]);
 
         function update(data) {
           var bodies = bodyGroup
-            .selectAll('circle')
-            .data(data);
+          .selectAll('circle')
+          .data(data);
+
 
           function drawBodies(bodies) {
             bodies
-              .attr('cx', (d) => scope.xScale(d.position.x))
-             .attr('cy', (d) => scope.yScale(d.position.y))
-             .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
-             .attr('fill', getColor)
-              .on('mousedown', function(d) {
-                d3.event.stopPropagation();
-                scope.selectedBody = d;
-                $('#right-sidebar').show();
-              })
+            .attr('cx', (d) => scope.xScale(d.position.x))
+            .attr('cy', (d) => scope.yScale(d.position.y))
+            .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
+            .attr('fill', getColor)
+            .on('mousedown', function(d) {
+              d3.event.stopPropagation();
+              scope.selectedBody = d;
+              $('#right-sidebar').show();
+            })
             .on('mouseover',function() {
               d3.select(this)
-                .transition()
-                .duration(500)
-                .attr('stroke', 'white')
-                .attr('stroke-width',(d) => ((Math.log((d.radius + 14961) / 14960)) / Math.LN10) + 30);
+              .transition()
+              .duration(500)
+              .attr('stroke', 'white')
+              .attr('stroke-width',(d) => ((Math.log((d.radius + 14961) / 14960)) / Math.LN10) + 30);
             })
             .on('mouseout',function() {
               d3.select(this)
-                .transition()
-                .duration(500)
-                .attr('stroke-width',0);
+              .transition()
+              .duration(500)
+              .attr('stroke-width',0);
             })
             .on('mousedown', function(d) {
               d3.event.stopPropagation();

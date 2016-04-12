@@ -31,23 +31,21 @@ angular.module('bridge.controllers')
       })
       .on('click', function() {
         // TODO: move translation responsibility to a parent entity
-
-        // Get bounding rect for the element
-        var elem = document.getElementById('svg');
-        var transform = /\(([^)]+)\)/.exec(d3.select('#bodies').attr('transform'))[1].split(',');
-        var rect = elem.getBoundingClientRect();
-        var width  = rect.width;
-        var height = rect.height;
-        var ox = width / 2;
-        var oy = height / 2;
-        var tx = (px - ox) * 1496000000;
-        var ty = (py - oy) * 1496000000;
-        var body = {
-          position: {x: tx, y: ty},
-        };
-        console.log(transform);
-        simulator.addBody(body);
-        eventPump.step();
+        // var elem = document.getElementById('svg');
+        // var transform = /\(([^)]+)\)/.exec(d3.select('#bodies').attr('transform'))[1].split(',');
+        // var rect = elem.getBoundingClientRect();
+        // var width  = rect.width;
+        // var height = rect.height;
+        // var ox = width / 2;
+        // var oy = height / 2;
+        // var tx = (px - ox) * 1496000000;
+        // var ty = (py - oy) * 1496000000;
+        // var body = {
+        //   position: {x: tx, y: ty},
+        // };
+        $scope.addBody(px, py);
+        // simulator.addBody(body);
+        // eventPump.step();
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
