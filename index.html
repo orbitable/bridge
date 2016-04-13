@@ -53,18 +53,7 @@
                     <div class="panel-body" body-data></div>
                 </div>
              </div>
-            <div id="clock-sidebar">
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center">
-                        <button type="button" class="close" aria-label="Close" ng-click="b.close()")"><span>&times;</span></button>
-                        Simulation Clock
-                    </div>
-                     <center><font size="4">
-                        <div id="clock-text" class="panel">
-                        </div>
-                    </font></center>
-                </div>
-            </div>
+
           </div>
           <div id="left-sidebar">
             <nav>
@@ -136,6 +125,21 @@
                 </div>
                 <div class='modal-body'>
                   <form class="form-settings">
+                    <h2 class="form-settings-heading">Timestep</h2>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <input class="form-control" type="number" placeholder="" ng-model="timestep">
+                        </div>
+                        <fieldset class="form-group">
+                            <select class="form-control" id="exampleSelect1" ng-model="timestepUnits">
+                                <option>seconds</option>
+                                <option>hours</option>
+                                <option>years</option>
+                            </select>
+                        </fieldset>
+                    </form>
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="b.updateStep()">Save</button>
+                    
                     <h2 class="form-settings-heading">Units</h2>
                     <label for="distance">Distance</label>
                     <select id="distance" ng-model="uDist" class="form-control">
