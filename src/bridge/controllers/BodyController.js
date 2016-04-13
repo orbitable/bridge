@@ -15,19 +15,31 @@
 angular.module('bridge.controllers')
   .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
     $scope.selectedBody = {};
+    $scope.timestep = 40000;
+    $scope.timestepUnits = 'seconds';
     $scope.uDist = 'm';
     $scope.uMass = 'kg';
     $scope.uTime = 's';
     $scope.uLum  = 'L';
 
+    this.updateStep = function() {
+      if ($scope.timestepUnits === 'hours') {
+        eventPump.timestep = $scope.timestep * 3600;
+      } else if ($scope.timestepUnits === 'years') {
+        eventPump.timestep = $scope.timestep * 31557600;
+      } else {
+        eventPump.timestep = $scope.timestep;
+      }
+    };
+
     this.remove = function(id) {
-      $('#'+id).attr("r", 0);
+      $('#' + id).attr('r', 0);
       simulator.deleteBody(id);
       eventPump.step();
       $('#right-sidebar').hide();
     };
 
-    this.close = function(){
+    this.close = function() {
       $('#right-sidebar').hide();
     };
 
