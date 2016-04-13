@@ -56,18 +56,6 @@ angular.module('bridge.directives')
       selectedBody: '=',
       link: function(scope, elem) {
 
-        scope.addBody = function(screen_x, screen_y) {
-          var body = {
-            position: {
-              x: scope.xScale.invert(screen_x),
-              y: scope.yScale.invert(screen_y)
-            },
-          };
-          console.log(body.position.x, body.position.y);
-          simulator.addBody(body);
-          eventPump.step();
-        };
-
         var bodyGroup = d3.select(elem[0]);
 
         function update(data) {
