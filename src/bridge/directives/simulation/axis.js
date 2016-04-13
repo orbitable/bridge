@@ -8,15 +8,14 @@ angular.module('bridge.directives')
         var axisGroup = d3.select(elem[0]);
 
         var xAxis = d3.svg.axis()
-          .scale(scope.xScale)
-          .ticks(5)
+          .scale(scope.windowXScale)
           .orient('bottom')
           .tickSize(-scope.height);
 
         var yAxis = d3.svg.axis()
-          .scale(scope.yScale)
-          .ticks(5)
+          .scale(scope.windowYScale)
           .orient('left')
+          .ticks(5)
           .tickSize(-scope.width);
 
         axisGroup

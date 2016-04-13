@@ -15,6 +15,7 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers', []);
+angular.module('bridge.controllers.auth', []);
 angular.module('bridge.services', [require('angular-resource')]);
 angular.module('bridge.directives', []);
 angular.module('bridge.filters', []);
@@ -22,8 +23,10 @@ angular.module('bridge.filters', []);
 angular.module('bridge', [
     'bridge.services',
     'bridge.controllers',
+    'bridge.controllers.auth',
     'bridge.directives',
     'bridge.filters',
+    require('angular-cookies'),
     require('angular-route')
   ])
   .config(['$routeProvider', function($routeProvider) {

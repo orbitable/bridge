@@ -13,27 +13,6 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
-    $scope.selectedBody = {};
-    $scope.uDist = 'm';
-    $scope.uMass = 'kg';
-    $scope.uTime = 's';
-    $scope.uLum  = 'L';
-
-    this.sendBody = function(){
-      console.log('send function');
-    };
-    
-    this.remove = function(id) {
-      $('#'+id).attr("r", 0);
-      simulator.deleteBody(id);
-      eventPump.step();
-      $('#right-sidebar').hide();
-    };
-
-    this.close = function(){
-      $('#right-sidebar').hide();
-    };
-
-  }
-  ]);
+  .controller('navController', ['$scope', 'User',  function($scope, User) {
+    $scope.user = User;
+  }]);
