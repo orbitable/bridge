@@ -1,9 +1,7 @@
 <simulation></simulation>
 <div class="container-fluid">
   <div id="right-sidebar">
-    <div class="panel panel-default">
-      <div class="panel-body" body-data></div>
-    </div>
+    <div class="panel panel-default" body-data></div>
   </div>
   <div id="left-sidebar">
     <nav ng-controller="userController as u">
@@ -42,9 +40,6 @@
           <div class="btn-group-vertical" role="group">
             <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
               <span class="glyphicon glyphicon-plus"></span>
-            </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.remove()">
-              <span class="glyphicon glyphicon-minus"></span>
             </button>
             <button type="button" class="btn btn-default btn-lg" ng-click="a.save()">
               <span class="glyphicon glyphicon-floppy-disk" ></span>

@@ -15,15 +15,57 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers')
-  .controller('adminController', ['$scope', 'User', function($scope, User) {
+  .controller('adminController', ['$scope', 'Scale', 'Simulation', 'simulator', 'User', 'eventPump', function($scope, Scale, Simulation, simulator, User, eventPump) {
     $scope.user = User;
 
     this.add = function() {
-      console.log('add function()');
+      var px, py = 0;
+      var bodies = d3.select('#bodies');
+
+      // add listener to svg
+      var svg = d3.select('#svg')
+      .on('mousemove', function() {
+        var pt = d3.mouse(bodies[0][0]);
+        drawGhost(bodies, pt[0], pt[1]);
+      })
+      .on('click', function() {
+
+        var pt = d3.mouse(bodies[0][0]);
+        var body = {
+          position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
+        };
+        simulator.addBody(body);
+        eventPump.step();
+
+        // clear listeners and ghost circle
+        svg.on('mousemove', null);
+        svg.on('click', null);
+        svg.selectAll('#ghost').remove();
+      });
+
     };
-    this.remove = function() {
-      console.log('remove function()');
-    };
+
+    // Used by addBody. draws a circle that follows cursor.
+    function drawGhost(svg, x, y) {
+      // select existing (at first this will be empty)
+      var ghost = svg.selectAll('#ghost');
+
+      //bind data. create ghost if it doesn't exist
+      ghost.data([[x,y]]).enter().append('circle').attr('id', 'ghost');
+      ghost.attr({
+        'cx': function(d) {
+          return d[0];
+        },
+        'cy': function(d) {
+          return d[1];
+        },
+        'r': 4,
+        'fill': 'white',
+        'id': 'ghost',
+        'opacity': '0.7',
+      });
+    }
+
     this.save = function() {
       console.log('save function()');
     };

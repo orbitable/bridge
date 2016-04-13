@@ -2,7 +2,7 @@ var angular = require('angular');
 var d3      = require('d3');
 
 angular.module('bridge.directives')
-  .directive('simulation', function($window) {
+  .directive('simulation', ['Scale', '$window', function(Scale, $window) {
     return {
       link: {
         pre: function(scope, elem) {
@@ -13,6 +13,9 @@ angular.module('bridge.directives')
 
           scope.height = svgElem.clientHeight;
           scope.width = svgElem.clientWidth;
+
+          Scale.setBoundingRect(scope.height, scope.width);
+
           scope.windowCenter = [scope.width / 2, scope.height / 2];
 
           scope.windowXScale = d3.scale.linear()
@@ -21,13 +24,8 @@ angular.module('bridge.directives')
           scope.windowYScale = d3.scale.linear()
                 .range([scope.height, 0]);
 
-          scope.xScale = d3.scale.linear()
-            .domain([-1482671117702, 1482671117702])
-            .range([-scope.width, scope.width]);
-
-          scope.yScale = d3.scale.linear()
-            .domain([-1482671117702, 1482671117702])
-            .range([-scope.height, scope.height]);
+          scope.xScale = Scale.x;
+          scope.yScale = Scale.y;
 
           scope.zoom = d3.behavior.zoom()
             .x(scope.windowXScale)
@@ -45,4 +43,4 @@ angular.module('bridge.directives')
       },
       templateUrl: 'partials/simulation-directive.html'
     };
-  });
+  }]);

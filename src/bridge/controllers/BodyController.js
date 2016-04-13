@@ -13,11 +13,23 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', function($scope, eventPump) {
+  .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
     $scope.selectedBody = {};
     $scope.uDist = 'm';
     $scope.uMass = 'kg';
     $scope.uTime = 's';
     $scope.uLum  = 'L';
+
+    this.remove = function(id) {
+      $('#'+id).attr("r", 0);
+      simulator.deleteBody(id);
+      eventPump.step();
+      $('#right-sidebar').hide();
+    };
+
+    this.close = function(){
+      $('#right-sidebar').hide();
+    };
+
   }
   ]);
