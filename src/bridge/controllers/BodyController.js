@@ -14,16 +14,19 @@
 
 angular.module('bridge.controllers')
   .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
-    $scope.selectedBody = {};
+    var selectedBody = {};
     $scope.uDist = 'm';
     $scope.uMass = 'kg';
     $scope.uTime = 's';
     $scope.uLum  = 'L';
 
-    this.sendBody = function(){
-      console.log('send function');
+    this.updateBody = function(){
+      // TODO selectedBody is not updated from body directive
+      var b = $scope.selectedBody
+      console.log(b);
+      simulator.updateBody(b.id, b);
     };
-    
+
     this.remove = function(id) {
       $('#'+id).attr("r", 0);
       simulator.deleteBody(id);

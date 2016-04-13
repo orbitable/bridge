@@ -10,7 +10,7 @@ angular.module('bridge.directives')
       scope: {
         value: "=clickToEdit",
       },
-      
+
       controller: function($scope) {
         $scope.view = {
           editableValue: $scope.value,

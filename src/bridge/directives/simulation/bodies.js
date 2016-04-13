@@ -71,7 +71,6 @@ angular.module('bridge.directives')
           }
         }
 
-        // update position in the simulator TODO
         function sendBody(d) {
           if(eventPump.paused){
             var pt = d3.mouse(bodies[0][0]);
@@ -81,7 +80,6 @@ angular.module('bridge.directives')
             simulator.updateBody(d.id, body);
             d3.select(this).attr("transform", "translate(" + 0 + "," + 0 + ")");
             eventPump.step();
-            // console.log(d.id, d);
           }
         }
 
