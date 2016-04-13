@@ -15,7 +15,7 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers')
-  .controller('adminController', ['$scope', 'Scale', 'Simulation', 'simulator', 'User', 'eventPump', function($scope, Scale, Simulation, simulator, User, eventPump) {
+  .controller('adminController', ['$scope', 'Scale', 'Simulation', 'simulator', 'User', 'eventPump', '$log', function($scope, Scale, Simulation, simulator, User, eventPump, $log) {
     $scope.user = User;
 
     this.add = function() {
@@ -42,7 +42,6 @@ angular.module('bridge.controllers')
         svg.on('click', null);
         svg.selectAll('#ghost').remove();
       });
-
     };
 
     // Used by addBody. draws a circle that follows cursor.
@@ -67,12 +66,12 @@ angular.module('bridge.controllers')
     }
 
     this.save = function() {
-      console.log('save function()');
+      $log.debug('save function()');
     };
     this.tip = function() {
-      console.log('tip function()');
+      $log.debug('tip function()');
     };
     this.record = function() {
-      console.log('record function()');
+      $log.debug('record function()');
     };
   }]);

@@ -2,7 +2,7 @@ var angular = require('angular');
 var d3 = require('d3');
 
 angular.module('bridge.directives')
-  .directive('vectors', ['eventPump', 'simulator', function(eventPump, simulator) {
+  .directive('vectors', ['eventPump', 'simulator', '$log', function(eventPump, simulator, $log) {
     return {
       link: function(scope, elem) {
 
@@ -50,12 +50,12 @@ angular.module('bridge.directives')
                 .on('dragend', function() {
                   scope.svg.call(scope.zoom);
                   d3.select(this).style('stroke', 'grey');
-                  console.log(d3.select(this).attr('id'));
-                  console.log(d3.select(this).attr('x2'));
-                  console.log(d3.select(this).attr('y2'));
+                  $log.debug(d3.select(this).attr('id'));
+                  $log.debug(d3.select(this).attr('x2'));
+                  $log.debug(d3.select(this).attr('y2'));
                 });
 
-          //             Draw an arrow to use for lines
+          // Draw an arrow to use for lines
           vectorGroup.append('defs')
               .append('marker')
               .attr('id', 'arrow')
