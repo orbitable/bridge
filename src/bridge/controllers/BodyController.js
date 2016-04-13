@@ -23,6 +23,7 @@ angular.module('bridge.controllers')
     this.remove = function(id) {
       $('#'+id).attr("r", 0);
       simulator.deleteBody(id);
+      eventPump.step();
       $('#right-sidebar').hide();
     };
 
