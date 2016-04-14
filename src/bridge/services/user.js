@@ -11,85 +11,81 @@
  * CONDITIONS OF ANY KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 angular.module('bridge.services')
-  .factory('User', ['$http', '$q', function($http, $q) {
-      var userService = {
-        current:  null,
-        session: null,
-        host: '//mission-control.orbitable.tech',
-        registerEndpoint: 'users',
-        sessionEndpoint: 'sessions'
+  .factory('User', ['$cookies', '$http', '$q', function($cookies, $http, $q) {
+
+    var USER_COOKIE_KEY = 'orbitable-user';
+    var SESSION_COOKIE_KEY = 'orbitable-session';
+
+    // TODO: Get session id and requery for values. Don't store object.
+    var userService = {
+      current: $cookies.getObject(USER_COOKIE_KEY),
+      session: $cookies.getObject(SESSION_COOKIE_KEY),
+      host: '//mission-control.orbitable.tech',
+      registerEndpoint: 'users',
+      sessionEndpoint: 'sessions'
+    };
+
+    userService.register = register;
+    userService.logout   = logout;
+    userService.login    = login;
+
+    return userService;
+
+    function register(user) {
+      var d = $q.defer();
+      var self = this;
+
+      $http.post(self.host + '/' + self.registerEndpoint, user).then(
+          function(resp) {
+            d.resolve(self.current);
+          },
+          function(err) {
+            d.reject(err);
+          });
+
+      return d.promise;
+    }
+
+    function login(username, password) {
+      var d = $q.defer();
+      var self = this;
+
+      $http.post(self.host + '/' + self.sessionEndpoint,
+        {username: username, password: password})
+          .then(function(resp) {
+            self.session  = resp.data;
+            self.current = self.session.owner;
+
+            $cookies.putObject(USER_COOKIE_KEY, self.current);
+            $cookies.putObject(SESSION_COOKIE_KEY, self.session);
+
+            d.resolve(self.session.owner);
+          }, d.reject);
+
+      return d.promise;
+    }
+
+    function logout() {
+      // Bail if we never were logged in
+      if (this.session === null && this.current === null) { return; }
+
+      var d = $q.defer();
+      var self = this;
+
+      var deleteValues = function(resolveValue) {
+        self.current = null;
+        self.session = null;
+
+        $cookies.remove(USER_COOKIE_KEY);
+        $cookies.remove(SESSION_COOKIE_KEY);
+
+        d.resolve(resolveValue);
       };
 
-      userService.register = register;
-      userService.logout   = logout;
-      userService.login    = login;
+      var path = this.host + '/' + this.sessionEndpoint + '/' + this.session._id;
+      $http.delete(path, self.session).then(deleteValues, deleteValues);
 
-      return userService;
-
-      function register(user) {
-        var d = $q.defer();
-        var self = this;
-
-        $http.post(self.host + '/' + self.registerEndpoint, user).then(
-            function(resp) {
-              self.current = resp.data;
-              d.resolve(self.current);
-            },
-            function(err) {
-              console.warn("Failed user registration: ", err);
-              d.reject(err); 
-            });
-
-        return d.promise;
-      }
-      
-      function login(username, password) {
-        var d = $q.defer();
-        var self = this;
-
-        $http.post(self.host + '/' + self.sessionEndpoint, {username: username, password: password}).then(
-            function(resp) {
-
-              self.session  = resp.data;
-              self.current = self.session.owner;
-
-              d.resolve(self.session.owner);
-            }, 
-            function(err) {
-              console.warn("Failed user login: ", err);
-              d.reject(err);
-            });
-
-        return d.promise;
-      }
-
-
-      function logout() {
-        // Bail if we never were logged in
-        if (this.session === null && this.current === null) return;
-
-        var d = $q.defer();
-        var self = this;
-
-        
-        $http.delete(this.host + '/' + this.sessionEndpoint + '/' + this.session._id, self.session).then(
-            function(resp) {
-
-              self.current = null;
-              self.session = null;
-
-              d.resolve(null);
-            },
-            function(err) {
-
-              self.current = null;
-              self.session = null;
-
-              d.resolve(err);
-            });
-
-        return d.promise;
-      }
+      return d.promise;
+    }
   }]);

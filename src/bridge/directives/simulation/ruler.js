@@ -11,16 +11,6 @@ angular.module('bridge.directives')
 
         var rulerBtn = d3.select('#btn_ruler');
 
-        scope.zoom.on('zoom.ruler', function() {
-          rulerGroup.attr('transform', 'translate(' + d3.event.translate + ')' +
-                          ' scale(' + d3.event.scale + ')');
-        });
-
-        // TODO: Generalize this for all directives
-        rulerGroup.call(scope.zoom.translate(scope.windowCenter).event);
-        rulerGroup.call(scope.zoom.center(scope.windowCenter).event);
-        rulerGroup.call(scope.zoom);
-
         var rulerScale = d3.scale.linear()
           .domain([0,0])
           .range([0,0]);

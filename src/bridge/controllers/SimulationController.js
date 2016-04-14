@@ -12,22 +12,13 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var angular = require('angular');
-var Simulator = require('engine');
+angular.module('bridge.controllers')
+  .controller('simulationController', ['$scope', 'eventPump', '$routeParams', 'simulator', 'Simulation', function($scope, eventPump, $routeParams, simulator, Simulation) {
+    $scope.simulationId = $routeParams.simulation_id;
 
-angular.module('bridge.services')
-  .factory('simulator', ["eventPump", function(eventPump) {
-    var simulator = new Simulator();
-    eventPump.simulator = simulator;
-    eventPump.timestep = 40000;
-
-    // Bind update function to event pump callback
-    eventPump.register(function() {
-      // TODO: Be able to query eventPump for current FPS to adjust dt
-      // accordingly such that the same amount of dt accumlates per second
-      // irregardless of FSP.
-      simulator.update(eventPump.timestep);
+    Simulation.get({id: $scope.simulationId}, function(simulation) {
+      simulator.reset(simulation.bodies);
+      eventPump.step();
     });
-
-    return simulator;
-  }]);
+  }
+  ]);

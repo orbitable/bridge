@@ -13,28 +13,20 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
-    $scope.selectedBody = {};
-    $scope.timestep = 40000;
-    $scope.timestepUnits = 'seconds';
-    $scope.uDist = 'm';
-    $scope.uMass = 'kg';
-    $scope.uTime = 's';
-    $scope.uLum  = 'L';
+  .controller('trackerController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
     $scope.simulator = simulator;
     
-// ORBIT TRACKER FUNCTIONS
     this.selectCenterBody = function(){
-        console.log($scope.selectedBody.name);
+        console.log($scope.simulator.selectedBody.name);
         $scope.simulator.orbitTracker.setCenterBody(
-            $scope.selectedBody,
+            $scope.simulator.selectedBody,
             $scope.simulator.simulationTime
         );
     };
       
     this.selectTargetBody = function(){
         $scope.simulator.orbitTracker.setTargetBody(
-            $scope.selectedBody,
+            $scope.simulator.selectedBody,
             $scope.simulator.simulationTime
         );
     };
@@ -45,28 +37,6 @@ angular.module('bridge.controllers')
     
     this.getState = function() {
         return $scope.simulator.orbitTracker.running;
-    };
-//
-
-    this.updateStep = function() {
-      if ($scope.timestepUnits === 'hours') {
-        eventPump.timestep = $scope.timestep * 3600;
-      } else if ($scope.timestepUnits === 'years') {
-        eventPump.timestep = $scope.timestep * 31557600;
-      } else {
-        eventPump.timestep = $scope.timestep;
-      }
-    };
-
-    this.remove = function(id) {
-      $('#' + id).attr('r', 0);
-      simulator.deleteBody(id);
-      eventPump.step();
-      $('#right-sidebar').hide();
-    };
-
-    this.close = function() {
-      $('#right-sidebar').hide();
     };
 
   }
