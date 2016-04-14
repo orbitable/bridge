@@ -13,12 +13,12 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('simulationController', ['$scope', 'eventPump', '$routeParams', 'simulator', 'Simulation', function($scope, eventPump, $routeParams, simulator, Simulation) {
-    $scope.simulationId = $routeParams.simulationId;
+  .controller('simulationListController', ['$scope', '$routeParams','Simulation', 'UserSimulation', function($scope, $routeParams, Simulation, UserSimulation) {
+    var updateSimulations = (s) => $scope.simulations = s;
 
-    Simulation.get({id: $scope.simulationId}, function(simulation) {
-      simulator.reset(simulation.bodies);
-      eventPump.step();
-    });
-  }
-  ]);
+    if ($routeParams.userId) {
+      UserSimulation.query({id: $routeParams.userId}, updateSimulations);
+    } else {
+      Simulation.query(updateSimulations);
+    }
+  }]);

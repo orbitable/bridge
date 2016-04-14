@@ -31,16 +31,18 @@ angular.module('bridge', [
   ])
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/s/', {
-      templateUrl: 'partials/simulation-list.html'
+      templateUrl: 'partials/simulation-list.html',
+      controller: 'simulationListController'
     })
-    .when('/s/:simulation_id', {
+    .when('/s/:simulationId', {
       templateUrl: 'partials/simulation.html',
       controller: 'simulationController'
     })
-    .when('/u/:user_id/', {
-      templateUrl: 'partials/simulation-list.html'
+    .when('/u/:userId', {
+      templateUrl: 'partials/simulation-list.html',
+      controller: 'simulationListController'
     })
-    .when('/u/:user_id/:simulation_id', {
+    .when('/u/:userId/:simulationId', {
       templateUrl: 'partials/simulation.html',
       controller: 'simulationController'
     })
