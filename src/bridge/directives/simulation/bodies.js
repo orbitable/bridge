@@ -53,7 +53,7 @@ function getColor(d) {
 angular.module('bridge.directives')
   .directive('bodies', ['eventPump', 'simulator', 'Scale', function(eventPump, simulator, Scale) {
     return {
-      selectedBody: '=',
+      scope: false,
       link: function(scope, elem) {
 
         var bodyGroup = d3.select(elem[0]);

@@ -5,14 +5,15 @@
     {{selectedBody.name}}
   </div>
   <div class="panel-body">
-    <!-- radius: {{selectedBody.radius | distance:uDist }} {{uDist}} -->
+    radius: {{selectedBody.radius | distance:uDist }} {{uDist}}
     radius: <input ng-model="selectedBody.radius" ng-change="b.updateBody()"> {{uDist}}
     <br>mass: <span click-to-edit="selectedBody.mass"></span> {{uMass}}
     <span ng-show="selectedBody.luminosity">
       <br>luminosity: {{selectedBody.luminosity | luminosity:uLum}} {{uLum}}
     </span>
-    <br>x : <span click-to-edit="selectedBody.position.x"></span>
+    <br>x : <span click-to-edit="selectedBody.position.x | luminosity:ulum"></span>
     <br>x<sup>1</sup>: {{selectedBody.velocity.x | velocity:uDist:uTime}} {{uDist}}/{{uTime}}
+    <br>x<sup>1</sup>: <span click-to-edit="selectedBody.velocity.x" unit="uTime"></span>
     <br>y : <span click-to-edit="selectedBody.position.y"></span>
     <br>y<sup>1</sup>: {{selectedBody.velocity.y | velocity:uDist:uTime}} {{uDist}}/{{uTime}}
     <div class="text-center">

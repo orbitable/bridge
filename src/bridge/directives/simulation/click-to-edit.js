@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 angular.module('bridge.directives')
-  .directive('clickToEdit', function(){
+  .directive('clickToEdit', ['velocityFilter', function(velocityFilter){
 
     return {
       restrict: "A",
@@ -9,9 +9,18 @@ angular.module('bridge.directives')
       templateUrl: 'partials/click-to-edit.html',
       scope: {
         value: "=clickToEdit",
+        unit: '=unit'
       },
 
       controller: function($scope) {
+
+        $scope.value = velocityFilter($scope.value, $scope.unit);
+        console.log($scope);
+
+        $scope.$watch('unit', function(s){
+          console.log("changed", s);
+          $scope.value = velocityFilter($scope.value, $scope.unit);
+        });
         $scope.view = {
           editableValue: $scope.value,
           editorEnabled: false
@@ -32,4 +41,4 @@ angular.module('bridge.directives')
         };
       }
     };
-});
+}]);

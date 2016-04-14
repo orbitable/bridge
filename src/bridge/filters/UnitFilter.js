@@ -55,7 +55,7 @@ angular.module('bridge.filters')
     };
 
     return function(v, distanceUnit, timeUnit){
-      return (v == null) ? v : $filter('number')(v * (factor[timeUnit]/factor[distanceUnit]));
+      return (v == null) ? v : $filter('number')(v * (factor[timeUnit]/factor[distanceUnit]), 0);
     };
   })
 
