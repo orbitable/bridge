@@ -39,7 +39,6 @@ angular.module('bridge.directives')
           .selectAll('circle')
           .data(data);
 
-
           function drawBodies(bodies) {
             bodies
             .attr('cx', (d) => scope.xScale(d.position.x))
