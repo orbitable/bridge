@@ -5,17 +5,15 @@
     {{selectedBody.name}}
   </div>
   <div class="panel-body">
-    radius: {{selectedBody.radius | distance:uDist }} {{uDist}}
     radius: <input ng-model="selectedBody.radius" ng-change="b.updateBody()"> {{uDist}}
-    <br>mass: <span click-to-edit="selectedBody.mass"></span> {{uMass}}
+    <br>mass: <input ng-model="selectedBody.mass" ng-change="b.updateBody()"> {{uMass}}
     <span ng-show="selectedBody.luminosity">
-      <br>luminosity: {{selectedBody.luminosity | luminosity:uLum}} {{uLum}}
+      <br>luminosity: <input ng-model="selectedBody.luminosity" ng-change="b.updateBody()"> {{uLum}}
     </span>
-    <br>x : <span click-to-edit="selectedBody.position.x | luminosity:ulum"></span>
-    <br>x<sup>1</sup>: {{selectedBody.velocity.x | velocity:uDist:uTime}} {{uDist}}/{{uTime}}
-    <br>x<sup>1</sup>: <span click-to-edit="selectedBody.velocity.x" unit="uTime"></span>
-    <br>y : <span click-to-edit="selectedBody.position.y"></span>
-    <br>y<sup>1</sup>: {{selectedBody.velocity.y | velocity:uDist:uTime}} {{uDist}}/{{uTime}}
+    <br>x : <input ng-model="selectedBody.position.x" ng-change="b.updateBody()">
+    <br>x<sup>1</sup>: <input ng-model="selectedBody.velocity.x" ng-change="b.updateBody()">{{uDist}}/{{uTime}}
+    <br>y : <input ng-model="selectedBody.position.y" ng-change="b.updateBody()">
+    <br>y<sup>1</sup>: <input ng-model="selectedBody.velocity.y" ng-change="b.updateBody()">{{uDist}}/{{uTime}}
     <div class="text-center">
       <button type="button" class="btn btn-default btn" ng-click="b.remove(selectedBody.id)">
         <span class="glyphicon glyphicon-trash"></span>
