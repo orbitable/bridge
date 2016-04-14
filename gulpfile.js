@@ -5,6 +5,7 @@ var gulp = require('gulp');
 var path = require('path');
 var runSequence = require('run-sequence');
 var source = require('vinyl-source-stream');
+var gutil = require('gulp-util');
 var webserver = require('gulp-webserver');
 
 var rootDirectory = path.resolve('.');
@@ -15,12 +16,6 @@ var sourceFiles = [
   path.join(sourceDirectory, '/**/*.js')
 ];
 
-gulp.task('build', function() {
-  return gulp.src(sourceFiles)
-    .pipe(concat('bridge.js'))
-    .pipe(babel({presets: ['es2015']}))
-    .pipe(gulp.dest('dist/'));
-});
 
 gulp.task('browserify', ['build'], function() {
   return browserify('./dist/bridge.js')
@@ -29,12 +24,24 @@ gulp.task('browserify', ['build'], function() {
     .pipe(gulp.dest('dist/'));
 });
 
+gulp.task('build', function() {
+  return gulp.src(sourceFiles)
+    .pipe(concat('bridge.js'))
+    .pipe(babel({presets: ['es2015']}))
+    .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('test', function() {
+  gutil.log('TODO:// Write some tests');
+});
+
 gulp.task('webserver', ['build', 'browserify'], function() {
+  gulp.watch('src/**/*.js', ['build', 'browserify']);
+  gulp.watch('index.html', ['build', 'browserify']);
+
   gulp.src(rootDirectory)
     .pipe(webserver({host: '0.0.0.0',  open: true}));
 });
 
-gulp.watch('src/**/*.js', ['build', 'browserify']);
-gulp.watch('index.html', ['build', 'browserify']);
 
-gulp.task('default', ['build', 'browserify', 'webserver']);
+gulp.task('default', ['build', 'browserify', 'webserver', 'test']);
