@@ -26,6 +26,9 @@ angular.module('bridge.directives')
 
           scope.xScale = Scale.x;
           scope.yScale = Scale.y;
+          scope.rScale = function(r) {
+            return (Math.log((r + 14961) / 14960)) / Math.LN10
+          }
 
           scope.zoom = d3.behavior.zoom()
             .x(scope.windowXScale)

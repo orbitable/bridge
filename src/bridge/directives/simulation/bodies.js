@@ -19,7 +19,7 @@ angular.module('bridge.directives')
             bodies
             .attr('cx', (d) => scope.xScale(d.position.x))
             .attr('cy', (d) => scope.yScale(d.position.y))
-            .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
+            .attr('r',  (d) => scope.rScale(d.radius))
             .attr('fill', (d) => d.color)
             .on('mousedown', function(d) {
               d3.event.stopPropagation();
@@ -31,7 +31,7 @@ angular.module('bridge.directives')
               .transition()
               .duration(500)
               .attr('stroke', 'white')
-              .attr('stroke-width',(d) => ((Math.log((d.radius + 14961) / 14960)) / Math.LN10) + 30);
+              .attr('stroke-width',(d) => (scope.rScale(d.radius)) + 30);
             })
             .on('mouseout',function() {
               d3.select(this)

@@ -21,7 +21,7 @@ angular.module('bridge.directives')
             y: body.velocity.y / 1000
           };
 
-          var bodyRadius = (Math.log((body.radius + 14961) / 14960)) / Math.LN10;
+          var bodyRadius = scope.rScale(body.radius);
 
           var x1 = bodyPosition.x;
           var x2 = (bodyPosition.x + bodyVelocity.x) + bodyRadius * 2;
