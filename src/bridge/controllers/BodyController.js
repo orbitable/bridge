@@ -14,7 +14,9 @@
 
 angular.module('bridge.controllers')
   .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
-    var selectedBody = {};
+    $scope.selectedBody = {};
+    $scope.timestep = 40000;
+    $scope.timestepUnits = 'seconds';
     $scope.uDist = 'm';
     $scope.uMass = 'kg';
     $scope.uTime = 's';
@@ -22,19 +24,29 @@ angular.module('bridge.controllers')
 
     this.updateBody = function(){
       // TODO selectedBody is not updated from body directive
-      var b = $scope.selectedBody
+      var b = $scope.selectedBody;
       console.log(b);
       simulator.updateBody(b.id, b);
     };
+    
+    this.updateStep = function() {
+      if ($scope.timestepUnits === 'hours') {
+        eventPump.timestep = $scope.timestep * 3600;
+      } else if ($scope.timestepUnits === 'years') {
+        eventPump.timestep = $scope.timestep * 31557600;
+      } else {
+        eventPump.timestep = $scope.timestep;
+      }
+    };
 
     this.remove = function(id) {
-      $('#'+id).attr("r", 0);
+      $('#' + id).attr('r', 0);
       simulator.deleteBody(id);
       eventPump.step();
       $('#right-sidebar').hide();
     };
 
-    this.close = function(){
+    this.close = function() {
       $('#right-sidebar').hide();
     };
 
