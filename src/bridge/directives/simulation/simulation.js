@@ -13,8 +13,8 @@ angular.module('bridge.directives')
 
           scope.height = svgElem.clientHeight;
           scope.width = svgElem.clientWidth;
-
-          Scale.setBoundingRect(scope.height, scope.width);
+          scope.scaleMin = Math.min(scope.height,scope.width);
+          Scale.setBoundingRect(scope.scaleMin,scope.scaleMin);
 
           scope.windowCenter = [scope.width / 2, scope.height / 2];
 
