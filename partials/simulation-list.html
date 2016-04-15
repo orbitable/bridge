@@ -1,7 +1,9 @@
-<ul>
-  <li>Simulation 1</li>
-  <li>Simulation 2</li>
-  <li>Simulation 3</li>
-  <li>Simulation 4</li>
-  <li>Simulation 5</li>
-</ul>
+<div class="container-fluid" style="margin-top: 50px; background-color: white;">
+    <h1>Simulations</h1>
+    <p>Click a simulation below to load.</p>
+  <div class="row">
+    <ul>
+      <li ng-repeat='simulation in simulations'><a href="#/s/{{simulation._id}}">{{simulation._id}}</a></li>
+    </ul>
+  </div>
+</div>

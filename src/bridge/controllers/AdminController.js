@@ -15,7 +15,7 @@
 var angular = require('angular');
 
 angular.module('bridge.controllers')
-  .controller('adminController', ['$scope', 'Scale', 'Simulation', 'simulator', 'User', 'eventPump', '$log', function($scope, Scale, Simulation, simulator, User, eventPump, $log) {
+  .controller('adminController', ['$scope', 'Scale', 'Simulation', 'simulator', 'User', 'eventPump', '$log', '$location',  function($scope, Scale, Simulation, simulator, User, eventPump, $log, $location) {
     $scope.user = User;
 
     this.add = function() {
@@ -66,8 +66,12 @@ angular.module('bridge.controllers')
     }
 
     this.save = function() {
-      $log.debug('save function()');
+      Simulation.save({
+          bodies: simulator.bodies,
+          createdBy: User.current._id},
+        (payload) => $location.path('/s/' + payload._id));
     };
+
     this.tip = function() {
       $log.debug('tip function()');
     };
