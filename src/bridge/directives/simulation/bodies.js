@@ -2,12 +2,38 @@ var angular = require('angular');
 var d3 = require('d3');
 
 angular.module('bridge.directives')
-  .directive('bodies', ['eventPump', 'simulator', function(eventPump, simulator) {
+  .directive('bodies', ['eventPump', 'simulator', 'Scale', function(eventPump, simulator, Scale) {
     return {
-      selectedBody: '=',
+      scope: false,
       link: function(scope, elem) {
 
         var bodyGroup = d3.select(elem[0]);
+        var bodies = d3.select('#bodies');
+
+        // Set up drag
+        var drag = d3.behavior.drag().on('drag', dragmove).on('dragend', sendBody);
+
+        // visually move body
+        function dragmove(d){
+          if(eventPump.paused){
+            var pt = d3.mouse(bodies[0][0]);
+            d3.select(this).attr("cx", (pt[0]));
+            d3.select(this).attr("cy", (pt[1]));
+          }
+        }
+
+        function sendBody(d) {
+          if(eventPump.paused){
+            var pt = d3.mouse(bodies[0][0]);
+            var body = {
+              position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
+            };
+            simulator.updateBody(d.id, body);
+            d3.select(this).attr("transform", "translate(" + 0 + "," + 0 + ")");
+            eventPump.step();
+          }
+        }
+
 
         function update(data) {
           var bodies = bodyGroup
@@ -55,6 +81,9 @@ angular.module('bridge.directives')
           drawBodies(bodies);
           drawBodies(bodies.enter().append('circle'));
           bodies.exit().remove();
+
+          // add drag behavior
+          d3.selectAll('circle').call(drag);
         }
 
         eventPump.register(() => update(simulator.bodies));

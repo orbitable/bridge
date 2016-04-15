@@ -27,7 +27,7 @@ angular.module('bridge.filters')
       return function(distance, unit){
         // if distance is null or undef, pass through.
         // call built in number filter to format new value nicely
-        return (distance == null) ? distance : $filter('number')(distance / factor[unit], 0) +" "+ unit;
+        return (distance == null) ? distance : $filter('number')(distance / factor[unit], 0);
       };
   })
 
@@ -40,7 +40,7 @@ angular.module('bridge.filters')
     };
 
     return function(mass, unit){
-      return (mass == null) ? mass : $filter('number')(mass / factor[unit]) +" "+ unit;
+      return (mass == null) ? mass : $filter('number')(mass / factor[unit]);
     };
   })
 
@@ -55,7 +55,7 @@ angular.module('bridge.filters')
     };
 
     return function(v, distanceUnit, timeUnit){
-      return (v == null) ? v : $filter('number')(v * (factor[timeUnit]/factor[distanceUnit])) +" "+distanceUnit+"/"+timeUnit;
+      return (v == null) ? v : $filter('number')(v * (factor[timeUnit]/factor[distanceUnit]), 0);
     };
   })
 
@@ -65,6 +65,6 @@ angular.module('bridge.filters')
     };
 
     return function(l, unit){
-      return (l == null) ? l : $filter('number')(l / factor[unit])+" "+unit;
+      return (l == null) ? l : $filter('number')(l / factor[unit]);
     }
   })

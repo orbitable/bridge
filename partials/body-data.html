@@ -1,0 +1,22 @@
+  <div class="panel-heading text-center">
+    <button type="button" class="close" aria-label="Close" ng-click="b.close()">
+      <span>&times;</span>
+    </button>
+    {{selectedBody.name}}
+  </div>
+  <div class="panel-body">
+    radius: <input ng-model="selectedBody.radius" ng-change="b.updateBody()"> {{uDist}}
+    <br>mass: <input ng-model="selectedBody.mass" ng-change="b.updateBody()"> {{uMass}}
+    <span ng-show="selectedBody.luminosity">
+      <br>luminosity: <input ng-model="selectedBody.luminosity" ng-change="b.updateBody()"> {{uLum}}
+    </span>
+    <br>x : <input ng-model="selectedBody.position.x" ng-change="b.updateBody()">
+    <br>x<sup>1</sup>: <input ng-model="selectedBody.velocity.x" ng-change="b.updateBody()">{{uDist}}/{{uTime}}
+    <br>y : <input ng-model="selectedBody.position.y" ng-change="b.updateBody()">
+    <br>y<sup>1</sup>: <input ng-model="selectedBody.velocity.y" ng-change="b.updateBody()">{{uDist}}/{{uTime}}
+    <div class="text-center">
+      <button type="button" class="btn btn-default btn" ng-click="b.remove(selectedBody.id)">
+        <span class="glyphicon glyphicon-trash"></span>
+      </button>
+    </div>
+  </div>

@@ -178,3 +178,7 @@ counter {
 .form-signin-heading{
   font-family: Helvetica;
 }
+
+button, input, optgroup, select, textarea {
+  color: black;
+}

@@ -48,6 +48,13 @@ angular.module('bridge.controllers')
     };
 //
 
+    this.updateBody = function(){
+      // TODO selectedBody is not updated from body directive
+      var b = $scope.selectedBody;
+      console.log(b);
+      simulator.updateBody(b.id, b);
+    };
+    
     this.updateStep = function() {
       if ($scope.timestepUnits === 'hours') {
         eventPump.timestep = $scope.timestep * 3600;
