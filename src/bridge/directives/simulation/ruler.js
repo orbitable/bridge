@@ -1,13 +1,13 @@
 var angular = require('angular');
 
 angular.module('bridge.directives')
-  .directive('ruler', [function(eventPump, simulator) {
+  .directive('ruler', ['Scale', function(Scale) {
     return {
       link: function(scope, elem) {
 
         var rulerGroup = d3.select(elem[0])
           .attr('id', 'rulerGroup')
-          .attr('visibility', 'hidden');
+        var translation = d3.select('#translation');
 
         var rulerBtn = d3.select('#btn_ruler');
 
@@ -20,7 +20,8 @@ angular.module('bridge.directives')
 
         scope.svg.on('click', function(d) {
           if (rulerBtn.property('className').indexOf('toggleOn') > -1) {
-            origPos = rulerSet ? d3.mouse(this) : origPos;
+            origPos = rulerSet ? d3.mouse(translation[0][0]) : origPos;
+            origPos = origPos.map(p => p*scope.zoom.scale())
             rulerSet = !rulerSet;
           }
         });
@@ -28,7 +29,8 @@ angular.module('bridge.directives')
         scope.svg.on('mousemove', function(d) {
           if (rulerBtn.property('className').indexOf('toggleOn') > -1) {
             if (!rulerSet) {
-              var pos = d3.mouse(this);
+              var pos = d3.mouse(translation[0][0]);
+              pos = pos.map(p => p*scope.zoom.scale())
               var opposite = pos[1] - origPos[1];
               var adjacent = pos[0] - origPos[0];
               var angle = Math.atan(opposite / adjacent) / Math.PI * 180 || 0;
