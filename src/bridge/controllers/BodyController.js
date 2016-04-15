@@ -13,7 +13,7 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
+  .controller('bodyController', ['$scope', 'eventPump', 'simulator', 'User', function($scope, eventPump, simulator, User) {
     $scope.selectedBody = {};
     $scope.timestep = 40000;
     $scope.timestepUnits = 'seconds';
@@ -22,7 +22,7 @@ angular.module('bridge.controllers')
     $scope.uTime = 's';
     $scope.uLum  = 'L';
     $scope.simulator = simulator;
-    
+
 // ORBIT TRACKER FUNCTIONS
     this.selectCenterBody = function(){
         console.log($scope.selectedBody.name);
@@ -31,30 +31,30 @@ angular.module('bridge.controllers')
             $scope.simulator.simulationTime
         );
     };
-      
+
     this.selectTargetBody = function(){
         $scope.simulator.orbitTracker.setTargetBody(
             $scope.selectedBody,
             $scope.simulator.simulationTime
         );
     };
-    
+
     this.setState = function(state){
         $scope.simulator.orbitTracker.setState(state,$scope.simulator.simulationTime);
     };
-    
+
     this.getState = function() {
         return $scope.simulator.orbitTracker.running;
     };
 //
 
     this.updateBody = function(){
-      // TODO selectedBody is not updated from body directive
-      var b = $scope.selectedBody;
-      console.log(b);
-      simulator.updateBody(b.id, b);
+      if(User.current){
+        var b = $scope.selectedBody;
+        simulator.updateBody(b.id, b);
+      }
     };
-    
+
     this.updateStep = function() {
       if ($scope.timestepUnits === 'hours') {
         eventPump.timestep = $scope.timestep * 3600;
@@ -66,10 +66,12 @@ angular.module('bridge.controllers')
     };
 
     this.remove = function(id) {
-      $('#' + id).attr('r', 0);
-      simulator.deleteBody(id);
-      eventPump.step();
-      $('#right-sidebar').hide();
+      if(User.current){
+        $('#' + id).attr('r', 0);
+        simulator.deleteBody(id);
+        eventPump.step();
+        $('#right-sidebar').hide();
+      }
     };
 
     this.close = function() {
