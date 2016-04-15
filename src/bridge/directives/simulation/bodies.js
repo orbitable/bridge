@@ -24,6 +24,7 @@ angular.module('bridge.directives')
             .on('mousedown', function(d) {
               d3.event.stopPropagation();
               scope.selectedBody = d;
+              simulator.selectedBody = d;
               $('#right-sidebar').show();
             })
             .on('mouseover',function() {
@@ -42,7 +43,9 @@ angular.module('bridge.directives')
             .on('mousedown', function(d) {
               d3.event.stopPropagation();
               scope.selectedBody = d;
+              simulator.selectedBody = d;
               $('#right-sidebar').show();
+              
 
               lineData[d.id] = [];
             });
