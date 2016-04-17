@@ -15,12 +15,12 @@ angular.module('bridge.directives')
       controller: function($scope) {
 
         $scope.value = velocityFilter($scope.value, $scope.unit);
-        console.log($scope);
 
         $scope.$watch('unit', function(s){
           console.log("changed", s);
           $scope.value = velocityFilter($scope.value, $scope.unit);
         });
+        
         $scope.view = {
           editableValue: $scope.value,
           editorEnabled: false

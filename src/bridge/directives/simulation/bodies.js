@@ -2,7 +2,7 @@ var angular = require('angular');
 var d3 = require('d3');
 
 angular.module('bridge.directives')
-  .directive('bodies', ['eventPump', 'simulator', 'Scale', function(eventPump, simulator, Scale) {
+  .directive('bodies', ['eventPump', 'simulator', 'Scale', 'User', function(eventPump, simulator, Scale, User) {
     return {
       scope: false,
       link: function(scope, elem) {
@@ -15,15 +15,14 @@ angular.module('bridge.directives')
 
         // visually move body
         function dragmove(d){
-          if(eventPump.paused){
+          if(eventPump.paused && User.current){
             var pt = d3.mouse(bodies[0][0]);
-            d3.select(this).attr("cx", (pt[0]));
-            d3.select(this).attr("cy", (pt[1]));
+            d3.select(this).attr("cx", (pt[0])).attr("cy", (pt[1]));
           }
         }
 
         function sendBody(d) {
-          if(eventPump.paused){
+          if(eventPump.paused && User.current){
             var pt = d3.mouse(bodies[0][0]);
             var body = {
               position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
@@ -71,7 +70,7 @@ angular.module('bridge.directives')
               scope.selectedBody = d;
               simulator.selectedBody = d;
               $('#right-sidebar').show();
-              
+
 
               lineData[d.id] = [];
             });

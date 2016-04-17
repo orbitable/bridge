@@ -14,7 +14,7 @@
     <br>x<sup>1</sup>: <input ng-model="selectedBody.velocity.x" ng-change="b.updateBody()">{{uDist}}/{{uTime}}
     <br>y : <input ng-model="selectedBody.position.y" ng-change="b.updateBody()">
     <br>y<sup>1</sup>: <input ng-model="selectedBody.velocity.y" ng-change="b.updateBody()">{{uDist}}/{{uTime}}
-    <div class="text-center">
+    <div class="text-center" ng-hide="False">
       <button type="button" class="btn btn-default btn" ng-click="b.remove(selectedBody.id)">
         <span class="glyphicon glyphicon-trash"></span>
       </button>
