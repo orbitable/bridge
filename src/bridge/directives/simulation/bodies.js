@@ -37,11 +37,11 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
 
         function drawBodies(bodies) {
           bodies
-            .call(drag)
             .attr('cx', (d) => scope.xScale(d.position.x))
             .attr('cy', (d) => scope.yScale(d.position.y))
             .attr('r',  (d) => scope.rScale(d.radius))
             .attr('fill', (d) => d.color)
+            .call(drag)
             .on('mouseover',function() {
               d3.select(this)
                 .transition()
