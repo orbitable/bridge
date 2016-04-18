@@ -1,7 +1,7 @@
 var angular = require('angular');
 var d3 = require('d3');
 
-var VectorArrowDirective = function(eventPump, simulator) {
+var VectorArrowDirective = function(eventPump, simulator, User) {
   return {
     link: function(scope, elem) {
       var activeColor   = 'lightgray';
@@ -45,17 +45,26 @@ var VectorArrowDirective = function(eventPump, simulator) {
 
         var drag = d3.behavior.drag()
           .on('dragstart', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
+
             // Prevent drags from propagating ensuring only the vector arrow
             // responds ot to the drag actions
             d3.event.sourceEvent.stopPropagation();
           })
           .on('drag', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
+
             // Update position of velocity vector on drag
             d3.select(this)
               .attr('x2', d3.event.x)
               .attr('y2', d3.event.y);
           })
           .on('dragend', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
+
             // Update the velocity of the body at the end of the drag event.
             var pt = d3.mouse(this);
             var body = d3.select(this).data()[0];
@@ -77,12 +86,17 @@ var VectorArrowDirective = function(eventPump, simulator) {
           .attr('y2', sVY)
           .call(drag)
           .on('mouseover', function() {
-            console.log('over');
+            // Do nothing if not logged in
+            if (!User.current) { return; }
+
             d3.select(this)
               .transition()
               .style('stroke', activeColor);
           })
           .on('mouseout', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
+
             d3.select(this)
               .transition()
               .style('stroke', inactiveColor);
@@ -105,7 +119,7 @@ var VectorArrowDirective = function(eventPump, simulator) {
   };
 };
 
-VectorArrowDirective.$inject = ['eventPump', 'simulator'];
+VectorArrowDirective.$inject = ['eventPump', 'simulator', 'User'];
 
 angular.module('bridge.directives')
   .directive('vectors', VectorArrowDirective);
