@@ -44,6 +44,32 @@ angular.module('bridge.controllers')
       });
     };
 
+    this.addNote = function() {
+      var px, py = 0;
+      var bodies = d3.select('#bodies');
+
+      // add listener to svg
+      var svg = d3.select('#svg')
+      .on('mousemove', function() {
+        var pt = d3.mouse(bodies[0][0]);
+        drawGhostNote(bodies, pt[0], pt[1]);
+      })
+      .on('click', function() {
+
+        var pt = d3.mouse(bodies[0][0]);
+        var body = {
+          position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
+        };
+        simulator.addNote(body);
+        eventPump.step();
+
+        // clear listeners and ghost circle
+        svg.on('mousemove', null);
+        svg.on('click', null);
+        svg.selectAll('#ghost').remove();
+      });
+    };
+    
     // Used by addBody. draws a circle that follows cursor.
     function drawGhost(svg, x, y) {
       // select existing (at first this will be empty)
@@ -62,6 +88,28 @@ angular.module('bridge.controllers')
         'fill': 'white',
         'id': 'ghost',
         'opacity': '0.7',
+      });
+    }
+    
+      function drawGhostNote(svg, x, y) {
+      // select existing (at first this will be empty)
+      var ghost = svg.selectAll('#ghost');
+
+      //bind data. create ghost if it doesn't exist
+      ghost.data([[x,y]]).enter().append('rect').attr('id', 'ghost');
+      ghost.attr({
+        'x': function(d) {
+          return d[0]-16;
+        },
+        'y': function(d) {
+          return d[1]-10;
+        },
+        'width': 12,
+        'height': 12,
+        'fill-opacity': '0.0',
+        'id': 'ghost',
+        'stroke': 'grey',
+        'stroke-width':2,
       });
     }
 
