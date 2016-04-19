@@ -147,6 +147,35 @@
         </div>
       </div>
     </div>  <!-- end container -->
+    <div class="container" ng-controller="saveSimulationModalController">
+      <div id="save-sim-modal" class="modal fade" tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class='modal-header'>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class='modal-title'>Save Simulation</h4>
+            </div>
+            <div class='modal-body'>
+              <div ng-show="message !== null" class="alert" ng-class="{'alert-danger': didFail, 'alert-success': !didFail}" role="alert">
+                {{message}}
+              </div>
+              <form ng-submit='submit()'>
+                <div class='form-group'>
+                  <label for="save-title" class="">Title</label>
+                  <input id="save-title" ng-model="d.title" class="form-control" placeholder="Simulation Title">
+                </div>
+                <div class='form-group'>
+                  <label for="save-description" class="">Description</label>
+                  <textarea id='save-description' rows='7' ng-model="d.description" class="form-control" placeholder="A description of the simulation"></textarea>
+                </div>
+                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+                <a ng-click="submit()" ng-class='{disabled: isSaving}' class="btn btn-lg btn-primary btn-block" role="button">Save Simulation</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="dist/app.js" ></script>

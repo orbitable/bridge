@@ -66,10 +66,8 @@ angular.module('bridge.controllers')
     }
 
     this.save = function() {
-      Simulation.save({
-          bodies: simulator.bodies,
-          createdBy: User.current._id},
-        (payload) => $location.path('/s/' + payload._id));
+      eventPump.pause();
+      $('#save-sim-modal').modal('show');
     };
 
     this.tip = function() {
