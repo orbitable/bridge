@@ -34,6 +34,10 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         var bodies = bodyGroup
           .selectAll('circle')
           .data(data);
+          
+        function isSelected(body) {
+          return (body === scope.selectedBody);
+        }
 
         function drawBodies(bodies) {
           bodies
@@ -41,19 +45,20 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             .attr('cy', (d) => scope.yScale(d.position.y))
             .attr('r',  (d) => scope.rScale(d.radius))
             .attr('fill', (d) => d.color)
+            .attr('stroke', (d) => ( isSelected(d) ? 'white' : 'darkgrey' ))
+            .attr('stroke-width',(d) => ( isSelected(d) ? (scope.rScale(d.radius) + 30) : 0 ))
             .call(drag)
             .on('mouseover',function() {
               d3.select(this)
                 .transition()
                 .duration(500)
-                .attr('stroke', 'white')
-                .attr('stroke-width',(d) => (scope.rScale(d.radius)) + 30);
+                .attr('stroke-width',(d) => scope.rScale(d.radius) + 30);
             })
           .on('mouseout',function() {
             d3.select(this)
               .transition()
               .duration(500)
-              .attr('stroke-width',0);
+              .attr('stroke-width',(d) => ( isSelected(d) ? (scope.rScale(d.radius) + 30) : 0 ));
           })
           .on('mousedown', function(d) {
             d3.event.stopPropagation();
