@@ -33,7 +33,7 @@ angular.module('bridge.controllers')
     this.refresh = function() {
         Simulation.get({id: 'random'}, function(s) {
           simulator.reset(s.bodies);
-          eventPump.step();
+          eventPump.step(false,true);
           $('#right-sidebar').hide();
 
           // TODO: Global state is bad we need to resolve this

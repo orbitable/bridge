@@ -69,7 +69,7 @@ angular.module('bridge.controllers')
       if(User.current){
         $('#' + id).attr('r', 0);
         simulator.deleteBody(id);
-        eventPump.step();
+        eventPump.step(false,true);
         $('#right-sidebar').hide();
       }
     };
