@@ -18,7 +18,7 @@ angular.module('bridge.controllers')
 
     Simulation.get({id: $scope.simulationId}, function(simulation) {
       simulator.reset(simulation.bodies);
-      eventPump.step();
+      eventPump.step(false,true);
     });
   }
   ]);

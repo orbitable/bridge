@@ -40,9 +40,13 @@ EventPump.prototype.pause = function() {
     this.paused = true;
 };
 
-EventPump.prototype.step = function (continious) {
+EventPump.prototype.step = function (continious,pause) {
   var pump = this;
   continious = continious || false;
+  
+  if (pause || false) {
+    this.simulator.pauseFrame = true;
+  }
 
   var animationLoop = function(timestamp) {
     pump.observers.forEach( function(callback) {

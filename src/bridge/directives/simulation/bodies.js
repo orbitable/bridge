@@ -26,7 +26,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
             };
             simulator.updateBody(d.id, body);
-            eventPump.step();
+            eventPump.step(false,true);
           }
         });
 
@@ -36,7 +36,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           .data(data);
           
         function isSelected(body) {
-          return (body === scope.selectedBody);
+          return (body.id === scope.selectedBody.id);
         }
 
         function drawBodies(bodies) {
@@ -64,6 +64,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             d3.event.stopPropagation();
             scope.selectedBody = d;
             simulator.selectedBody = d;
+            eventPump.step(false,true);
             $('#right-sidebar').show();
 
             lineData[d.id] = [];
