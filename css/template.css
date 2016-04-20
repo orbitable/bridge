@@ -80,7 +80,16 @@ counter {
   top: 0;
   left: 100%;
 }
-
+.note
+{
+    color: #007bff;
+    border: solid 1px #99caff;
+    background-color: #b3d9ff;
+    border-radius: 6px;
+    padding: 7px 10px;
+    max-width: 25%;
+    position: absolute;
+}
 
 .axis text { display:  block; }
 
