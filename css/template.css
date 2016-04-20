@@ -82,13 +82,14 @@ counter {
 }
 .note
 {
-    color: #007bff;
-    border: solid 1px #99caff;
-    background-color: #b3d9ff;
+    color: #ffffff;
+    border: solid 1px #ffffff;
+    background-color: rgba(70,85,100,0.8);
     border-radius: 6px;
     padding: 7px 10px;
     max-width: 25%;
     position: absolute;
+    fill-opacity: 0.1;
 }
 
 .axis text { display:  block; }
