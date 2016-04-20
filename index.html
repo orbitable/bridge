@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="bridge">
+<html lang="en" ng-app="bridge" class="fill-height">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,172 +10,167 @@
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/template.css" rel="stylesheet">
   </head>
-  <body>
-    <div ng-controller="userController as u">
-      <div id="view" class="container-fluid" ng-controller="bodyController as b">
-        <nav class="navbar navbar-default navbar-fixed-top" ng-controller="navController">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">Orbitable</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse" >
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right" ng-show="user.current == null ">
-                <li><a data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
-                <li><a data-toggle="modal" data-target="#sign-in-modal">Sign In</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right" ng-hide="user.current == null">
-                <li>
-                  <a class="btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                    {{user.current.username}} <span class="glyphicon glyphicon-user"></span>
-                  </a>
-                </li>
-                <li>
-                  <a ng-click="user.logout()">Sign Out</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-        <div ng-view></div>
-        <div class="container narrow">
-          <div id="settings" class="modal fade " tabindex="-1" role="dialog" >
-            <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal"
-                          aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                          <h4 class="modal-title">Settings</h4>
-                </div>
-                <div class='modal-body'>
-                  <form class="form-settings">
-                    <h2 class="form-settings-heading">Timestep</h2>
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <input class="form-control" type="number" placeholder="" ng-model="timestep">
-                            </div>
-                            <fieldset class="form-group">
-                                <select class="form-control" id="exampleSelect1" ng-model="timestepUnits">
-                                    <option>seconds</option>
-                                    <option>hours</option>
-                                    <option>years</option>
-                                </select>
-                            </fieldset>
-                        </form>
-                    <button type="button" class="btn btn-primary btn-sm" ng-click="b.updateStep()">Save</button>
-                    <h2 class="form-settings-heading">Units</h2>
-                    <label for="distance">Distance</label>
-                    <select id="distance" ng-model="uDist" class="form-control">
-                      <option value="m" selected="selected">Meters (m)</option>
-                      <option value="km">Kilometers (km)</option>
-                      <option value="au">Astronomical Units (au)</option>
-                    </select>
-                    <label for="mass">Mass</label>
-                    <select id="mass" ng-model="uMass" class="form-control">
-                      <option value="kg" selected="selected">Kilograms (kg)</option>
-                      <option value="t">Metric ton (t)</option>
-                      <option value="M">Solar Mass(M☉)</option>
-                    </select>
-                    <label for="time">Time</label>
-                    <select ng-model="uTime" class="form-control">
-                      <option value="s" selected="selected">Seconds (s)</option>
-                      <option value="hr">Hours (hr)</option>
-                      <option value="y">Years (yr)</option>
-                    </select>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <body class="fill-height">
+    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="navController">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Orbitable</a>
       </div>
-      <div class="container narrow">
-        <div id="sign-in-modal" class="modal fade" tabindex="-1" role="dialog" ng-controller='signInModalController'>
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class="modal-body">
-                <form ng-submit="submit()" class="form-signin">
-                  <h2 class="form-signin-heading">Please Sign In</h2>
-                  <div ng-show="message" class="alert" ng-class="{'alert-danger': didFail, 'alert-info': !didFail}" role="alert">
-                    {{message}}
-                  </div>
-                  <label for="inputEmail" class="sr-only">Username</label>
-                  <input type="email" ng-model="user.username"  id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                  <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" ng-model="user.password" id="inputPassword" class="form-control" placeholder="Password" required>
-                  <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
-                  <a ng-click="submit()" ng-class='{disabled: isAuthenticating}' class="btn btn-lg btn-primary btn-block" role="button">Sign In</a>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div id="navbar" class="navbar-collapse collapse" >
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" ng-show="user.current == null ">
+          <li><a data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
+          <li><a data-toggle="modal" data-target="#sign-in-modal">Sign In</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" ng-hide="user.current == null">
+          <li>
+            <a class="btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+              {{user.current.username}} <span class="glyphicon glyphicon-user"></span>
+            </a>
+          </li>
+          <li>
+            <a ng-click="user.logout()">Sign Out</a>
+          </li>
+        </ul>
       </div>
-      <div class="container narrow" ng-controller="registerModalController">
-        <div id="sign-up-modal" class="modal fade" tabindex="-1" role="dialog" >
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class='modal-body'>
-                <form ng-submit='submit()' class="form-signin">
-                  <h2 class="form-signin-heading">Register</h2>
-                  <div ng-show="message !== null" class="alert" ng-class="{'alert-danger': didFail, 'alert-success': !didFail}" role="alert">
-                    {{message}}
-                  </div>
-                  <label for="inputName" class="sr-only">Username</label>
-                  <input id="inputName" ng-model="user.username" class="form-control" placeholder="Username" required autofocus>
-                  <label for="inputEmail" class="sr-only">Email address</label>
-                  <input type="email"  ng-model="user.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                  <label for="inputPassword" class="sr-only">Password</label>
-                  <input type="password" ng-model="user.password" id="inputPassword" class="form-control" placeholder="Password" required>
-                  <label for="confirmPassword" class="sr-only">Confirm Password</label>
-                  <input type="password" ng-model="user.passwordConfirm" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
-                  <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
-                  <a ng-click="submit()" ng-class='{disabled: isRegistering}' class="btn btn-lg btn-primary btn-block" role="button">Create User</a>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>  <!-- end container -->
-    <div class="container" ng-controller="saveSimulationModalController">
-      <div id="save-sim-modal" class="modal fade" tabindex="-1" role="dialog" >
-        <div class="modal-dialog modal-md">
+    </nav>
+    <div class="fill-height" ng-view></div>
+    <div class="container narrow">
+      <div id="settings" class="modal fade " tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-sm">
           <div class="modal-content">
-            <div class='modal-header'>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class='modal-title'>Save Simulation</h4>
+            <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"
+                      aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Settings</h4>
             </div>
             <div class='modal-body'>
-              <div ng-show="message !== null" class="alert" ng-class="{'alert-danger': didFail, 'alert-success': !didFail}" role="alert">
-                {{message}}
-              </div>
-              <form ng-submit='submit()'>
-                <div class='form-group'>
-                  <label for="save-title" class="">Title</label>
-                  <input id="save-title" ng-model="d.title" class="form-control" placeholder="Simulation Title">
-                </div>
-                <div class='form-group'>
-                  <label for="save-description" class="">Description</label>
-                  <textarea id='save-description' rows='7' ng-model="d.description" class="form-control" placeholder="A description of the simulation"></textarea>
-                </div>
-                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
-                <a ng-click="submit()" ng-class='{disabled: isSaving}' class="btn btn-lg btn-primary btn-block" role="button">Save Simulation</a>
+              <form class="form-settings">
+                <h2 class="form-settings-heading">Timestep</h2>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <input class="form-control" type="number" placeholder="" ng-model="timestep">
+                        </div>
+                        <fieldset class="form-group">
+                            <select class="form-control" id="exampleSelect1" ng-model="timestepUnits">
+                                <option>seconds</option>
+                                <option>hours</option>
+                                <option>years</option>
+                            </select>
+                        </fieldset>
+                    </form>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="b.updateStep()">Save</button>
+                <h2 class="form-settings-heading">Units</h2>
+                <label for="distance">Distance</label>
+                <select id="distance" ng-model="uDist" class="form-control">
+                  <option value="m" selected="selected">Meters (m)</option>
+                  <option value="km">Kilometers (km)</option>
+                  <option value="au">Astronomical Units (au)</option>
+                </select>
+                <label for="mass">Mass</label>
+                <select id="mass" ng-model="uMass" class="form-control">
+                  <option value="kg" selected="selected">Kilograms (kg)</option>
+                  <option value="t">Metric ton (t)</option>
+                  <option value="M">Solar Mass(M☉)</option>
+                </select>
+                <label for="time">Time</label>
+                <select ng-model="uTime" class="form-control">
+                  <option value="s" selected="selected">Seconds (s)</option>
+                  <option value="hr">Hours (hr)</option>
+                  <option value="y">Years (yr)</option>
+                </select>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div class="container narrow">
+    <div id="sign-in-modal" class="modal fade" tabindex="-1" role="dialog" ng-controller='signInModalController'>
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form ng-submit="submit()" class="form-signin">
+              <h2 class="form-signin-heading">Please Sign In</h2>
+              <div ng-show="message" class="alert" ng-class="{'alert-danger': didFail, 'alert-info': !didFail}" role="alert">
+                {{message}}
+              </div>
+              <label for="inputEmail" class="sr-only">Username</label>
+              <input type="email" ng-model="user.username"  id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input type="password" ng-model="user.password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+              <a ng-click="submit()" ng-class='{disabled: isAuthenticating}' class="btn btn-lg btn-primary btn-block" role="button">Sign In</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container narrow" ng-controller="registerModalController">
+    <div id="sign-up-modal" class="modal fade" tabindex="-1" role="dialog" >
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class='modal-body'>
+            <form ng-submit='submit()' class="form-signin">
+              <h2 class="form-signin-heading">Register</h2>
+              <div ng-show="message !== null" class="alert" ng-class="{'alert-danger': didFail, 'alert-success': !didFail}" role="alert">
+                {{message}}
+              </div>
+              <label for="inputName" class="sr-only">Username</label>
+              <input id="inputName" ng-model="user.username" class="form-control" placeholder="Username" required autofocus>
+              <label for="inputEmail" class="sr-only">Email address</label>
+              <input type="email"  ng-model="user.email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input type="password" ng-model="user.password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <label for="confirmPassword" class="sr-only">Confirm Password</label>
+              <input type="password" ng-model="user.passwordConfirm" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+              <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+              <a ng-click="submit()" ng-class='{disabled: isRegistering}' class="btn btn-lg btn-primary btn-block" role="button">Create User</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  <!-- end container -->
+  <div class="container" ng-controller="saveSimulationModalController">
+    <div id="save-sim-modal" class="modal fade" tabindex="-1" role="dialog" >
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class='modal-header'>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class='modal-title'>Save Simulation</h4>
+          </div>
+          <div class='modal-body'>
+            <div ng-show="message !== null" class="alert" ng-class="{'alert-danger': didFail, 'alert-success': !didFail}" role="alert">
+              {{message}}
+            </div>
+            <form ng-submit='submit()'>
+              <div class='form-group'>
+                <label for="save-title" class="">Title</label>
+                <input id="save-title" ng-model="d.title" class="form-control" placeholder="Simulation Title">
+              </div>
+              <div class='form-group'>
+                <label for="save-description" class="">Description</label>
+                <textarea id='save-description' rows='7' ng-model="d.description" class="form-control" placeholder="A description of the simulation"></textarea>
+              </div>
+              <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+              <a ng-click="submit()" ng-class='{disabled: isSaving}' class="btn btn-lg btn-primary btn-block" role="button">Save Simulation</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="dist/app.js" ></script>
