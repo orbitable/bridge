@@ -1,5 +1,12 @@
 <simulation></simulation>
 <div class="container-fluid">
+  <div id="notes" ng-controller="noteController">
+    <div ng-repeat="n in showNotes()">
+      <div>
+        <label class="note" style="top: {{yTransform(n.position.y)}}px; left:{{xTransform(n.position.x)}}px;">{{n.title}}<br/>{{n.text}} </label>
+      </div>
+    </div>
+  </div>
   <div id="right-sidebar">
     <div class="panel panel-default" body-data></div>
   </div>

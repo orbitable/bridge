@@ -26,19 +26,29 @@ angular.module('bridge.directives')
 
           scope.xScale = Scale.x;
           scope.yScale = Scale.y;
+          
+          scope.xTransform = function(x) {
+            return scope.xScale(x) * scope.zoom.scale() + scope.zoom.translate()[0];
+          }
+          
+          scope.yTransform = function(y) {
+            return scope.yScale(y) * scope.zoom.scale() + scope.zoom.translate()[1];
+          }
 
           scope.zoom = d3.behavior.zoom()
             .x(scope.windowXScale)
             .y(scope.windowYScale)
             .scaleExtent([0.1, 6]); // TODO: Pass scale extent as attributes
+            
 
           scope.zoom.on('zoom.translation', function() {
             translationGroup.attr('transform',
               'translate(' + d3.event.translate + ') scale(' + d3.event.scale + ')');
           });
-
+          
           scope.svg.call(scope.zoom.translate(scope.windowCenter).event);
           scope.svg.call(scope.zoom);
+          
         }
       },
       templateUrl: 'partials/simulation-directive.html'

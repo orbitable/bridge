@@ -79,15 +79,6 @@ angular.module('bridge.directives')
                         $('#right-sidebar').show();
                     });
             }
-            
-         // Draws the note information. This is when the note "pops up"
-        function drawShowNotes(notes) {
-                notes
-                    .attr('x', (d) => scope.xScale(d.position.x))
-                    .attr('y', (d) => scope.yScale(d.position.y))
-                    .attr('fill', 'white')
-                    .text( (d) =>  d.title + ": " + d.text);
-            }
 
 
           var bodies = bodyGroup
@@ -106,16 +97,6 @@ angular.module('bridge.directives')
           drawAllNotes(allNotes.enter().append('rect'));
           allNotes.exit().remove();
           
-          
-         var showNotes = bodyGroup
-          .selectAll('text')
-          .data(data.notes.filter(function(note) {
-              return note.check(simulator.simulationTime);
-          }));
-          
-          drawShowNotes(showNotes);
-          drawShowNotes(showNotes.enter().append('text'));
-          showNotes.exit().remove();
         }
 
         eventPump.register(() => update(simulator));
