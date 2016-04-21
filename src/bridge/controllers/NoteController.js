@@ -22,10 +22,10 @@ angular.module('bridge.controllers')
     };
     
     this.updateNote = function() {
-      if(User.current){
+      //if(User.current){
         var n = $scope.selectedBody;
         simulator.updateNote(n.id, n);
-      }
+      //}
     };
   
   }])
