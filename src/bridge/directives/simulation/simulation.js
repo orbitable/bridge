@@ -13,8 +13,8 @@ angular.module('bridge.directives')
 
           scope.height = svgElem.clientHeight;
           scope.width = svgElem.clientWidth;
-
-          Scale.setBoundingRect(scope.height, scope.width);
+          scope.scaleMin = Math.min(scope.height,scope.width);
+          Scale.setBoundingRect(scope.scaleMin,scope.scaleMin);
 
           scope.windowCenter = [scope.width / 2, scope.height / 2];
 
@@ -33,6 +33,11 @@ angular.module('bridge.directives')
           
           scope.yTransform = function(y) {
             return scope.yScale(y) * scope.zoom.scale() + scope.zoom.translate()[1];
+          }
+          
+          scope.rScale = function(r) {
+            return (Math.log((r + 14961) / 14960)) / Math.LN10
+
           }
 
           scope.zoom = d3.behavior.zoom()

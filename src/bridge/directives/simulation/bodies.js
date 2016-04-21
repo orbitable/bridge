@@ -1,37 +1,53 @@
 var angular = require('angular');
 var d3 = require('d3');
 
-angular.module('bridge.directives')
-  .directive('bodies', ['eventPump', 'simulator', function(eventPump, simulator) {
-    return {
-      selectedBody: '=',
-      link: function(scope, elem) {
+var BodiesDirective = function(eventPump, simulator, Scale, User) {
+  return {
+    scope: false,
+    link: function(scope, elem) {
 
-        var bodyGroup = d3.select(elem[0]);
+      var bodyGroup = d3.select(elem[0]);
+      var bodies = d3.select('#bodies');
 
-        function update(data) {
-          
+      // Set up dragging for the bodies
+      var drag = d3.behavior.drag()
+        .on('drag', function(d) {
+          if (eventPump.paused && User.current) {
+            var pt = d3.mouse(bodies[0][0]);
+            d3.select(this)
+              .attr('cx', (pt[0]))
+              .attr('cy', (pt[1]));
+          }
+        })
+        .on('dragend', function(d) {
+          if (eventPump.paused && User.current) {
+            var pt = d3.mouse(bodies[0][0]);
+            var body = {
+              position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
+            };
+            simulator.updateBody(d.id, body);
+            eventPump.step();
+          }
+        });
+
+      function update(data) {
+
         function drawBodies(bodies) {
-            bodies
+          bodies
             .attr('cx', (d) => scope.xScale(d.position.x))
             .attr('cy', (d) => scope.yScale(d.position.y))
-            .attr('r',  (d) => (Math.log((d.radius + 14961) / 14960)) / Math.LN10)
+            .attr('r',  (d) => scope.rScale(d.radius))
             .attr('fill', (d) => d.color)
-            .on('mousedown', function(d) {
-              d3.event.stopPropagation();
-              scope.selectedBody = d;
-              $('#right-sidebar').show();
-              $('#note-sidebar').hide();
-            })
+            .call(drag)
             .on('mouseover',function() {
               d3.select(this)
-              .transition()
-              .duration(500)
-              .attr('stroke', 'white')
-              .attr('stroke-width',(d) => ((Math.log((d.radius + 14961) / 14960)) / Math.LN10) + 30);
+                .transition()
+                .duration(500)
+                .attr('stroke', 'white')
+                .attr('stroke-width',(d) => (scope.rScale(d.radius)) + 30);
             })
-            .on('mouseout',function() {
-              d3.select(this)
+          .on('mouseout',function() {
+            d3.select(this)
               .transition()
               .duration(500)
               .attr('stroke-width',0);
@@ -106,5 +122,12 @@ angular.module('bridge.directives')
 
         eventPump.register(() => update(simulator));
       }
-    };
-  }]);
+    }
+};
+
+// List dependencies to be injected
+BodiesDirective.$inject = ['eventPump', 'simulator', 'Scale', 'User'];
+
+// Register Directive
+angular.module('bridge.directives')
+  .directive('bodies', BodiesDirective);

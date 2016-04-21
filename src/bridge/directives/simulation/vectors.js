@@ -1,112 +1,125 @@
 var angular = require('angular');
 var d3 = require('d3');
 
-angular.module('bridge.directives')
-  .directive('vectors', ['eventPump', 'simulator', '$log', function(eventPump, simulator, $log) {
-    return {
-      link: function(scope, elem) {
+var VectorArrowDirective = function(eventPump, simulator, User) {
+  return {
+    link: function(scope, elem) {
+      var activeColor   = 'lightgray';
+      var inactiveColor = 'gray';
 
-        var vectorGroup = d3.select(elem[0])
-            .attr('id', 'vectorGroup');
+      var vectorGroup = d3.select(elem[0])
+        .attr('id', 'vectorGroup');
 
-        // Render the vectors
-        function getVectorData(index, body) {
+      // Draw a arrow to use as a end marker for vector arrows
+      vectorGroup.append('defs')
+        .append('marker')
+        .attr('id', 'arrow')
+        .attr('viewBox', '0 0 10 10')
+        .attr('refX', 0)
+        .attr('refY', 5)
+        .attr('markerUnits', 'strokeWidth')
+        .style('stroke', inactiveColor)
+        .style('fill', inactiveColor)
+        .attr('markerWidth', 1)
+        .attr('markerHeight', 1)
+        .attr('orient', 'auto')
+        .append('path')
+        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
 
-          var bodyPosition = {
-            x: scope.xScale(body.position.x),
-            y: scope.yScale(body.position.y),
-          };
-          var bodyVelocity = {
-            x: body.velocity.x / 1000,
-            y: body.velocity.y / 1000
-          };
+      function drawVector(vector) {
+        // Scale factors
+        var vF = 1000;
 
-          var bodyRadius = (Math.log((body.radius + 14961) / 14960)) / Math.LN10;
+        var sR = (b) => scope.rScale(b.radius);
 
-          var x1 = bodyPosition.x;
-          var x2 = (bodyPosition.x + bodyVelocity.x) + bodyRadius * 2;
-          var y1 = bodyPosition.y;
-          var y2 = (bodyPosition.y + bodyVelocity.y) + bodyRadius * 2;
+        // Scaling functions for position
+        var sPX = (b) => scope.xScale(b.position.x);
+        var sPY = (b) => scope.yScale(b.position.y);
 
-          //  d3.select('svg').on('mousedown.zoom',null);
-          // zoom.on("zoom",null);
-          // selection.call(zoom);
+        // Scaling functions for velocity
+        var sVX  = (b) => scope.xScale(b.position.x) + (b.velocity.x / vF);
+        var sVXi = (b, x) => (x - scope.xScale(b.position.x)) * vF;
 
-          var dragLine = d3.behavior.drag()
-                .on('dragstart', function() {
-                  d3.select('svg').on('mousedown.zoom',null);
-                d3.select(this).style('stroke', 'white'); })
-                .on('drag', function() {
-                  d3.select(this).attr('x2', d3.event.x);
-                  d3.select(this).attr('y2', d3.event.y);
+        var sVY  = (b) => scope.yScale(b.position.y) + (b.velocity.y / vF);
+        var sVYi = (b, y) => (y - scope.xScale(b.position.y)) * vF;
 
-                  simulator.bodies[index].update({
-                    velocity: {
-                      x: (d3.event.x - (bodyPosition.x) - bodyRadius * 2) * 1000,
-                      y: (d3.event.y - (bodyPosition.y) - bodyRadius * 2) * 1000
-                    }
-                  });
-                })
-                .on('dragend', function() {
-                  scope.svg.call(scope.zoom);
-                  d3.select(this).style('stroke', 'grey');
-                  $log.debug(d3.select(this).attr('id'));
-                  $log.debug(d3.select(this).attr('x2'));
-                  $log.debug(d3.select(this).attr('y2'));
-                });
+        var drag = d3.behavior.drag()
+          .on('dragstart', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
 
-          // Draw an arrow to use for lines
-          vectorGroup.append('defs')
-              .append('marker')
-              .attr('id', 'arrow')
-              .attr('viewBox', '0 0 10 10')
-              .attr('refX', 0)
-              .attr('refY', 5)
-              .attr('markerUnits', 'strokeWidth')
-              .style('stroke', 'grey')
-              .style('fill', 'grey')
-              .attr('markerWidth', 1)
-              .attr('markerHeight', 1)
-              .attr('orient', 'auto')
-              .append('path')
-              .attr('d', 'M 0 0 L 10 5 L 0 10 z');
+            // Prevent drags from propagating ensuring only the vector arrow
+            // responds ot to the drag actions
+            d3.event.sourceEvent.stopPropagation();
+          })
+          .on('drag', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
 
-          vectorGroup.append('svg:line')
-              .attr('class', 'draggableLine')
-              .attr('id', index)
-              .attr('x1', x1)
-              .attr('x2', x2)
-              .attr('y1', y1)
-              .attr('y2', y2)
-              .on('mousedown', function(d) {
-                d3.event.stopPropagation();
-                scope.selectedBody = body;
-                $('#right-sidebar').show();
-              })
-              .call(dragLine)
-              .style('stroke', 'grey')
-              .attr('stroke-width', bodyRadius * 2)
-              .attr('marker-end', 'url(\#arrow)')
-              .on('mouseup', function(d) {
-                // body.velocity.x = ((d3.select(this).attr('x2')*1000)*1496000000);
-                // body.velocity.y = ((d3.select(this).attr('y2')*1000)*1496000000);
-                // d3.event.stopPropagation();
-                scope.selectedBody = body;
-                $('#right-sidebar').show();
-              });
+            // Update position of velocity vector on drag
+            d3.select(this)
+              .attr('x2', d3.event.x)
+              .attr('y2', d3.event.y);
+          })
+          .on('dragend', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
 
-        }
+            // Update the velocity of the body at the end of the drag event.
+            var pt = d3.mouse(this);
+            var body = d3.select(this).data()[0];
+            var v = {
+              x: sVXi(body, pt[0]),
+              y: sVYi(body, pt[1]),
+            };
 
-        eventPump.register(function() {
-          simulator.bodies.forEach(function(body) {
-            if (eventPump.paused) {
-              getVectorData(simulator.bodies.indexOf(body),body);
-            } else {
-              vectorGroup.selectAll('*').remove();
-            }
+            body.update({velocity: v});
           });
 
-        });
+        vector
+          .style('stroke', inactiveColor)
+          .attr('stroke-width', (d) => sR(d) * 1.1)
+          .attr('marker-end', 'url(\#arrow)')
+          .attr('x1', sPX)
+          .attr('y1', sPY)
+          .attr('x2', sVX)
+          .attr('y2', sVY)
+          .call(drag)
+          .on('mouseover', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
+
+            d3.select(this)
+              .transition()
+              .style('stroke', activeColor);
+          })
+          .on('mouseout', function() {
+            // Do nothing if not logged in
+            if (!User.current) { return; }
+
+            d3.select(this)
+              .transition()
+              .style('stroke', inactiveColor);
+          });
       }
-    };
-  }]);
+
+      function update(data) {
+        data = eventPump.paused ? data : [];
+        var vectors = vectorGroup
+          .selectAll('line')
+          .data(data);
+
+        drawVector(vectors);
+        drawVector(vectors.enter().append('line'));
+        vectors.exit().remove();
+      }
+
+      eventPump.register(() => update(simulator.bodies));
+    }
+  };
+};
+
+VectorArrowDirective.$inject = ['eventPump', 'simulator', 'User'];
+
+angular.module('bridge.directives')
+  .directive('vectors', VectorArrowDirective);

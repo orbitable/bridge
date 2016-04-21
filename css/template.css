@@ -62,6 +62,16 @@ g {
   text-align: left;
 }
 
+#tracker-sidebar{
+  width: 100%
+  height: 100%;
+  padding: 0% 0%; /* adds north and south padding to "center" */
+  position: fixed;
+  bottom: 0%;
+  right: 0%;
+  text-align: center;
+}
+
 counter {
   width: 100%;
   height: 100%;
@@ -154,6 +164,12 @@ counter {
   border-color: #464545;
 }
 
+.btn-light {
+  background-color: #464545;
+  border-color: #464545;
+  color: white;
+}
+
 
 .navbar {
   /*background-color: #375a7f;*/
@@ -181,4 +197,8 @@ counter {
 
 .form-signin-heading{
   font-family: Helvetica;
+}
+
+button, input, optgroup, select, textarea {
+  color: black;
 }
