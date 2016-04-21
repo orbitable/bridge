@@ -82,12 +82,10 @@ angular.module('bridge.controllers')
     };
     
     this.updateNote = function() {
-      // if(User.current){
-        
+      if(User.current){
         var n = $scope.selectedBody;
-        console.log(n.toString());
         simulator.updateNote(n.id, n);
-      // }
+      }
     };
 
     this.close = function() {
