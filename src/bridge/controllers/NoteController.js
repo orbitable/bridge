@@ -1,5 +1,5 @@
 angular.module('bridge.controllers')
-  .controller('noteController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
+  .controller('noteController', ['$scope',  'simulator', function($scope,  simulator) {
 
     $scope.notePause = false;
     
@@ -17,7 +17,7 @@ angular.module('bridge.controllers')
       console.log("removeNote: " + id);
       $('#' + id).attr('stroke-width', 0);
       simulator.deleteNote(id);
-      eventPump.step(false,true);
+      //eventPump.step(false,true);
       $('#note-sidebar').hide();
     };
     
