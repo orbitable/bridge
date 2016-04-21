@@ -36,7 +36,11 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           .data(data);
           
         function isSelected(body) {
-          return (body.id === scope.selectedBody.id);
+          if (body && scope.selectedBody ) {
+            return body.id === scope.selectedBody.id;
+          }
+
+          return false;
         }
 
         function drawBodies(bodies) {
