@@ -13,8 +13,9 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('userController', ['$scope', 'eventPump', 'Simulation', 'simulator', 'User',  function($scope, eventPump, Simulation, simulator, User) {
-    $scope.pump = 'play';
+  .controller('userController', ['$scope', '$routeParams', 'eventPump', 'Simulation', 'simulator', 'User',  function($scope, $routeParams, eventPump, Simulation, simulator, User) {
+    $scope.pump = eventPump.paused ? 'play' : 'pause';
+    $scope.User = User;
 
     this.togglePlay = function() {
         if (eventPump.paused) {
@@ -31,19 +32,19 @@ angular.module('bridge.controllers')
       };
 
     this.refresh = function() {
-        Simulation.get({id: 'random'}, function(s) {
-          simulator.reset(s.bodies);
-          eventPump.step(false,true);
-          $('#right-sidebar').hide();
+        Simulation.get({
+          id: $routeParams.simulationId || 'random'},
+          function(s) {
+            simulator.reset(s.bodies);
+            eventPump.step(false,true);
+            $('#right-sidebar').hide();
 
-          // TODO: Global state is bad we need to resolve this
-          //
-          // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
-          // to capture adding a composite object to collect rendering objects.
-          lineData = [];
-          pathIndex = [];
-
-        });
+            // TODO: Global state is bad we need to resolve this
+            //
+            // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
+            // to capture adding a composite object to collect rendering objects.
+            lineData = [];
+          });
       };
 
     this.ruler = function() {
