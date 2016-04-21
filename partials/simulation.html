@@ -4,10 +4,10 @@
     <div ng-repeat="n in showNotes()">
       <div>
         <div class="note" style="top: {{yTransform(n.position.y)}}px; left:{{xTransform(n.position.x)}}px;">
-          <div class="panel-heading text-center">
-            <b>{{n.title}}</b>
+          <div>
+            <h4>{{n.title}}</h4>
           </div>
-          <div class="panel-body">
+          <div>
             {{n.text}} 
           </div>
         </div>
@@ -16,6 +16,9 @@
   </div>
   <div id="right-sidebar">
     <div class="panel panel-default" body-data></div>
+  </div>
+  <div id="note-sidebar">
+    <div class="panel panel-default" note-data></div>
   </div>
   <div id="left-sidebar">
     <nav ng-controller="userController as u">

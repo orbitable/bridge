@@ -44,6 +44,7 @@ angular.module('bridge.controllers')
       });
     };
 
+
     this.addNote = function() {
       var px, py = 0;
       var bodies = d3.select('#bodies');
@@ -99,10 +100,10 @@ angular.module('bridge.controllers')
       ghost.data([[x,y]]).enter().append('rect').attr('id', 'ghost');
       ghost.attr({
         'x': function(d) {
-          return d[0]-16;
+          return d[0]-6;
         },
         'y': function(d) {
-          return d[1]-10;
+          return d[1]-6;
         },
         'width': 12,
         'height': 12,

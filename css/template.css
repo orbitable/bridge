@@ -51,6 +51,17 @@ g {
   right: 0%;
   text-align: left;
 }
+
+#note-sidebar{
+  width: 100%
+  height: 100%;
+  max-width: 25%;
+  padding: 10% 0; /* adds north and south padding to "center" */
+  position: fixed;
+  right: 0%;
+  text-align: left;
+}
+
 counter {
   width: 100%;
   height: 100%;
@@ -84,12 +95,11 @@ counter {
 {
     color: #ffffff;
     border: solid 1px #ffffff;
-    background-color: rgba(70,85,100,0.8);
-    border-radius: 6px;
+    background-color: rgba(70,85,100,0.6);
+    border-radius: 0px;
     padding: 7px 10px;
     max-width: 25%;
     position: absolute;
-    fill-opacity: 0.1;
 }
 
 .axis text { display:  block; }

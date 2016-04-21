@@ -21,6 +21,7 @@ angular.module('bridge.directives')
               d3.event.stopPropagation();
               scope.selectedBody = d;
               $('#right-sidebar').show();
+              $('#note-sidebar').hide();
             })
             .on('mouseover',function() {
               d3.select(this)
@@ -39,6 +40,7 @@ angular.module('bridge.directives')
               d3.event.stopPropagation();
               scope.selectedBody = d;
               $('#right-sidebar').show();
+              $('#note-sidebar').hide();
 
               lineData[d.id] = [];
             });
@@ -49,15 +51,17 @@ angular.module('bridge.directives')
             // TODO: This should only draw for admin users
             function drawAllNotes(notes) {
                 notes
-                    .attr('x', (d) => scope.xScale(d.position.x)-16)
-                    .attr('y', (d) => scope.yScale(d.position.y)-10)
+                    .attr('x', (d) => scope.xScale(d.position.x)-6)
+                    .attr('y', (d) => scope.yScale(d.position.y)-6)
                     .attr('height',  12)
                     .attr('width',  12)
-                    .attr('style',"stroke:grey;stroke-width:2;fill-opacity:0.0;stroke-opacity:1.0")
+                    .attr('fill-opacity','0.0')
+                    .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
                         scope.selectedBody = d;
-                        $('#right-sidebar').show();
+                        $('#note-sidebar').show();
+                        $('#right-sidebar').hide();
                     })
                     .on('mouseover',function() {
                         d3.select(this)
@@ -76,7 +80,8 @@ angular.module('bridge.directives')
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
                         scope.selectedBody = d;
-                        $('#right-sidebar').show();
+                        $('#note-sidebar').show();
+                        $('#right-sidebar').hide();
                     });
             }
 

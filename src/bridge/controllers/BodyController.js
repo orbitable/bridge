@@ -38,9 +38,17 @@ angular.module('bridge.controllers')
       eventPump.step();
       $('#right-sidebar').hide();
     };
+    
+    this.removeNote = function(id) {
+      $('#' + id).attr('stroke-width', 0);
+      simulator.deleteNote(id);
+      eventPump.step();
+      $('#note-sidebar').hide();
+    };
 
     this.close = function() {
       $('#right-sidebar').hide();
+      $('#note-sidebar').hide();
     };
 
   }
