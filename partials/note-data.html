@@ -2,7 +2,7 @@
   <button type="button" class="close" aria-label="Close" ng-click="b.close()")"><span>&times;</span></button>
     Note
 </div>
-<div class="panel-body">
+<div class="panel-body" ng-controller="noteController as b">
   <div class="input-group">
     <span class="input-group-addon" id="title-input">Title:</span>
     <input type="text" class="form-control" placeholder="{{selectedBody.title}}" aria-describedby="title-input" ng-model="selectedBody.title" ng-change="b.updateNote()">

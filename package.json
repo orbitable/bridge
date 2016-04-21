@@ -41,7 +41,7 @@
     "angular-route": "^1.5.3",
     "bootstrap": "^3.3.6",
     "d3": "^3.5.16",
-    "engine": "git+https://github.com/orbitable/engine.git#0.1.7",
+    "engine": "git+https://github.com/orbitable/engine.git#0.1.9",
     "jquery": "^2.2.1"
   }
 }

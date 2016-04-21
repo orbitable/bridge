@@ -1,5 +1,5 @@
 <simulation></simulation>
-<div class="container-fluid" ng-controller="trackerController as t">
+<div class="container-fluid">
   <div id="notes" ng-controller="noteController">
     <div ng-repeat="n in showNotes()">
       <div>
@@ -20,7 +20,7 @@
   <div id="note-sidebar">
     <div class="panel panel-default" note-data></div>
   </div>
-    <div id="tracker-sidebar" style="visibility:hidden">
+    <div id="tracker-sidebar" style="visibility:hidden" ng-controller="trackerController as t">
             <div class="panel panel-default">
                 <div class="panel-heading text-center"><b>Orbit Tracker</b></div>
                 <div class="panel">

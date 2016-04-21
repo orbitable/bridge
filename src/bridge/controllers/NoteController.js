@@ -1,5 +1,5 @@
 angular.module('bridge.controllers')
-  .controller('noteController', ['$scope', 'simulator', function($scope, simulator) {
+  .controller('noteController', ['$scope', 'eventPump', 'simulator', function($scope, eventPump, simulator) {
 
     $scope.notePause = false;
     
@@ -11,6 +11,21 @@ angular.module('bridge.controllers')
         }
         return n.check(simulator.simulationTime);
       });
+    };
+    
+    this.removeNote = function(id) {
+      console.log("removeNote: " + id);
+      $('#' + id).attr('stroke-width', 0);
+      simulator.deleteNote(id);
+      eventPump.step(false,true);
+      $('#note-sidebar').hide();
+    };
+    
+    this.updateNote = function() {
+      if(User.current){
+        var n = $scope.selectedBody;
+        simulator.updateNote(n.id, n);
+      }
     };
   
   }])

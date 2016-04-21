@@ -17,8 +17,13 @@ angular.module('bridge.controllers')
     $scope.simulationId = $routeParams.simulationId;
 
     Simulation.get({id: $scope.simulationId}, function(simulation) {
+      
+      // Update the document title with the simulation title
+      document.title = 'Oribitable - ' + simulation.title;
+
+      // Update the simulator with the data
       simulator.reset(simulation.bodies);
-      eventPump.step();
+      eventPump.step(false,true);
     });
   }
   ]);
