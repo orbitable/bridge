@@ -45,6 +45,15 @@ angular.module('bridge.controllers')
       eventPump.step();
       $('#note-sidebar').hide();
     };
+    
+    this.updateNote = function() {
+      // if(User.current){
+        
+        var n = $scope.selectedBody;
+        console.log(n.toString());
+        simulator.updateNote(n.id, n);
+      // }
+    };
 
     this.close = function() {
       $('#right-sidebar').hide();

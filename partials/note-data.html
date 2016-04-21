@@ -1,0 +1,33 @@
+<div class="panel-heading text-center">
+  <button type="button" class="close" aria-label="Close" ng-click="b.close()")"><span>&times;</span></button>
+    Note
+</div>
+<div class="panel-body">
+  <div class="input-group">
+    <span class="input-group-addon" id="title-input">Title:</span>
+    <input type="text" class="form-control" placeholder="{{selectedBody.title}}" aria-describedby="title-input" ng-model="selectedBody.title" ng-change="b.updateNote()">
+  </div><br>
+  <div class="input-group">
+    <span class="input-group-addon" id="text-input">Text:</span>
+    <textarea type="text" rows = "3" class="form-control" placeholder="{{selectedBody.text}}" aria-describedby="text-input" ng-model="selectedBody.text" ng-change="b.updateNote()"></textarea>
+  </div><br>
+  <div class="input-group">
+    <span class="input-group-addon" id="startTime-input">Start Time:</span>
+    <input type="text" class="form-control" placeholder="{{selectedBody.startTime}}" aria-describedby="startTime-input" ng-model="selectedBody.startTime" ng-change="b.updateNote()">
+  </div><br>
+  <div class="input-group">
+    <span class="input-group-addon" id="duration-input">Duration:</span>
+    <input type="text" class="form-control" placeholder="{{selectedBody.duration}}" aria-describedby="duration-input" ng-model="selectedBody.duration" ng-change="b.updateNote()">
+  </div><br>
+  <div class="input-group">
+    <span class="input-group-addon" id="positionX-input">Position X:</span>
+    <input type="text" class="form-control" placeholder="{{selectedBody.position.x}}" aria-describedby="positionX-input" ng-model="selectedBody.position.x" ng-change="b.updateNote()">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon" id="positionY-input">Position Y:</span>
+    <input type="text" class="form-control" placeholder="{{selectedBody.position.y}}" aria-describedby="positionY-input" ng-model="selectedBody.position.y" ng-change="b.updateNote()">
+  </div><br>
+  <div class="text-center"><button type="button" class="btn btn-default btn" ng-click="b.removeNote(selectedBody.id)">
+    <span class="glyphicon glyphicon-trash"></span> </button> 
+  </div>
+</div>
