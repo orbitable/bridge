@@ -31,19 +31,13 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         });
 
       function update(data) {
-          
-          
-          // TODO: This is messy, will clean up
+           
         function isSelected(body) {
-          if (scope.selectedBody == null) {
-            return false;
-          } else {
-            if (scope.selectedBody.mass == null) {
-              return false;
-            } else {
-              return (body.id === scope.selectedBody.id);
-            }
+          if (body && scope.selectedBody ) {
+            return body.id === scope.selectedBody.id;
           }
+
+          return false;
         }
 
         function drawBodies(bodies) {
