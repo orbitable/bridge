@@ -73,5 +73,6 @@ angular.module('bridge.controllers')
 
     this.close = function() {
       $('#right-sidebar').hide();
+      $('#note-sidebar').hide();
     };
   }]);

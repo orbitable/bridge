@@ -33,10 +33,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         });
 
       function update(data) {
-        var bodies = bodyGroup
-          .selectAll('circle')
-          .data(data);
-          
+           
         function isSelected(body) {
           if (body && scope.selectedBody ) {
             return body.id === scope.selectedBody.id;
@@ -65,26 +62,80 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               .transition()
               .duration(500)
               .attr('stroke-width',(d) => ( isSelected(d) ? (scope.rScale(d.radius) + 30) : 0 ));
-          })
-          .on('mousedown', function(d) {
-            d3.event.stopPropagation();
-            scope.selectedBody = d;
-            simulator.selectedBody = d;
-            $('#right-sidebar').show();
+            })
+            .on('mousedown', function(d) {
+              d3.event.stopPropagation();
+              scope.selectedBody = d;
+              simulator.selectedBody = d;
+              eventPump.step(false,true);
+              $('#right-sidebar').show();
+              $('#note-sidebar').hide();
 
-            eventPump.step(false,true);
-            lineData[d.id] = [];
-          });
+              lineData[d.id] = [];
+            });
+
+          }
+
+            // This draws the note markers
+            // TODO: This should only draw for admin users
+            function drawAllNotes(notes) {
+                notes
+                    .attr('x', (d) => scope.xScale(d.position.x)-6)
+                    .attr('y', (d) => scope.yScale(d.position.y)-6)
+                    .attr('height',  12)
+                    .attr('width',  12)
+                    .attr('fill-opacity','0.0')
+                    .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
+                    .on('mousedown', function(d) {
+                        d3.event.stopPropagation();
+                        scope.selectedBody = d;
+                        $('#note-sidebar').show();
+                        $('#right-sidebar').hide();
+                    })
+                    .on('mouseover',function() {
+                        d3.select(this)
+                        .transition()
+                        .duration(500)
+                        .attr('stroke', 'white')
+                        .attr('stroke-width', 3);
+                    })
+                    .on('mouseout',function() {
+                        d3.select(this)
+                        .transition()
+                        .duration(500)
+                        .attr('stroke', 'grey')
+                        .attr('stroke-width', 1);
+                    })
+                    .on('mousedown', function(d) {
+                        d3.event.stopPropagation();
+                        scope.selectedBody = d;
+                        $('#note-sidebar').show();
+                        $('#right-sidebar').hide();
+                    });
+            }
+
+
+          var bodies = bodyGroup
+          .selectAll('circle')
+          .data(data.bodies);
+
+          drawBodies(bodies);
+          drawBodies(bodies.enter().append('circle'));
+          bodies.exit().remove();
+          
+         var allNotes = bodyGroup
+          .selectAll('rect')
+          .data(data.notes);
+          
+          drawAllNotes(allNotes);
+          drawAllNotes(allNotes.enter().append('rect'));
+          allNotes.exit().remove();
+          
         }
 
-        drawBodies(bodies);
-        drawBodies(bodies.enter().append('circle'));
-        bodies.exit().remove();
+        eventPump.register(() => update(simulator));
       }
-
-      eventPump.register(() => update(simulator.bodies));
     }
-  };
 };
 
 // List dependencies to be injected
