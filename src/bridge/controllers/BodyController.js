@@ -25,7 +25,6 @@ angular.module('bridge.controllers')
 
 // ORBIT TRACKER FUNCTIONS
     this.selectCenterBody = function(){
-        console.log($scope.selectedBody.name);
         $scope.simulator.orbitTracker.setCenterBody(
             $scope.selectedBody,
             $scope.simulator.simulationTime
@@ -76,6 +75,7 @@ angular.module('bridge.controllers')
 
     this.close = function() {
       $('#right-sidebar').hide();
+      $('#note-sidebar').hide();
     };
 
   }

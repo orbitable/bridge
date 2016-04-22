@@ -38,6 +38,7 @@ angular.module('bridge.controllers')
             simulator.reset(s.bodies);
             eventPump.step(false,true);
             $('#right-sidebar').hide();
+            $('#note-sidebar').hide();
 
             // TODO: Global state is bad we need to resolve this
             //
