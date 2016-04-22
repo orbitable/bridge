@@ -70,9 +70,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             d3.event.stopPropagation();
             scope.selectedBody = d;
             simulator.selectedBody = d;
-            eventPump.step(false,true);
             $('#right-sidebar').show();
 
+            eventPump.step(false,true);
             lineData[d.id] = [];
           });
         }

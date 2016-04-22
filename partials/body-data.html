@@ -1,22 +1,85 @@
+<div class="panel panel-default">
   <div class="panel-heading text-center">
     <button type="button" class="close" aria-label="Close" ng-click="b.close()">
       <span>&times;</span>
     </button>
-    {{selectedBody.name}}
+    <h3 class="panel-title">{{selectedBody.name}}</h3>
   </div>
   <div class="panel-body">
-    radius: <input ng-model="selectedBody.radius" ng-change="b.updateBody()"> {{uDist}}
-    <br>mass: <input ng-model="selectedBody.mass" ng-change="b.updateBody()"> {{uMass}}
-    <span ng-show="selectedBody.luminosity">
-      <br>luminosity: <input ng-model="selectedBody.luminosity" ng-change="b.updateBody()"> {{uLum}}
-    </span>
-    <br>x : <input ng-model="selectedBody.position.x" ng-change="b.updateBody()">
-    <br>x<sup>1</sup>: <input ng-model="selectedBody.velocity.x" ng-change="b.updateBody()">{{uDist}}/{{uTime}}
-    <br>y : <input ng-model="selectedBody.position.y" ng-change="b.updateBody()">
-    <br>y<sup>1</sup>: <input ng-model="selectedBody.velocity.y" ng-change="b.updateBody()">{{uDist}}/{{uTime}}
-    <div class="text-center" ng-hide="False">
-      <button type="button" class="btn btn-default btn" ng-click="b.remove(selectedBody.id)">
-        <span class="glyphicon glyphicon-trash"></span>
-      </button>
+    <form>
+      <div class='form-group'>
+        <label for='radius'>Radius</label>
+        <div class='input-group'>
+          <input id='radius' class='form-control input-sm' 
+            ng-model="selectedBody.radius" ng-change='b.updateBody(selectedBody)'>
+          <div class='input-group-addon'>km</div>
+        </div>
+      </div>
+      <div class='form-group'>
+        <label for='mass'>Mass</label>
+        <div class='input-group'>
+          <input id='mass' class='form-control input-sm' 
+            ng-model="selectedBody.mass"  ng-change='b.updateBody(selectedBody)'>
+          <div class='input-group-addon'>kg</div>
+        </div>
+      </div>
+      <div class='form-group'>
+        <label for='luminosity'>Luminosity</label>
+        <div class='input-group'>
+          <input id='luminosity' class='form-control input-sm'
+            ng-model="selectedBody.luminosity" ng-change='b.updateBody(selectedBody)'>
+        </div>
+      </div>
+      <h4>Position</h4>
+      <div class='form-group'>
+        <div class='input-group'>
+          <div class='input-group-addon'>x</div>
+          <input id='positionx' class='form-control input-sm'
+            ng-model="selectedBody.position.x" ng-change='b.updateBody(selectedBody)'>
+          <div class='input-group-addon'>m</div>
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='input-group'>
+          <div class='input-group-addon'>y</div>
+          <input id='positiony' class='form-control input-sm'
+            ng-model="selectedBody.position.y" ng-change='b.updateBody(selectedBody)'>
+          <div class='input-group-addon'>m</div>
+        </div>
+      </div>
+      <h4>Velocity</h4>
+      <div class='form-group'>
+        <div class='input-group'>
+          <div class='input-group-addon'>x</div>
+          <input id='velocityx' class='form-control input-sm'
+            ng-model="selectedBody.velocity.x" ng-change='b.updateBody(selectedBody)'>
+          <div class='input-group-addon'>m/s</div>
+        </div>
+      </div>
+      <div class='form-group'>
+        <div class='input-group'>
+          <div class='input-group-addon'>y</div>
+          <input id='velocityy' class='form-control input-sm'
+            ng-model="selectedBody.velocity.y" ng-change='b.updateBody(selectedBody)'>
+          <div class='input-group-addon'>m/s</div>
+        </div>
+      </div>
+    </form>
+    <div class="text-center">
+      <div class='btn-group'>
+        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
+        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)">
+          <span class="glyphicon glyphicon-screenshot"></span>
+        </button>
+        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)">
+          <span class="glyphicon glyphicon-record"></span>
+        </button>
+        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)">
+          <span class="glyphicon glyphicon-facetime-video"></span>
+        </button>
+      </div>
     </div>
   </div>
+</div>

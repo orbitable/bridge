@@ -14,7 +14,6 @@
 
 angular.module('bridge.controllers')
   .controller('bodyController', ['$scope', 'eventPump', 'simulator', 'User', function($scope, eventPump, simulator, User) {
-    $scope.selectedBody = {};
     $scope.timestep = 40000;
     $scope.timestepUnits = 'seconds';
     $scope.uDist = 'm';
@@ -23,9 +22,7 @@ angular.module('bridge.controllers')
     $scope.uLum  = 'L';
     $scope.simulator = simulator;
 
-// ORBIT TRACKER FUNCTIONS
     this.selectCenterBody = function(){
-        console.log($scope.selectedBody.name);
         $scope.simulator.orbitTracker.setCenterBody(
             $scope.selectedBody,
             $scope.simulator.simulationTime
@@ -46,12 +43,12 @@ angular.module('bridge.controllers')
     this.getState = function() {
         return $scope.simulator.orbitTracker.running;
     };
-//
 
-    this.updateBody = function(){
-      if(User.current){
-        var b = $scope.selectedBody;
+    this.updateBody = function(body){
+      if(User.current) {
+        var b = body || $scope.selectedBody;
         simulator.updateBody(b.id, b);
+        eventPump.step(false, true);
       }
     };
 
@@ -77,6 +74,4 @@ angular.module('bridge.controllers')
     this.close = function() {
       $('#right-sidebar').hide();
     };
-
-  }
-  ]);
+  }]);
