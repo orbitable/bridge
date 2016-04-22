@@ -14,11 +14,31 @@
 
 angular.module('bridge.controllers')
   .controller('simulationListController', ['$scope', '$routeParams','Simulation', 'UserSimulation', function($scope, $routeParams, Simulation, UserSimulation) {
-    var updateSimulations = (s) => $scope.simulations = s;
+    $scope.message = 'Hold on, we are loading the list simulations';
+    $scope.failed = false;
+
+    var updateSimulations = function(s) {
+      $scope.message = null;
+      $scope.simulations = s;
+    };
+
+    var errorHandler = function(err) {
+      console.warn(err);
+      if (err.status === 404) {
+        $scope.message = 'The given username does not exist';
+      } else {
+        $scope.message = 'Whoa! There was a problem getting the simulations.';
+      }
+      $scope.failed = true;
+    };
 
     if ($routeParams.userId) {
-      UserSimulation.query({id: $routeParams.userId}, updateSimulations);
+      UserSimulation.query(
+          {id: $routeParams.userId},
+          updateSimulations,
+          errorHandler
+      );
     } else {
-      Simulation.query(updateSimulations);
+      Simulation.query(updateSimulations, errorHandler);
     }
   }]);

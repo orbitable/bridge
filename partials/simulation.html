@@ -57,6 +57,7 @@
                 </button>
                 <ul id="drop-left" class="dropdown-menu">
                   <li><a href="#/s/">All Simulations</a></li>
+                  <li ng-show="User.current"><a href="#/u/{{User.current.username}}">My Simulations</a></li>
                 </ul>
               </div>
               <button type="button" class="btn btn-default btn-lg" data-toggle="modal"
