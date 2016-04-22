@@ -5,6 +5,8 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
   return {
     scope: false,
     link: function(scope, elem) {
+      // TODO: Properly resolve the initial resolution of selected body
+      scope.selectedBody = {};
 
       var bodyGroup = d3.select(elem[0]);
       var bodies = d3.select('#bodies');
