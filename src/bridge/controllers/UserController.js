@@ -13,18 +13,12 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('userController', ['$scope', '$routeParams', 'eventPump', 'Simulation', 'simulator', 'User',  function($scope, $routeParams, eventPump, Simulation, simulator, User) {
-    $scope.pump = eventPump.paused ? 'play' : 'pause';
+  .controller('userController', ['$routeParams', '$scope', 'eventPump', 'Simulation', 'simulator', 'User',  function($routeParams, $scope, eventPump, Simulation, simulator, User) {
+    $scope.isPaused = () => eventPump.paused;
     $scope.User = User;
 
     this.togglePlay = function() {
-        if (eventPump.paused) {
-          eventPump.resume();
-          $scope.pump = 'pause';
-        } else {
-          eventPump.pause();
-          $scope.pump = 'play';
-        }
+        $scope.isPaused() ? eventPump.resume() : eventPump.pause();
       };
       
       this.newSimulation = function() {
@@ -34,7 +28,7 @@ angular.module('bridge.controllers')
       
     this.paused = function() {
         return eventPump.paused;
-      };
+    };
 
     this.refresh = function() {
         Simulation.get({
@@ -80,7 +74,4 @@ angular.module('bridge.controllers')
           tracker.style.visibility = "visible";
         }
       };
-      
-      
-
   }]);

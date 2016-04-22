@@ -18,16 +18,8 @@ angular.module('bridge.directives')
   .directive('counter', ['$interval', 'eventPump', function($interval, eventPump) {
 
     function link(scope, element) {
-      var intervalId;
-      var count = 0;
-
-      intervalId = $interval(function() {
-        var state = eventPump.paused ? 'Paused' : 'Running';
-        count = 0;
-      }, 1000);
-
+     
       var updateCallback = eventPump.register(function() {
-        count++;
         element.text(Math.round(eventPump.simulator.simulationTime) + " seconds");
       });
 
