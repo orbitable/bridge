@@ -11,7 +11,7 @@
         <label for='radius'>Radius</label>
         <div class='input-group'>
           <input id='radius' type="number" class='form-control input-sm' 
-            ng-model="editingBody.radius" ng-change='b.updateBody(editingBody)'>
+            ng-model="editingBody.radius" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
           <div class='input-group-addon'>km</div>
         </div>
       </div>
@@ -19,7 +19,7 @@
         <label for='mass'>Mass</label>
         <div class='input-group'>
           <input id='mass' type="number" class='form-control input-sm' 
-            ng-model="editingBody.mass"  ng-change='b.updateBody(editingBody)'>
+            ng-model="editingBody.mass"  ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
           <div class='input-group-addon'>kg</div>
         </div>
       </div>
@@ -27,7 +27,7 @@
         <label for='luminosity'>Luminosity</label>
         <div class='input-group'>
           <input id='luminosity' type="number" class='form-control input-sm'
-            ng-model="editingBody.luminosity" ng-change='b.updateBody(editingBody)'>
+            ng-model="editingBody.luminosity" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
         </div>
       </div>
       <h4>Position</h4>
@@ -35,7 +35,7 @@
         <div class='input-group'>
           <div class='input-group-addon'>x</div>
           <input id='positionx' type="number" class='form-control input-sm'
-            ng-model="editingBody.position.x" ng-change='b.updateBody(editingBody)'>
+            ng-model="editingBody.position.x" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
           <div class='input-group-addon'>m</div>
         </div>
       </div>
@@ -43,7 +43,7 @@
         <div class='input-group'>
           <div class='input-group-addon'>y</div>
           <input id='positiony' type="number" class='form-control input-sm'
-            ng-model="editingBody.position.y" ng-change='b.updateBody(editingBody)'>
+            ng-model="editingBody.position.y" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
           <div class='input-group-addon'>m</div>
         </div>
       </div>
@@ -52,7 +52,7 @@
         <div class='input-group'>
           <div class='input-group-addon'>x</div>
           <input id='velocityx' type="number" class='form-control input-sm'
-            ng-model="editingBody.velocity.x" ng-change='b.updateBody(editingBody)'>
+            ng-model="editingBody.velocity.x" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
           <div class='input-group-addon'>m/s</div>
         </div>
       </div>
@@ -60,23 +60,23 @@
         <div class='input-group'>
           <div class='input-group-addon'>y</div>
           <input id='velocityy' type="number" class='form-control input-sm'
-            ng-model="editingBody.velocity.y" ng-change='b.updateBody(editingBody)'>
+            ng-model="editingBody.velocity.y" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
           <div class='input-group-addon'>m/s</div>
         </div>
       </div>
     </form>
     <div class="text-center">
       <div class='btn-group'>
-        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)">
+        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-trash"></span>
         </button>
-        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)">
+        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-screenshot"></span>
         </button>
-        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)">
+        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-record"></span>
         </button>
-        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)">
+        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-facetime-video"></span>
         </button>
       </div>

@@ -21,6 +21,10 @@ angular.module('bridge.controllers')
     $scope.uTime = 's';
     $scope.uLum  = 'L';
     $scope.simulator = simulator;
+    
+    this.getRunningState = function() {
+      return !eventPump.paused;
+    }
 
     this.selectCenterBody = function(){
         $scope.simulator.orbitTracker.setCenterBody(
