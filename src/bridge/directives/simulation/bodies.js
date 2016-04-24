@@ -53,6 +53,10 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
           scope.editingBody = scope.selectedBody.copy();
+          document.getElementById('positionx').value = scope.editingBody.position.x;
+          document.getElementById('positiony').value = scope.editingBody.position.y;
+          document.getElementById('velocityx').value = scope.editingBody.velocity.x;
+          document.getElementById('velocityy').value = scope.editingBody.velocity.y;
         }
            
         function isSelected(body) {
