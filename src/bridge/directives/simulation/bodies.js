@@ -7,6 +7,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
     link: function(scope, elem) {
       // TODO: Properly resolve the initial resolution of selected body
       scope.selectedBody = {};
+      scope.editingBody = {};
 
       var bodyGroup = d3.select(elem[0]);
       var bodies = d3.select('#bodies');
@@ -66,6 +67,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             .on('mousedown', function(d) {
               d3.event.stopPropagation();
               scope.selectedBody = d;
+              scope.editingBody = scope.selectedBody.copy();
               simulator.selectedBody = d;
               eventPump.step(false,true);
               $('#right-sidebar').show();
@@ -89,6 +91,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
                         scope.selectedBody = d;
+                        scope.editingBody = scope.selectedBody.copy();
                         $('#note-sidebar').show();
                         $('#right-sidebar').hide();
                     })
@@ -109,6 +112,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
                         scope.selectedBody = d;
+                        scope.editingBody = scope.selectedBody.copy();
                         $('#note-sidebar').show();
                         $('#right-sidebar').hide();
                     });

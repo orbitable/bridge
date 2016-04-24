@@ -46,8 +46,7 @@ angular.module('bridge.controllers')
 
     this.updateBody = function(body){
       if(User.current) {
-        var b = body || $scope.selectedBody;
-        simulator.updateBody(b.id, b);
+        simulator.updateBody(body.id, body);
         eventPump.step(false, true);
       }
     };
