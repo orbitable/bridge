@@ -50,6 +50,10 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         });
 
       function update(data) {
+        
+        if (typeof scope.selectedBody.copy == 'function') {
+          scope.editingBody = scope.selectedBody.copy();
+        }
            
         function isSelected(body) {
           if (body && scope.selectedBody ) {
