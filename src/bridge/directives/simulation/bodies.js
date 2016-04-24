@@ -25,7 +25,6 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
       var drag = d3.behavior.drag()
         .on("dragstart", function() {
           scope.dragDownTime = new Date().getTime();
-          console.log("DRAG START");
         })
         .on('drag', function(d) {
           if (eventPump.paused && User.current) {
@@ -40,7 +39,6 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         .on('dragend', function(d) {
           if (eventPump.paused && User.current) {
             if (checkDragThreshold()) {
-              console.log("THRESHOLD PASSED");
               var pt = d3.mouse(bodies[0][0]);
               var body = {
                 position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
