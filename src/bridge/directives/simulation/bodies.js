@@ -7,28 +7,45 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
     link: function(scope, elem) {
       // TODO: Properly resolve the initial resolution of selected body
       scope.selectedBody = {};
-
+      
+      // Stores the timestamp when a drag starts
+      scope.dragDownTime = 0;
+      // Delay in milleseconds before dragging is effective
+      scope.dragThreshold = 250;
+      
+      // Returns whether or not the time threshold has been passed
+      function checkDragThreshold() {
+        return (new Date().getTime() > scope.dragDownTime + scope.dragThreshold);
+      }
+      
       var bodyGroup = d3.select(elem[0]);
       var bodies = d3.select('#bodies');
 
       // Set up dragging for the bodies
       var drag = d3.behavior.drag()
+        .on("dragstart", function() {
+          scope.dragDownTime = new Date().getTime();
+        })
         .on('drag', function(d) {
           if (eventPump.paused && User.current) {
-            var pt = d3.mouse(bodies[0][0]);
-            d3.select(this)
-              .attr('cx', (pt[0]))
-              .attr('cy', (pt[1]));
+            if (checkDragThreshold()) {
+              var pt = d3.mouse(bodies[0][0]);
+              d3.select(this)
+                .attr('cx', (pt[0]))
+                .attr('cy', (pt[1]));
+            }
           }
         })
         .on('dragend', function(d) {
           if (eventPump.paused && User.current) {
-            var pt = d3.mouse(bodies[0][0]);
-            var body = {
-              position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
-            };
-            simulator.updateBody(d.id, body);
-            eventPump.step(false,true);
+            if (checkDragThreshold()) {
+              var pt = d3.mouse(bodies[0][0]);
+              var body = {
+                position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
+              };
+              simulator.updateBody(d.id, body);
+              eventPump.step(false,true);
+            }
           }
         });
 
