@@ -7,8 +7,8 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
     link: function(scope, elem) {
       // TODO: Properly resolve the initial resolution of selected body
       scope.selectedBody = {};
-      scope.selectedNote = {};
       scope.editingBody = {};
+      scope.selectedNote = {};
 
       // Stores the timestamp when a drag starts
       scope.dragDownTime = 0;
@@ -100,6 +100,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               scope.selectedBody = d;
               scope.editingBody = scope.selectedBody.copy();
               simulator.selectedBody = d;
+              scope.selectedNote = {};
               eventPump.step(false,true);
               $('#right-sidebar').show();
               $('#note-sidebar').hide();
@@ -121,7 +122,11 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
+                        
+                        scope.selectedBody = {};
                         scope.selectedNote = d;
+                        eventPump.step(false,true);
+
                         $('#note-sidebar').show();
                         $('#right-sidebar').hide();
                     })
