@@ -7,6 +7,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
     link: function(scope, elem) {
       // TODO: Properly resolve the initial resolution of selected body
       scope.selectedBody = {};
+      scope.selectedNote = {};
       scope.editingBody = {};
 
       // Stores the timestamp when a drag starts
@@ -53,10 +54,16 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
           scope.editingBody = scope.selectedBody.copy();
-          document.getElementById('positionx').value = scope.editingBody.position.x;
-          document.getElementById('positiony').value = scope.editingBody.position.y;
-          document.getElementById('velocityx').value = scope.editingBody.velocity.x;
-          document.getElementById('velocityy').value = scope.editingBody.velocity.y;
+
+          if (scope.editingBody.position) {
+            document.getElementById('positionx').value = scope.editingBody.position.x;
+            document.getElementById('positiony').value = scope.editingBody.position.y;
+          }
+
+          if (scope.editingBody.velocity) {
+            document.getElementById('velocityx').value = scope.editingBody.velocity.x;
+            document.getElementById('velocityy').value = scope.editingBody.velocity.y;
+          }
         }
            
         function isSelected(body) {
@@ -114,8 +121,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
-                        scope.selectedBody = d;
-                        scope.editingBody = scope.selectedBody.copy();
+                        scope.selectedNote = d;
                         $('#note-sidebar').show();
                         $('#right-sidebar').hide();
                     })
@@ -132,13 +138,6 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                         .duration(500)
                         .attr('stroke', 'grey')
                         .attr('stroke-width', 1);
-                    })
-                    .on('mousedown', function(d) {
-                        d3.event.stopPropagation();
-                        scope.selectedBody = d;
-                        scope.editingBody = scope.selectedBody.copy();
-                        $('#note-sidebar').show();
-                        $('#right-sidebar').hide();
                     });
             }
 
