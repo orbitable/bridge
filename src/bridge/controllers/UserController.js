@@ -26,7 +26,12 @@ angular.module('bridge.controllers')
           $scope.pump = 'play';
         }
       };
-
+      
+      this.newSimulation = function() {
+        simulator.reset();
+        eventPump.step(false,true);
+      };
+      
     this.paused = function() {
         return eventPump.paused;
       };
