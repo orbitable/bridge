@@ -1,5 +1,5 @@
 angular.module('bridge.controllers')
-  .controller('noteController', ['$scope',  'simulator', function($scope,  simulator) {
+  .controller('noteController', ['$scope', 'eventPump',  'simulator', function($scope, eventPump, simulator) {
 
     $scope.notePause = false;
     
@@ -16,12 +16,12 @@ angular.module('bridge.controllers')
     this.removeNote = function(id) {
       $('#' + id).attr('stroke-width', 0);
       simulator.deleteNote(id);
-      //eventPump.step(false,true);
+      eventPump.step(false,true);
       this.closePanel();
     };
     
     this.updateNote = function() {
-        var n = $scope.selectedBody;
+        var n = $scope.selectedNote;
         simulator.updateNote(n.id, n);
     };
 
