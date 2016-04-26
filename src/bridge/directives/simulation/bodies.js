@@ -102,6 +102,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               simulator.selectedBody = d;
               scope.selectedNote = {};
               eventPump.step(false,true);
+              
+              scope.$apply();
+
               $('#right-sidebar').show();
               $('#note-sidebar').hide();
 
@@ -126,6 +129,8 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                         scope.selectedBody = {};
                         scope.selectedNote = d;
                         eventPump.step(false,true);
+
+                        scope.$apply();
 
                         $('#note-sidebar').show();
                         $('#right-sidebar').hide();
