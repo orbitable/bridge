@@ -19,7 +19,7 @@ angular.module('bridge.directives')
         var rulerSet = true;
 
         scope.svg.on('click', function(d) {
-          if (rulerBtn.property('className').indexOf('toggleOn') > -1) {
+          if (rulerBtn.property('className').indexOf('on') > -1) {
             origPos = rulerSet ? d3.mouse(translation[0][0]) : origPos;
             origPos = origPos.map(p => p*scope.zoom.scale())
             rulerSet = !rulerSet;
@@ -27,7 +27,7 @@ angular.module('bridge.directives')
         });
 
         scope.svg.on('mousemove', function(d) {
-          if (rulerBtn.property('className').indexOf('toggleOn') > -1) {
+          if (rulerBtn.property('className').indexOf('on') > -1) {
             if (!rulerSet) {
               var pos = d3.mouse(translation[0][0]);
               pos = pos.map(p => p*scope.zoom.scale())

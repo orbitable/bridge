@@ -14,6 +14,8 @@
 
 angular.module('bridge.controllers')
   .controller('bodyController', ['$scope', 'eventPump', 'simulator', 'User', function($scope, eventPump, simulator, User) {
+    $scope.trackerPanel = {isOpen: false};
+
     $scope.timestep = 40000;
     $scope.timestepUnits = 'seconds';
     $scope.uDist = 'm';
@@ -70,12 +72,12 @@ angular.module('bridge.controllers')
         $('#' + id).attr('r', 0);
         simulator.deleteBody(id);
         eventPump.step(false,true);
-        $('#right-sidebar').hide();
+        $('#body-sidebar').hide();
       }
     };
 
     this.close = function() {
-      $('#right-sidebar').hide();
+      $('#body-sidebar').hide();
       $('#note-sidebar').hide();
     };
   }]);

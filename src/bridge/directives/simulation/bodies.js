@@ -105,8 +105,10 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               
               scope.$apply();
 
-              $('#right-sidebar').show();
-              $('#note-sidebar').hide();
+              if (!scope.trackerPanel.isOpen) {
+                $('#body-sidebar').show();
+                $('#note-sidebar').hide();
+              }
 
               lineData[d.id] = [];
             });
@@ -133,7 +135,8 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                         scope.$apply();
 
                         $('#note-sidebar').show();
-                        $('#right-sidebar').hide();
+                        $('#body-sidebar').hide();
+                        $('#tracker-sidebar').hide();
                     })
                     .on('mouseover',function() {
                         d3.select(this)
