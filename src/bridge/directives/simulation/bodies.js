@@ -49,6 +49,36 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             }
           }
         });
+        
+      var dragNote = d3.behavior.drag()
+        .on("dragstart", function() {
+          scope.dragDownTime = new Date().getTime();
+          console.log("Drag Start: " + scope.dragDownTime);
+        })
+        .on('drag', function(d) {
+          if (eventPump.paused && User.current) {
+            if (checkDragThreshold()) {
+              var pt = d3.mouse(bodies[0][0]);
+              d3.select(this)
+                .attr('x', (pt[0]) - 6)
+                .attr('y', (pt[1]) - 6);
+            }
+          }
+        })
+        .on('dragend', function(d) {
+          if (eventPump.paused && User.current) {
+            if (checkDragThreshold()) {
+              var pt = d3.mouse(bodies[0][0]);
+              var note = {
+                position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
+              };
+              console.log("Drag End Before: " + d);
+              simulator.updateNote(d.id, note);
+              console.log("Drag End After: " + d);
+              eventPump.step(false,true);
+            }
+          }
+        });
 
       function update(data) {
         
@@ -125,6 +155,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .attr('width',  12)
                     .attr('fill-opacity','0.0')
                     .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
+                    .call(dragNote)
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
                         
