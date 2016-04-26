@@ -36,8 +36,9 @@ angular.module('bridge.controllers')
           function(s) {
             simulator.reset(s.bodies);
             eventPump.step(false,true);
-            $('#right-sidebar').hide();
+            $('#body-sidebar').hide();
             $('#note-sidebar').hide();
+            $('#tracker-sidebar').hide();
 
             // TODO: Global state is bad we need to resolve this
             //
@@ -49,29 +50,30 @@ angular.module('bridge.controllers')
 
     this.ruler = function() {
         var btn = document.getElementById('btn_ruler');
-        var index = btn.getAttribute('class').indexOf(' toggleOn');
+        var index = btn.getAttribute('class').indexOf(' on');
         var ruler = document.getElementById('rulerGroup');
         if (index > -1) {
-          btn.setAttribute('class',btn.getAttribute('class').slice(0, index) + ' toggleOff');
+          btn.setAttribute('class',btn.getAttribute('class').slice(0, index) + ' off');
           ruler.style.visibility = 'hidden';
         } else {
-          index = btn.getAttribute('class').indexOf(' toggleOff');
-          btn.setAttribute('class',btn.getAttribute('class').slice(0, index) + ' toggleOn');
+          index = btn.getAttribute('class').indexOf(' off');
+          btn.setAttribute('class',btn.getAttribute('class').slice(0, index) + ' on');
           ruler.style.visibility = 'visible';
         }
-      };
-      
-       this.tracker = function(){
-        var btn = document.getElementById("btn_tracker");
-        var index = btn.getAttribute("class").indexOf(" toggleOn");
-        var tracker = document.getElementById("tracker-sidebar");
-        if (index > -1) {
-          btn.setAttribute("class",btn.getAttribute("class").slice(0, index) + " toggleOff");
-          tracker.style.visibility = "hidden";
-        } else {
-          index = btn.getAttribute("class").indexOf(" toggleOff");
-          btn.setAttribute("class",btn.getAttribute("class").slice(0, index) + " toggleOn");
-          tracker.style.visibility = "visible";
-        }
-      };
+    };
+
+    this.toggleTrackerPanel = function() {
+
+      if ($scope.trackerPanel.isOpen) {
+        $('#tracker-sidebar').hide();
+      } else {
+        $('#body-sidebar').hide();
+        $('#note-sidebar').hide();
+
+        $('#tracker-sidebar').show();
+      }
+
+      $scope.trackerPanel.isOpen = !$scope.trackerPanel.isOpen;
+    };
+
   }]);
