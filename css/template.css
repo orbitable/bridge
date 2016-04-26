@@ -42,19 +42,24 @@ g {
   overflow: hidden;
 }
 
+.sidebar {
+  position: fixed;
+  top: 75px;
+}
+
 .left-sidebar{
   left: 0;
   padding-left:25px;
-  position: fixed;
-  top: 10%;
+}
+
+.sidebar .nav {
+  min-width: 54px;
 }
 
 .right-sidebar {
   max-width: 300px;
   padding-right: 25px;
-  position: fixed;
   right: 0;
-  top: 10%;
 }
 
 #tracker-sidebar {
@@ -91,6 +96,7 @@ counter {
   top: 0;
   left: 100%;
 }
+
 .note
 {
     color: #ffffff;
