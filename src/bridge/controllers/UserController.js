@@ -16,6 +16,11 @@ angular.module('bridge.controllers')
   .controller('userController', ['$routeParams', '$scope', 'eventPump', 'Simulation', 'SimulationNote', 'simulator', 'User',  function($routeParams, $scope, eventPump, Simulation, SimulationNote, simulator, User) {
     $scope.isPaused = () => eventPump.paused;
     $scope.User = User;
+    
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+    
 
     this.togglePlay = function() {
         $scope.isPaused() ? eventPump.resume() : eventPump.pause();
