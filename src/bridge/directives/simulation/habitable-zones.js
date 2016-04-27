@@ -25,6 +25,7 @@ angular.module('bridge.directives')
 
             //draw habitable zone around star (divide radius by the scale of the radius (for now its assumed to be 10^8))
             zones
+               .attr('id', "habitable-zones")
                .attr('cx', (d) => scope.xScale(d.position.x))
                .attr('cy', (d) => scope.yScale(d.position.y))
                .attr('r', (d) => ((outerRadius(d) - innerRadius(d)) / 2 + innerRadius(d)))
