@@ -13,9 +13,14 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('userController', ['$routeParams', '$scope', 'eventPump', 'Simulation', 'simulator', 'User',  function($routeParams, $scope, eventPump, Simulation, simulator, User) {
+  .controller('userController', ['$routeParams', '$scope', 'eventPump', 'Simulation', 'SimulationNote', 'simulator', 'User',  function($routeParams, $scope, eventPump, Simulation, SimulationNote, simulator, User) {
     $scope.isPaused = () => eventPump.paused;
     $scope.User = User;
+    
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+    
 
     this.togglePlay = function() {
         $scope.isPaused() ? eventPump.resume() : eventPump.pause();
@@ -34,17 +39,30 @@ angular.module('bridge.controllers')
         Simulation.get({
           id: $routeParams.simulationId || 'random'},
           function(s) {
-            simulator.reset(s.bodies);
-            eventPump.step(false,true);
-            $('#body-sidebar').hide();
-            $('#note-sidebar').hide();
-            $('#tracker-sidebar').hide();
+            SimulationNote.query({id: s._id}, function(notes) {
 
-            // TODO: Global state is bad we need to resolve this
-            //
-            // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
-            // to capture adding a composite object to collect rendering objects.
-            lineData = [];
+              simulator.reset(s.bodies, notes);
+              eventPump.step(false,true);
+              $('#body-sidebar').hide();
+              $('#note-sidebar').hide();
+              $('#tracker-sidebar').hide();
+
+              // TODO: Global state is bad we need to resolve this
+              //
+              // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
+              // to capture adding a composite object to collect rendering objects.
+              lineData = [];
+            }, function() {
+              console.log('Unable to load notes');
+              simulator.reset(s.bodies);
+              $('#body-sidebar').hide();
+              $('#note-sidebar').hide();
+              $('#tracker-sidebar').hide();
+
+              lineData = [];
+            });
+          }, function() {
+            console.log('Unable to load simulation');
           });
       };
 

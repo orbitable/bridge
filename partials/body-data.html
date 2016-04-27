@@ -30,8 +30,8 @@
             ng-model="selectedBody.luminosity" ng-change='b.updateBody(selectedBody)' ng-readonly="b.getRunningState()">
         </div>
       </div>
-      <h4>Position</h4>
       <div class='form-group'>
+        <label>Position</label>
         <div class='input-group'>
           <div class='input-group-addon'>x</div>
           <input unit='distance'  id='positionx' type="number" class='form-control input-sm'
@@ -47,8 +47,8 @@
           <div class='input-group-addon'>{{ Units.labels.distance }}</div>
         </div>
       </div>
-      <h4>Velocity</h4>
       <div class='form-group'>
+        <label>Velocity</label>
         <div class='input-group'>
           <div class='input-group-addon'>x</div>
           <input unit='speed' id='velocityx' type="number" class='form-control input-sm'
@@ -67,13 +67,15 @@
     </form>
     <div class="text-center">
       <div class='btn-group'>
-        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
+        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)"
+          alt="Delete Body" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-trash"></span>
         </button>
         <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-screenshot"></span>
         </button>
-        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
+        <button type="button" class="btn btn-default" ng-click="b.toggleHabitable()"
+          alt="Toggle Habitable Zones" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-record"></span>
         </button>
         <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">

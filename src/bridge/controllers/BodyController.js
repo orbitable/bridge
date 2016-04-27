@@ -20,7 +20,7 @@ angular.module('bridge.controllers')
     $scope.timestepUnits = 'seconds';
     $scope.simulator = simulator;
     $scope.Units = Units;
-    
+
     this.getRunningState = function() {
       return !eventPump.paused;
     }
@@ -76,5 +76,13 @@ angular.module('bridge.controllers')
     this.close = function() {
       $('#body-sidebar').hide();
       $('#note-sidebar').hide();
+    };
+
+    this.toggleHabitable = function(){
+      if($('#habitable-zones').attr("visibility") != "hidden"){
+        $('#habitable-zones').attr("visibility", "hidden");
+      } else {
+        $('#habitable-zones').attr("visibility", "visible");
+      }
     };
   }]);
