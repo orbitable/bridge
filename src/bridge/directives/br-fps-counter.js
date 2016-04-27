@@ -15,12 +15,12 @@
 var angular = require('angular');
 
 angular.module('bridge.directives')
-  .directive('counter', ['$interval', 'eventPump', function($interval, eventPump) {
+  .directive('counter', ['eventPump', 'Units', function(eventPump, Units) {
 
     function link(scope, element) {
      
       var updateCallback = eventPump.register(function() {
-        element.text(Math.round(eventPump.simulator.simulationTime) + " seconds");
+        element.text(Units.timeFromSim(eventPump.simulator.simulationTime).toFixed(3) + " " + Units.labels.time);
       });
 
       element.on('destroy', function() {

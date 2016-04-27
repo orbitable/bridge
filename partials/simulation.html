@@ -43,7 +43,8 @@
                     <br>
                     Orbits Completed: {{simulator.orbitTracker.orbitCount}}
                     <br>
-                    Average Time: {{simulator.orbitTracker.orbitTime}}
+                    Average Time:
+                    {{Units.timeFromSim(simulator.orbitTracker.orbitTime).toPrecision(3)}} ({{ Units.labels.time }})
                     <br>
                     Range: {{simulator.orbitTracker.timeRange.toPrecision(3)}}%
                     <br>
@@ -77,8 +78,8 @@
             </button>
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-lg dropdown-toggle"
-                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      <div data-toggle="tooltip" data-placement="right" title="Load Simulation" >
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div data-toggle="tooltip" data-placement="right" title="Load Simulation" >
                   <span class="glyphicon glyphicon-list-alt"></span>
                   </div>
                 </button>
@@ -88,12 +89,11 @@
                 </ul>
               </div>
               <button type="button" class="btn btn-default btn-lg" data-toggle="modal"
-                                                                   data-target="#settings">
+                  ng-click='b.close()' data-target="#settings">
                 <div data-toggle="tooltip" data-placement="right" title="Settings" >
                   <span class="glyphicon glyphicon-cog"></span>
                 </div>
-                </button>
-                
+              </button>
           </div>
         </li>
       </ul>

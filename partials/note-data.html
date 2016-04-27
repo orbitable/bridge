@@ -1,35 +1,49 @@
 <div class="panel panel-default" ng-controller='noteController as n'>
   <div class="panel-heading text-center">
-    <button type="button" class="close" aria-label="Close" ng-click="n.closePanel()"><span>&times;</span></button>
+    <button type="button" class="close" aria-label="Close" ng-click="n.closePanel()"><label>&times;</span></button>
       Note
   </div>
   <div class="panel-body">
-    <div class="input-group">
-      <span class="input-group-addon" id="title-input">Title:</span>
-      <input type="text" class="form-control" placeholder="{{selectedNote.title}}" aria-describedby="title-input" ng-model="selectedNote.title" ng-change="n.updateNote()">
-    </div><br>
-    <div class="input-group">
-      <span class="input-group-addon" id="text-input">Text:</span>
-      <textarea type="text" rows = "3" class="form-control" placeholder="{{selectedNote.text}}" aria-describedby="text-input" ng-model="selectedNote.text" ng-change="n.updateNote()"></textarea>
-    </div><br>
-    <div class="input-group">
-      <span class="input-group-addon" id="startTime-input">Start Time:</span>
-      <input type="text" class="form-control" placeholder="{{selectedNote.startTime}}" aria-describedby="startTime-input" ng-model="selectedNote.startTime" ng-change="n.updateNote()">
-    </div><br>
-    <div class="input-group">
-      <span class="input-group-addon" id="duration-input">Duration:</span>
-      <input type="text" class="form-control" placeholder="{{selectedNote.duration}}" aria-describedby="duration-input" ng-model="selectedNote.duration" ng-change="n.updateNote()">
-    </div><br>
-    <div class="input-group">
-      <span class="input-group-addon" id="positionX-input">Position X:</span>
-      <input type="text" class="form-control" placeholder="{{selectedNote.position.x}}" aria-describedby="positionX-input" ng-model="selectedNote.position.x" ng-change="n.updateNote()">
-    </div>
-    <div class="input-group">
-      <span class="input-group-addon" id="positionY-input">Position Y:</span>
-      <input type="text" class="form-control" placeholder="{{selectedNote.position.y}}" aria-describedby="positionY-input" ng-model="selectedNote.position.y" ng-change="n.updateNote()">
-    </div><br>
-    <div class="text-center"><button type="button" class="btn btn-default btn" ng-click="n.removeNote(selectedNote.id)">
-      <span class="glyphicon glyphicon-trash"></span> </button> 
-    </div>
+    <form>
+      <div class='form-group'>
+        <label id="title-input">Title</label>
+        <input type="text" class="form-control input-sm" placeholder="{{selectedNote.title}}" aria-describedby="title-input" ng-model="selectedNote.title" ng-change="n.updateNote()">
+      </div>
+      <div class='form-group'>
+        <label id="text-input">Text</label>
+        <textarea rows = "3" class="form-control" placeholder="{{selectedNote.text}}" aria-describedby="text-input" ng-model="selectedNote.text" ng-change="n.updateNote()"></textarea>
+      </div>
+      <div class='form-group'>
+        <label id="startTime-input">Start Time</label>
+        <div class="input-group">
+          <input unit='time' type="text" class="form-control input-sm" placeholder="{{selectedNote.startTime}}" aria-describedby="startTime-input" ng-model="selectedNote.startTime" ng-change="n.updateNote()">
+          <div class='input-group-addon'>{{ Units.labels.time }}</div>
+        </div>
+      </div>
+      <div class='form-group'>
+        <label id="duration-input">Duration</label>
+        <div class="input-group">
+          <input unit='time' type="text" class="form-control input-sm" placeholder="{{selectedNote.duration}}" aria-describedby="duration-input" ng-model="selectedNote.duration" ng-change="n.updateNote()">
+          <div class='input-group-addon'>{{ Units.labels.time }}</div>
+        </div>
+      </div>
+      <div class='form-group'>
+        <label id="positionX-input">Position X</label>
+        <div class="input-group">
+          <input unit='distance' type="text" class="form-control input-sm" placeholder="{{selectedNote.position.x}}" aria-describedby="positionX-input" ng-model="selectedNote.position.x" ng-change="n.updateNote()">
+          <div class='input-group-addon'>{{ Units.labels.distance }}</div>
+        </div>
+      </div>
+      <div class='form-group'>
+        <label id="positionY-input">Position Y</label>
+        <div class="input-group">
+          <input unit='distance' type="text" class="form-control input-sm"placeholder="{{selectedNote.position.y}}" aria-describedby="positionY-input" ng-model="selectedNote.position.y" ng-change="n.updateNote()">
+          <div class='input-group-addon'>{{ Units.labels.distance }}</div>
+        </div>
+      </div>
+      <div class="text-center"><button type="button" class="btn btn-default btn" ng-click="n.removeNote(selectedNote.id)">
+        <span class="glyphicon glyphicon-trash"></span> </button> 
+      </div>
+    </form>
   </div>
 </div>
