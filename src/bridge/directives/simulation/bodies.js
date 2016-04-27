@@ -74,22 +74,28 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           }
         }
            
-        function isSelected(body) {
+        function isSelectedBody(body) {
           if (body && scope.selectedBody ) {
             return body.id === scope.selectedBody.id;
           }
-
           return false;
         }
-
+        
+        function isSelectedNote(note) {
+          if (note && scope.selectedNote ) {
+            return note.id === scope.selectedNote.id;
+          }
+          return false;
+        }
+        
         function drawBodies(bodies) {
           bodies
             .attr('cx', (d) => scope.xScale(d.position.x))
             .attr('cy', (d) => scope.yScale(d.position.y))
             .attr('r',  (d) => scope.rScale(d.radius))
             .attr('fill', (d) => d.color)
-            .attr('stroke', (d) => ( isSelected(d) ? 'white' : 'darkgrey' ))
-            .attr('stroke-width',(d) => ( isSelected(d) ? (scope.rScale(d.radius) + 30) : 0 ))
+            .attr('stroke', (d) => ( isSelectedBody(d) ? 'white' : 'darkgrey' ))
+            .attr('stroke-width',(d) => ( isSelectedBody(d) ? (scope.rScale(d.radius) + 30) : 0 ))
             .call(drag)
             .on('mouseover',function() {
               d3.select(this)
@@ -101,7 +107,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             d3.select(this)
               .transition()
               .duration(500)
-              .attr('stroke-width',(d) => ( isSelected(d) ? (scope.rScale(d.radius) + 30) : 0 ));
+              .attr('stroke-width',(d) => ( isSelectedBody(d) ? (scope.rScale(d.radius) + 30) : 0 ));
             })
             .on('mousedown', function(d) {
               d3.event.stopPropagation();
@@ -132,7 +138,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .attr('height',  12)
                     .attr('width',  12)
                     .attr('fill-opacity','0.0')
-                    .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
+                    .attr('stroke','white')
+                    .attr('stroke-width', (d) => ( isSelectedNote(d) ? 3.0 : 1.0 ))
+                    .attr('stroke-opacity',(d) => ( isSelectedNote(d) ? 1.0 : 0.5 ))
                     .call(drag)
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
@@ -151,15 +159,15 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                         d3.select(this)
                         .transition()
                         .duration(500)
-                        .attr('stroke', 'white')
-                        .attr('stroke-width', 3);
+                        .attr('stroke-width', 3.0)
+                        .attr('stroke-opacity', 1.0);
                     })
                     .on('mouseout',function() {
                         d3.select(this)
                         .transition()
                         .duration(500)
-                        .attr('stroke', 'grey')
-                        .attr('stroke-width', 1);
+                        .attr('stroke-width', (d) => ( isSelectedNote(d) ? 3.0 : 1.0 ))
+                        .attr('stroke-opacity', (d) => ( isSelectedNote(d) ? 1.0 : 0.5 ));
                     });
             }
 

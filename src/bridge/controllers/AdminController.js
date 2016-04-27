@@ -62,7 +62,7 @@ angular.module('bridge.controllers')
           position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
         };
         simulator.addNote(body);
-        eventPump.step();
+        eventPump.step(false,true);
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
