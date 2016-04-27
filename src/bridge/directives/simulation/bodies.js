@@ -33,7 +33,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               var pt = d3.mouse(bodies[0][0]);
               d3.select(this)
                 .attr('cx', (pt[0]))
-                .attr('cy', (pt[1]));
+                .attr('cy', (pt[1]))
+                .attr('x', (pt[0]) - 6)
+                .attr('y', (pt[1]) - 6);
             }
           }
         })
@@ -41,14 +43,20 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           if (eventPump.paused && User.current) {
             if (checkDragThreshold()) {
               var pt = d3.mouse(bodies[0][0]);
-              var body = {
+              var item = {
                 position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
               };
-              simulator.updateBody(d.id, body);
+              // TODO: Is there a more elegant way of checking if 'd' is a body or a note?
+              if (typeof d.mass !== "undefined") {
+                simulator.updateBody(d.id, item);
+              }
+              else {
+                simulator.updateNote(d.id, item);
+              }
               eventPump.step(false,true);
             }
           }
-        });
+        });  
 
       function update(data) {
         
@@ -125,6 +133,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .attr('width',  12)
                     .attr('fill-opacity','0.0')
                     .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
+                    .call(drag)
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
                         
