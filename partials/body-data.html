@@ -3,65 +3,65 @@
     <button type="button" class="close" aria-label="Close" ng-click="b.close()">
       <span>&times;</span>
     </button>
-    <h3 class="panel-title">{{editingBody.name}}</h3>
+    <h3 class="panel-title">{{selectedBody.name}}</h3>
   </div>
   <div class="panel-body">
     <form>
       <div class='form-group'>
         <label for='radius'>Radius</label>
         <div class='input-group'>
-          <input id='radius' type="number" class='form-control input-sm' 
-            ng-model="editingBody.radius" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
-          <div class='input-group-addon'>km</div>
+          <input unit='distance' id='radius' type="number" class='form-control input-sm' 
+            ng-model="selectedBody.radius" ng-change='b.updateBody(selectedBody)' ng-readonly="b.getRunningState()">
+          <div class='input-group-addon'>{{ Units.labels.distance }}</div>
         </div>
       </div>
       <div class='form-group'>
         <label for='mass'>Mass</label>
         <div class='input-group'>
-          <input id='mass' type="number" class='form-control input-sm' 
-            ng-model="editingBody.mass"  ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
-          <div class='input-group-addon'>kg</div>
+          <input unit='mass' id='mass' type="number" class='form-control input-sm' 
+            ng-model="selectedBody.mass"  ng-change='b.updateBody(selectedBody)' ng-readonly="b.getRunningState()">
+          <div class='input-group-addon'>{{ Units.labels.mass }}</div>
         </div>
       </div>
       <div class='form-group'>
         <label for='luminosity'>Luminosity</label>
         <div class='input-group'>
           <input id='luminosity' type="number" class='form-control input-sm'
-            ng-model="editingBody.luminosity" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
+            ng-model="selectedBody.luminosity" ng-change='b.updateBody(selectedBody)' ng-readonly="b.getRunningState()">
         </div>
       </div>
       <h4>Position</h4>
       <div class='form-group'>
         <div class='input-group'>
           <div class='input-group-addon'>x</div>
-          <input id='positionx' type="number" class='form-control input-sm'
-            ng-model="editingBody.position.x" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
-          <div class='input-group-addon'>m</div>
+          <input unit='distance'  id='positionx' type="number" class='form-control input-sm'
+            ng-model="selectedBody.position.x" ng-change='b.updateBody(selectedBody)' ng-readonly="b.getRunningState()">
+          <div class='input-group-addon'>{{ Units.labels.distance }}</div>
         </div>
       </div>
       <div class='form-group'>
         <div class='input-group'>
           <div class='input-group-addon'>y</div>
-          <input id='positiony' type="number" class='form-control input-sm'
-            ng-model="editingBody.position.y" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
-          <div class='input-group-addon'>m</div>
+          <input unit='distance' id='positiony' type="number" class='form-control input-sm'
+            ng-model="selectedBody.position.y" ng-change='b.updateBody(selectedBody)' ng-readonly="b.getRunningState()">
+          <div class='input-group-addon'>{{ Units.labels.distance }}</div>
         </div>
       </div>
       <h4>Velocity</h4>
       <div class='form-group'>
         <div class='input-group'>
           <div class='input-group-addon'>x</div>
-          <input id='velocityx' type="number" class='form-control input-sm'
-            ng-model="editingBody.velocity.x" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
-          <div class='input-group-addon'>m/s</div>
+          <input unit='speed' id='velocityx' type="number" class='form-control input-sm'
+            ng-model="selectedBody.velocity.x" ng-change='b.updateBody(selectedBody)' ng-readonly="b.getRunningState()">
+          <div class='input-group-addon'>{{ Units.labels.speed }}</div>
         </div>
       </div>
       <div class='form-group'>
         <div class='input-group'>
           <div class='input-group-addon'>y</div>
-          <input id='velocityy' type="number" class='form-control input-sm'
-            ng-model="editingBody.velocity.y" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
-          <div class='input-group-addon'>m/s</div>
+          <input unit='speed' id='velocityy' type="number" class='form-control input-sm'
+            ng-model="selectedBody.velocity.y" ng-change='b.updateBody(selectedBody)' ng-readonly="b.getRunningState()">
+          <div class='input-group-addon'>{{ Units.labels.speed }}</div>
         </div>
       </div>
     </form>

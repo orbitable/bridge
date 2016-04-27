@@ -7,7 +7,6 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
     link: function(scope, elem) {
       // TODO: Properly resolve the initial resolution of selected body
       scope.selectedBody = {};
-      scope.editingBody = {};
       scope.selectedNote = {};
 
       // Stores the timestamp when a drag starts
@@ -59,21 +58,19 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         });  
 
       function update(data) {
-        
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
-          scope.editingBody = scope.selectedBody.copy();
 
-          if (scope.editingBody.position) {
-            document.getElementById('positionx').value = scope.editingBody.position.x;
-            document.getElementById('positiony').value = scope.editingBody.position.y;
+          if (scope.selectedBody.position) {
+            document.getElementById('positionx').value = scope.selectedBody.position.x;
+            document.getElementById('positiony').value = scope.selectedBody.position.y;
           }
 
-          if (scope.editingBody.velocity) {
-            document.getElementById('velocityx').value = scope.editingBody.velocity.x;
-            document.getElementById('velocityy').value = scope.editingBody.velocity.y;
+          if (scope.selectedBody.velocity) {
+            document.getElementById('velocityx').value = scope.selectedBody.velocity.x;
+            document.getElementById('velocityy').value = scope.selectedBody.velocity.y;
           }
         }
-           
+
         function isSelectedBody(body) {
           if (body && scope.selectedBody ) {
             return body.id === scope.selectedBody.id;
@@ -112,7 +109,6 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             .on('mousedown', function(d) {
               d3.event.stopPropagation();
               scope.selectedBody = d;
-              scope.editingBody = scope.selectedBody.copy();
               simulator.selectedBody = d;
               scope.selectedNote = {};
               eventPump.step(false,true);

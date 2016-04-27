@@ -10,7 +10,7 @@
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/template.css" rel="stylesheet">
   </head>
-  <body class="fill-height">
+  <body class="fill-height" ng-controller='bodyController as b'>
     <nav class="navbar navbar-default navbar-fixed-top" ng-controller="navController">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -38,7 +38,7 @@
         </ul>
       </div>
     </nav>
-    <div class="fill-height" ng-controller='bodyController as b' ng-view></div>
+    <div class="fill-height" ng-view></div>
     <div class="container narrow">
       <div id="settings" class="modal fade " tabindex="-1" role="dialog" >
         <div class="modal-dialog modal-sm">
@@ -66,22 +66,22 @@
                 <button type="button" class="btn btn-primary btn-sm" ng-click="b.updateStep()">Save</button>
                 <h2 class="form-settings-heading">Units</h2>
                 <label for="distance">Distance</label>
-                <select id="distance" ng-model="uDist" class="form-control">
+                <select id="distance" ng-model="Units.labels.distance" ng-change='b.updateUnits()' class="form-control">
                   <option value="m" selected="selected">Meters (m)</option>
                   <option value="km">Kilometers (km)</option>
                   <option value="au">Astronomical Units (au)</option>
                 </select>
                 <label for="mass">Mass</label>
-                <select id="mass" ng-model="uMass" class="form-control">
+                <select id="mass" ng-model="Units.labels.mass" ng-change='b.updateUnits()' class="form-control">
                   <option value="kg" selected="selected">Kilograms (kg)</option>
                   <option value="t">Metric ton (t)</option>
                   <option value="M">Solar Mass(M☉)</option>
                 </select>
                 <label for="time">Time</label>
-                <select ng-model="uTime" class="form-control">
+                <select ng-model="Units.labels.time" ng-change='b.updateUnits()' class="form-control">
                   <option value="s" selected="selected">Seconds (s)</option>
                   <option value="hr">Hours (hr)</option>
-                  <option value="y">Years (yr)</option>
+                  <option value="yr">Years (yr)</option>
                 </select>
               </form>
             </div>

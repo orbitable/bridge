@@ -43,7 +43,8 @@
                     <br>
                     Orbits Completed: {{simulator.orbitTracker.orbitCount}}
                     <br>
-                    Average Time: {{simulator.orbitTracker.orbitTime}}
+                    Average Time:
+                    {{Units.timeFromSim(simulator.orbitTracker.orbitTime).toPrecision(3)}} ({{ Units.labels.time }})
                     <br>
                     Range: {{simulator.orbitTracker.timeRange.toPrecision(3)}}%
                     <br>
@@ -85,8 +86,8 @@
                   <li ng-show="User.current"><a href="#/u/{{User.current.username}}">My Simulations</a></li>
                 </ul>
               </div>
-              <button type="button" class="btn btn-default btn-lg" data-toggle="modal"
-                                                                   data-target="#settings">
+              <button type="button" class="btn btn-default btn-lg"
+                data-toggle="modal" data-target="#settings" ng-click='b.close()'>
                 <span class="glyphicon glyphicon-cog"></span>
           </div>
         </li>

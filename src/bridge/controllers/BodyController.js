@@ -13,16 +13,13 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', 'simulator', 'User', function($scope, eventPump, simulator, User) {
+  .controller('bodyController', ['$scope', 'eventPump', 'simulator', 'Units', 'User', function($scope, eventPump, simulator, Units, User) {
     $scope.trackerPanel = {isOpen: false};
 
     $scope.timestep = 40000;
     $scope.timestepUnits = 'seconds';
-    $scope.uDist = 'm';
-    $scope.uMass = 'kg';
-    $scope.uTime = 's';
-    $scope.uLum  = 'L';
     $scope.simulator = simulator;
+    $scope.Units = Units;
     
     this.getRunningState = function() {
       return !eventPump.paused;
