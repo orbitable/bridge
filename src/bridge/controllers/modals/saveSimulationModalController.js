@@ -13,7 +13,7 @@
  */
 
 angular.module('bridge.controllers.auth')
-  .controller('saveSimulationModalController', ['$location', '$scope', 'Simulation', 'simulator', 'User', function($location, $scope, Simulation, simulator, User) {
+  .controller('saveSimulationModalController', ['$location', '$q', '$scope', 'Simulation', 'simulator', 'User', 'Note', function($location, $q, $scope, Simulation, simulator, User, Note) {
     // A simple state machine that follows submitting a user registration
     reset();
 
@@ -22,7 +22,6 @@ angular.module('bridge.controllers.auth')
       $scope.isSaving = true;
       $scope.didFail = false;
 
-      console.log($scope.d);
       Simulation.save({
             bodies: simulator.bodies,
             createdBy: User.current._id,
@@ -32,10 +31,21 @@ angular.module('bridge.controllers.auth')
     };
 
     function onSuccess(payload) {
-      $scope.message = 'Simulation saved!';
-      $location.path('/s/' + payload._id);
+      $scope.message = 'Saved simulation!';
 
-      reset();
+      $q.all(simulator.notes.map(function(note) {
+        note.simulation = payload._id;
+        return Note.save({}, note);
+      })).then(function() {
+        $location.path('/s/' + payload._id);
+        reset();
+      }, function() {
+        $scope.message = 'There was an error saving your notes. Please try again';
+        $scope.didFail = true;
+        $scope.isSaving = false;
+
+        console.log('failed to save a note');
+      });
     };
 
     function onFailure(err) {
