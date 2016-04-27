@@ -26,6 +26,8 @@ angular.module('bridge.directives')
               return Units.distanceToSim(data);
             case 'mass':
               return Units.massToSim(data);
+            case 'time':
+              return Units.timeToSim(data);
             default:
               return data;
           }
@@ -38,6 +40,8 @@ angular.module('bridge.directives')
               return Units.distanceFromSim(data);
             case 'mass':
               return Units.massFromSim(data);
+            case 'time':
+              return Units.timeFromSim(data);
             default:
               return data;
           }

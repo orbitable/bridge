@@ -70,6 +70,16 @@ angular.module('bridge.services')
           default:
             return d;
         }
+      },
+      timeToSim: function(d) {
+        switch (this.labels.time) {
+          case 'hr':
+            return d * (60 * 60);
+          case 'yr':
+            return d * (60 * 60 * 24 * 365);
+          default:
+            return d;
+        }
       }
     };
   });
