@@ -10,7 +10,7 @@
       <div class='form-group'>
         <label for='radius'>Radius</label>
         <div class='input-group'>
-          <input id='radius' type="number" class='form-control input-sm' 
+          <input id='radius' type="number" class='form-control input-sm'
             ng-model="editingBody.radius" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
           <div class='input-group-addon'>km</div>
         </div>
@@ -18,7 +18,7 @@
       <div class='form-group'>
         <label for='mass'>Mass</label>
         <div class='input-group'>
-          <input id='mass' type="number" class='form-control input-sm' 
+          <input id='mass' type="number" class='form-control input-sm'
             ng-model="editingBody.mass"  ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
           <div class='input-group-addon'>kg</div>
         </div>
@@ -30,8 +30,8 @@
             ng-model="editingBody.luminosity" ng-change='b.updateBody(editingBody)' ng-readonly="b.getRunningState()">
         </div>
       </div>
-      <h4>Position</h4>
       <div class='form-group'>
+        <label>Position</label>
         <div class='input-group'>
           <div class='input-group-addon'>x</div>
           <input id='positionx' type="number" class='form-control input-sm'
@@ -47,8 +47,8 @@
           <div class='input-group-addon'>m</div>
         </div>
       </div>
-      <h4>Velocity</h4>
       <div class='form-group'>
+        <label>Velocity</label>
         <div class='input-group'>
           <div class='input-group-addon'>x</div>
           <input id='velocityx' type="number" class='form-control input-sm'
@@ -67,13 +67,15 @@
     </form>
     <div class="text-center">
       <div class='btn-group'>
-        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
+        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)"
+          alt="Delete Body" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-trash"></span>
         </button>
         <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-screenshot"></span>
         </button>
-        <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
+        <button type="button" class="btn btn-default" ng-click="b.toggleHabitable()"
+          alt="Toggle Habitable Zones" ng-readonly="b.getRunningState()">
           <span class="glyphicon glyphicon-record"></span>
         </button>
         <button type="button" class="btn btn-default disabled" ng-click="b.remove(selectedBody.id)" ng-readonly="b.getRunningState()">
