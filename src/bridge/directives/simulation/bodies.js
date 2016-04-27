@@ -60,6 +60,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
 
       function update(data) {
         
+        
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
           scope.editingBody = scope.selectedBody.copy();
 

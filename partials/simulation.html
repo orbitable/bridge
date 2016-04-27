@@ -57,28 +57,30 @@
       <ul id="user-menu" class="nav nav-stacked" >
         <li>
           <div class="btn-group-vertical" role="group">
-            <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()">
+            <button type="button" class="btn btn-default btn-lg" ng-click="u.refresh()" data-toggle="tooltip" data-placement="right" title="Reset" >
               <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
             </button>
-            <button type="button" class="btn btn-lg btn-default" ng-click="u.togglePlay()">
+            <button type="button" class="btn btn-lg btn-default" ng-click="u.togglePlay()" data-toggle="tooltip" data-placement="right" title="Play/Pause" >
               <span class="glyphicon" ng-class="{'glyphicon-pause': !isPaused(),
                 'glyphicon-play': isPaused()}" aria-hidden="true"></span>
             </button>
-            <button id="btn_ruler" type="button" class="btn btn-lg off" ng-click="u.ruler()" >
+            <button id="btn_ruler" type="button" class="btn btn-lg off" ng-click="u.ruler()" data-toggle="tooltip" data-placement="right" title="Ruler" >
               <img src="ruler.png" style="width:20px"/>
             </button>
             <button id="btn_tracker" type="button" class="btn btn-lg off"
               ng-class='{"on": trackerPanel.isOpen, "off": !trackerPanel.isOpen}'
-              ng-click="u.toggleTrackerPanel()" >
+              ng-click="u.toggleTrackerPanel()" data-toggle="tooltip" data-placement="right" title="Orbit Tracker" >
                 <img src="tracker.png" style="width:20px"/>
             </button>
-            <button id="btn_new" type="button" class="btn btn-default btn-lg" ng-click="u.newSimulation()" >
+            <button id="btn_new" type="button" class="btn btn-default btn-lg" ng-click="u.newSimulation()" data-toggle="tooltip" data-placement="right" title="New" >
                 <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
             </button>
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-lg dropdown-toggle"
                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <div data-toggle="tooltip" data-placement="right" title="Load Simulation" >
                   <span class="glyphicon glyphicon-list-alt"></span>
+                  </div>
                 </button>
                 <ul id="drop-left" class="dropdown-menu">
                   <li><a href="#/s/">All Simulations</a></li>
@@ -87,7 +89,11 @@
               </div>
               <button type="button" class="btn btn-default btn-lg" data-toggle="modal"
                                                                    data-target="#settings">
-                <span class="glyphicon glyphicon-cog"></span>
+                <div data-toggle="tooltip" data-placement="right" title="Settings" >
+                  <span class="glyphicon glyphicon-cog"></span>
+                </div>
+                </button>
+                
           </div>
         </li>
       </ul>
@@ -96,18 +102,18 @@
       <ul class="nav nav-stacked" id="admin-menu">
         <li>
           <div class="btn-group-vertical" role="group">
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.add()">
+            <button type="button" class="btn btn-default btn-lg" ng-click="a.add()" data-toggle="tooltip" data-placement="right" title="Add Body">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.save()">
+            <button type="button" class="btn btn-default btn-lg" ng-click="a.save()" data-toggle="tooltip" data-placement="right" title="Save">
               <span class="glyphicon glyphicon-floppy-disk" ></span>
             </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.addNote()">
+            <button type="button" class="btn btn-default btn-lg" ng-click="a.addNote()" data-toggle="tooltip" data-placement="right" title="Add Note">
               <span class="glyphicon glyphicon-comment"></span>
             </button>
-            <button type="button" class="btn btn-default btn-lg" ng-click="a.record()">
+            <!--<button type="button" class="btn btn-default btn-lg" ng-click="a.record()" data-toggle="tooltip" data-placement="right" title="Load Simulation">
               <span class="glyphicon glyphicon-record"></span>
-            </button>
+            </button>-->
           </div>
         </li>
       </ul>
