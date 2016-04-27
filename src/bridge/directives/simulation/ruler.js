@@ -36,23 +36,32 @@ angular.module('bridge.directives')
               var angle = Math.atan(opposite / adjacent) / Math.PI * 180 || 0;
 
               rulerGroup.select('g').remove();
-
+              
               var x2 = Math.pow(opposite, 2);
               var y2 = Math.pow(adjacent, 2);
-              var dist = Math.sqrt(x2 + y2) / scope.zoom.scale();
-
-              var domain = [dist, 0];
+              var dist = Math.sqrt(x2 + y2)/ scope.zoom.scale();
+              opposite = opposite/scope.height;
+              adjacent = adjacent/scope.height;
+              
+              var x2 = Math.pow(opposite, 2);
+              var y2 = Math.pow(adjacent, 2);
+              var distScaled = 1482671117702*Math.sqrt(x2 + y2)/ scope.zoom.scale();
+              
+              var domain = [distScaled, 0];
               var range = origPos[0] > pos[0] ? [-dist, 0] : [dist, 0];
-
+              
+            
+              
               rulerScale
                 .domain(domain)
                 .range(range);
 
               rulerGroup.select('g').remove();
-
+              
               var rulerAxis = d3.svg.axis()
                .scale(rulerScale)
-               .ticks(Math.floor(dist / 35))
+               .ticks(2)
+               .tickValues([0,distScaled])
                .tickSize(25);
 
               var trans = d3.transform(rulerGroup.attr('transform')).translate;
