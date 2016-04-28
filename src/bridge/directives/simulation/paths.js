@@ -3,7 +3,6 @@ var d3 = require('d3');
 
 // TODO: This is bad; Correct it
 var lineData = {};
-var lineColors = {};
 var delayVal = 10;
 var delayCount = 0;
 var MAX_PATH = 500;
@@ -41,6 +40,7 @@ angular.module('bridge.directives')
               .attr('d', (d) => d ? lineFunction(d) : '')
               // TODO: Update coloring
               .attr('stroke', (d) => d.color)
+              .attr('stroke-opacity',0.5)
               .attr('stroke-width', 1)
               .attr('fill', 'none')
               .on('mouseover', function() {
@@ -78,7 +78,6 @@ angular.module('bridge.directives')
                   x: scope.xScale(body.position.x),
                   y: scope.yScale(body.position.y),
                 });
-                lineColors[body.id] = body.color;
               }
             });
 
