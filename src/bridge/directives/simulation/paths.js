@@ -35,31 +35,18 @@ angular.module('bridge.directives')
             .selectAll('path')
             .data(l);
 
-          function draw(paths) {
+          function drawPaths(paths) {
             paths
               .attr('d', (d) => d ? lineFunction(d) : '')
               // TODO: Update coloring
               .attr('stroke', (d) => d.color)
               .attr('stroke-opacity',0.5)
               .attr('stroke-width', 1)
-              .attr('fill', 'none')
-              .on('mouseover', function() {
-                d3.select(this)
-                  .transition()
-                  .duration(50)
-                  .attr('stroke', 'green')
-                  .attr('stroke-width', 5);
-              })
-              .on('mouseout', function() {
-                d3.select(this)
-                  .transition()
-                  .duration(500)
-                  .attr('stroke-width', 1);
-              });
+              .attr('fill', 'none');
           }
 
-          draw(paths);
-          draw(paths.enter().append('path'));
+          drawPaths(paths);
+          drawPaths(paths.enter().append('path'));
           paths.exit().remove();
         }
 
