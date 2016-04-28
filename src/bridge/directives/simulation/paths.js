@@ -3,6 +3,7 @@ var d3 = require('d3');
 
 // TODO: This is bad; Correct it
 var lineData = {};
+var lineColors = {};
 var delayVal = 10;
 var delayCount = 0;
 var MAX_PATH = 500;
@@ -39,7 +40,7 @@ angular.module('bridge.directives')
             paths
               .attr('d', (d) => d ? lineFunction(d) : '')
               // TODO: Update coloring
-              .attr('stroke', (d) => colorScale(d.id))
+              .attr('stroke', (d) => d.color)
               .attr('stroke-width', 1)
               .attr('fill', 'none')
               .on('mouseover', function() {
@@ -64,18 +65,20 @@ angular.module('bridge.directives')
 
         eventPump.register(() => update(lineData));
         eventPump.register(function() {
+          
 
           if (delayCount > delayVal) {
             simulator.bodies.forEach(function(body) {
               if (lineData[body.id]) {
+                lineData[body.id].color = body.color;
                 if (lineData[body.id].length > MAX_PATH) {
                   lineData[body.id] = [];
                 }
-
                 lineData[body.id].push({
                   x: scope.xScale(body.position.x),
-                  y: scope.yScale(body.position.y)
+                  y: scope.yScale(body.position.y),
                 });
+                lineColors[body.id] = body.color;
               }
             });
 
