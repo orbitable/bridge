@@ -34,8 +34,14 @@ angular.module('bridge.controllers')
         var body = {
           position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
         };
-        simulator.addBody(body);
+        var addedBody = simulator.addBody(body);
         eventPump.step(false,true);
+        $scope.selectedNote = {};
+        $scope.selectedBody = addedBody;
+        console.log($scope.selectedBody);
+        $('#body-sidebar').show();
+        $('#note-sidebar').hide();
+        $('#tracker-sidebar').hide();
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
@@ -58,16 +64,23 @@ angular.module('bridge.controllers')
       .on('click', function() {
 
         var pt = d3.mouse(bodies[0][0]);
-        var body = {
+        var note = {
           position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
         };
-        simulator.addNote(body);
+        var addedNote = simulator.addNote(note);
         eventPump.step(false,true);
+        $scope.selectedNote = addedNote;
+        $scope.selectedBody = {};
+        console.log($scope.selectedNote);
+        $('#tracker-sidebar').hide();
+        $('#body-sidebar').hide();
+        $('#note-sidebar').show();
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
         svg.on('click', null);
         svg.selectAll('#ghost').remove();
+        
       });
     };
     

@@ -58,6 +58,8 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         });  
 
       function update(data) {
+        
+        console.log(scope.selectedNote);
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
 
           if (scope.selectedBody.position) {
