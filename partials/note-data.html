@@ -7,37 +7,37 @@
     <form>
       <div class='form-group'>
         <label id="title-input">Title</label>
-        <input type="text" class="form-control input-sm" placeholder="{{selectedNote.title}}" aria-describedby="title-input" ng-model="selectedNote.title" ng-change="n.updateNote()">
+        <input type="text" class="form-control input-sm" placeholder="{{selectedNote.title}}" aria-describedby="title-input" ng-model="selectedNote.title" ng-change="n.updateNote(selectedNote)">
       </div>
       <div class='form-group'>
         <label id="text-input">Text</label>
-        <textarea rows = "3" class="form-control" placeholder="{{selectedNote.text}}" aria-describedby="text-input" ng-model="selectedNote.text" ng-change="n.updateNote()"></textarea>
+        <textarea rows = "3" class="form-control" placeholder="{{selectedNote.text}}" aria-describedby="text-input" ng-model="selectedNote.text" ng-change="n.updateNote(selectedNote)"></textarea>
       </div>
       <div class='form-group'>
         <label id="startTime-input">Start Time</label>
         <div class="input-group">
-          <input unit='time' type="text" class="form-control input-sm" placeholder="{{selectedNote.startTime}}" aria-describedby="startTime-input" ng-model="selectedNote.startTime" ng-change="n.updateNote()">
+          <input unit='time' type="text" class="form-control input-sm" placeholder="{{selectedNote.startTime}}" aria-describedby="startTime-input" ng-model="selectedNote.startTime" ng-change="n.updateNote(selectedNote)">
           <div class='input-group-addon'>{{ Units.labels.time }}</div>
         </div>
       </div>
       <div class='form-group'>
         <label id="duration-input">Duration</label>
         <div class="input-group">
-          <input unit='time' type="text" class="form-control input-sm" placeholder="{{selectedNote.duration}}" aria-describedby="duration-input" ng-model="selectedNote.duration" ng-change="n.updateNote()">
+          <input unit='time' type="text" class="form-control input-sm" placeholder="{{selectedNote.duration}}" aria-describedby="duration-input" ng-model="selectedNote.duration" ng-change="n.updateNote(selectedNote)">
           <div class='input-group-addon'>{{ Units.labels.time }}</div>
         </div>
       </div>
       <div class='form-group'>
         <label id="positionX-input">Position X</label>
         <div class="input-group">
-          <input unit='distance' type="text" class="form-control input-sm" placeholder="{{selectedNote.position.x}}" aria-describedby="positionX-input" ng-model="selectedNote.position.x" ng-change="n.updateNote()">
+          <input unit='distance' type="text" class="form-control input-sm" placeholder="{{selectedNote.position.x}}" aria-describedby="positionX-input" ng-model="selectedNote.position.x" ng-change="n.updateNote(selectedNote)">
           <div class='input-group-addon'>{{ Units.labels.distance }}</div>
         </div>
       </div>
       <div class='form-group'>
         <label id="positionY-input">Position Y</label>
         <div class="input-group">
-          <input unit='distance' type="text" class="form-control input-sm"placeholder="{{selectedNote.position.y}}" aria-describedby="positionY-input" ng-model="selectedNote.position.y" ng-change="n.updateNote()">
+          <input unit='distance' type="text" class="form-control input-sm"placeholder="{{selectedNote.position.y}}" aria-describedby="positionY-input" ng-model="selectedNote.position.y" ng-change="n.updateNote(selectedNote)">
           <div class='input-group-addon'>{{ Units.labels.distance }}</div>
         </div>
       </div>

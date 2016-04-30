@@ -34,14 +34,15 @@ angular.module('bridge.controllers')
         var body = {
           position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
         };
-        var addedBody = simulator.addBody(body);
-        eventPump.step(false,true);
-        $scope.selectedNote = {};
-        $scope.selectedBody = addedBody;
-        console.log($scope.selectedBody);
-        $('#body-sidebar').show();
         $('#note-sidebar').hide();
         $('#tracker-sidebar').hide();
+        $('#body-sidebar').show();
+        var addedBody = simulator.addBody(body);
+        $scope.$parent.selectedNote = {};
+        $scope.$parent.selectedBody = addedBody;
+        eventPump.step(false,true);
+        console.log($scope.$parent.selectedBody);
+        $scope.$apply();
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
@@ -67,14 +68,14 @@ angular.module('bridge.controllers')
         var note = {
           position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
         };
-        var addedNote = simulator.addNote(note);
-        eventPump.step(false,true);
-        $scope.selectedNote = addedNote;
-        $scope.selectedBody = {};
-        console.log($scope.selectedNote);
         $('#tracker-sidebar').hide();
         $('#body-sidebar').hide();
         $('#note-sidebar').show();
+        var addedNote = simulator.addNote(note);
+        $scope.$parent.selectedNote = addedNote;
+        $scope.$parent.selectedBody = {};
+        eventPump.step(false,true);
+        console.log($scope.$parent.selectedNote);
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
