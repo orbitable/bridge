@@ -1,5 +1,5 @@
 angular.module('bridge.controllers')
-  .controller('noteController', ['$scope', 'eventPump',  'simulator', function($scope, eventPump, simulator) {
+  .controller('noteController', ['$scope', 'eventPump',  'simulator', 'Units', 'User', function($scope, eventPump, simulator, Units, User) {
 
     $scope.notePause = false;
     $scope.notes = [];
@@ -30,9 +30,11 @@ angular.module('bridge.controllers')
       this.closePanel();
     };
 
-    this.updateNote = function() {
-      var n = $scope.selectedNote;
-      simulator.updateNote(n.id, n);
+    this.updateNote = function(note) {
+      if (User.current) {
+        simulator.updateNote(note.id, note);
+        eventPump.step(false, true);
+      }
     };
 
     this.closePanel = function() {
