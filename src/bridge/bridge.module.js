@@ -13,6 +13,7 @@
  */
 
 var angular = require('angular');
+var bowser = require('bowser');
 
 angular.module('bridge.controllers', []);
 angular.module('bridge.controllers.auth', []);
@@ -49,4 +50,13 @@ angular.module('bridge', [
     .otherwise({
       redirectTo: '/s/random'
     });
-  }]);
+  }])
+  .run(function() {
+    if (bowser.firefox || (bowser.msie && bowser.version <= 11)) {
+      // Show un supported modal
+      $('#unsupported-browser').modal('show');
+
+      // Hide all the things
+      $('#app-container').hide();
+    }
+  });
