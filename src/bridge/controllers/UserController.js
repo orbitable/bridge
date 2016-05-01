@@ -21,9 +21,19 @@ angular.module('bridge.controllers')
       $('[data-toggle="tooltip"]').tooltip()
     })
     
+    this.pause = function() {
+      eventPump.pause();
+    };
+    
 
     this.togglePlay = function() {
-        $scope.isPaused() ? eventPump.resume() : eventPump.pause();
+        if ($scope.isPaused()) {
+          eventPump.resume();
+          $('#add-group').hide();
+        }
+        else {
+          eventPump.pause();
+        }
       };
       
       this.newSimulation = function() {
@@ -34,8 +44,27 @@ angular.module('bridge.controllers')
     this.paused = function() {
         return eventPump.paused;
     };
+    
+    this.refreshLocal = function() {
+      if ($scope.isPaused()) {
+      
+        eventPump.pause();
+
+      
+        simulator.resetLocal();
+
+        eventPump.step(false,true);
+        $('#body-sidebar').hide();
+        $('#note-sidebar').hide();
+        $('#tracker-sidebar').hide();
+        $('#add-group').show();
+        lineData = [];
+      }
+
+    };
 
     this.refresh = function() {
+        eventPump.pause();
         Simulation.get({
           id: $routeParams.simulationId || 'random'},
           function(s) {
@@ -46,6 +75,7 @@ angular.module('bridge.controllers')
               $('#body-sidebar').hide();
               $('#note-sidebar').hide();
               $('#tracker-sidebar').hide();
+              $('#add-group').show();
 
               // TODO: Global state is bad we need to resolve this
               //
@@ -58,6 +88,7 @@ angular.module('bridge.controllers')
               $('#body-sidebar').hide();
               $('#note-sidebar').hide();
               $('#tracker-sidebar').hide();
+              $('#add-group').show();
 
               lineData = [];
             });
@@ -92,6 +123,13 @@ angular.module('bridge.controllers')
       }
 
       $scope.trackerPanel.isOpen = !$scope.trackerPanel.isOpen;
+    };
+    
+    this.save = function() {
+      if (simulator.isEditable()) {
+        eventPump.pause();
+        $('#save-sim-modal').modal('show');
+      }
     };
 
   }]);

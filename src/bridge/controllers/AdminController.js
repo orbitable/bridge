@@ -19,70 +19,74 @@ angular.module('bridge.controllers')
     $scope.user = User;
 
     this.add = function() {
-      var px, py = 0;
-      var bodies = d3.select('#bodies');
+      if (User.current && simulator.isEditable()) {
+        var px, py = 0;
+        var bodies = d3.select('#bodies');
 
-      // add listener to svg
-      var svg = d3.select('#svg')
-      .on('mousemove', function() {
-        var pt = d3.mouse(bodies[0][0]);
-        drawGhost(bodies, pt[0], pt[1]);
-      })
-      .on('click', function() {
+        // add listener to svg
+        var svg = d3.select('#svg')
+        .on('mousemove', function() {
+          var pt = d3.mouse(bodies[0][0]);
+          drawGhost(bodies, pt[0], pt[1]);
+        })
+        .on('click', function() {
 
-        var pt = d3.mouse(bodies[0][0]);
-        var body = {
-          position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
-        };
-        $('#note-sidebar').hide();
-        $('#tracker-sidebar').hide();
-        $('#body-sidebar').show();
-        var addedBody = simulator.addBody(body);
-        $scope.$parent.selectedNote = {};
-        $scope.$parent.selectedBody = addedBody;
-        eventPump.step(false,true);
-        console.log($scope.$parent.selectedBody);
-        $scope.$apply();
+          var pt = d3.mouse(bodies[0][0]);
+          var body = {
+            position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
+          };
+          $('#note-sidebar').hide();
+          $('#tracker-sidebar').hide();
+          $('#body-sidebar').show();
+          var addedBody = simulator.addBody(body);
+          $scope.$parent.selectedNote = {};
+          $scope.$parent.selectedBody = addedBody;
+          eventPump.step(false,true);
+          console.log($scope.$parent.selectedBody);
+          $scope.$apply();
 
-        // clear listeners and ghost circle
-        svg.on('mousemove', null);
-        svg.on('click', null);
-        svg.selectAll('#ghost').remove();
-      });
+          // clear listeners and ghost circle
+          svg.on('mousemove', null);
+          svg.on('click', null);
+          svg.selectAll('#ghost').remove();
+        });
+      }
     };
 
 
     this.addNote = function() {
-      var px, py = 0;
-      var bodies = d3.select('#bodies');
+      if (User.current && simulator.isEditable()) {
+        var px, py = 0;
+        var bodies = d3.select('#bodies');
 
-      // add listener to svg
-      var svg = d3.select('#svg')
-      .on('mousemove', function() {
-        var pt = d3.mouse(bodies[0][0]);
-        drawGhostNote(bodies, pt[0], pt[1]);
-      })
-      .on('click', function() {
+        // add listener to svg
+        var svg = d3.select('#svg')
+        .on('mousemove', function() {
+          var pt = d3.mouse(bodies[0][0]);
+          drawGhostNote(bodies, pt[0], pt[1]);
+        })
+        .on('click', function() {
 
-        var pt = d3.mouse(bodies[0][0]);
-        var note = {
-          position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
-        };
-        $('#tracker-sidebar').hide();
-        $('#body-sidebar').hide();
-        $('#note-sidebar').show();
-        var addedNote = simulator.addNote(note);
-        $scope.$parent.selectedNote = addedNote;
-        $scope.$parent.selectedBody = {};
-        eventPump.step(false,true);
-        console.log($scope.$parent.selectedNote);
+          var pt = d3.mouse(bodies[0][0]);
+          var note = {
+            position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
+          };
+          $('#tracker-sidebar').hide();
+          $('#body-sidebar').hide();
+          $('#note-sidebar').show();
+          var addedNote = simulator.addNote(note);
+          $scope.$parent.selectedNote = addedNote;
+          $scope.$parent.selectedBody = {};
+          eventPump.step(false,true);
+          console.log($scope.$parent.selectedNote);
 
-        // clear listeners and ghost circle
-        svg.on('mousemove', null);
-        svg.on('click', null);
-        svg.selectAll('#ghost').remove();
-        
-      });
+          // clear listeners and ghost circle
+          svg.on('mousemove', null);
+          svg.on('click', null);
+          svg.selectAll('#ghost').remove();
+          
+        });
+      }
     };
     
     // Used by addBody. draws a circle that follows cursor.
@@ -127,11 +131,6 @@ angular.module('bridge.controllers')
         'stroke-width':2,
       });
     }
-
-    this.save = function() {
-      eventPump.pause();
-      $('#save-sim-modal').modal('show');
-    };
 
     this.tip = function() {
       $log.debug('tip function()');

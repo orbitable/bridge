@@ -22,7 +22,7 @@ angular.module('bridge.controllers')
     $scope.Units = Units;
 
     this.getRunningState = function() {
-      return !eventPump.paused;
+      return !eventPump.paused || !simulator.isEditable();
     }
 
     this.selectCenterBody = function(){
@@ -48,7 +48,7 @@ angular.module('bridge.controllers')
     };
 
     this.updateBody = function(body){
-      if(User.current) {
+      if(User.current && simulator.isEditable()) {
         simulator.updateBody(body.id, body);
         eventPump.step(false, true);
       }
@@ -65,7 +65,7 @@ angular.module('bridge.controllers')
     };
 
     this.remove = function(id) {
-      if(User.current){
+      if(User.current && simulator.isEditable()){
         $('#' + id).attr('r', 0);
         simulator.deleteBody(id);
         eventPump.step(false,true);

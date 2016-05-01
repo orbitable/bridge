@@ -27,7 +27,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           scope.dragDownTime = new Date().getTime();
         })
         .on('drag', function(d) {
-          if (eventPump.paused && User.current) {
+          if (eventPump.paused && User.current && simulator.isEditable()) {
             if (checkDragThreshold()) {
               var pt = d3.mouse(bodies[0][0]);
               d3.select(this)
@@ -39,7 +39,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           }
         })
         .on('dragend', function(d) {
-          if (eventPump.paused && User.current) {
+          if (eventPump.paused && User.current && simulator.isEditable()) {
             if (checkDragThreshold()) {
               var pt = d3.mouse(bodies[0][0]);
               var item = {
