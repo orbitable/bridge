@@ -52,7 +52,7 @@ angular.module('bridge', [
     });
   }])
   .run(function() {
-    if (bowser.firefox || (bowser.msie && bowser.version <= 11)) {
+    if (bowser.firefox || (bowser.msie && bowser.version < 11)) {
       // Show un supported modal
       $('#unsupported-browser').modal('show');
 
