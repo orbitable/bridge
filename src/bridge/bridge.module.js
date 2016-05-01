@@ -52,9 +52,6 @@ angular.module('bridge', [
     });
   }])
   .run(function() {
-    var isNotSupported = bowser.firefox;
-    isNotSupported = isNotSupported && (bowser.msie && bowser.version <= 10);
-
     if (bowser.firefox || (bowser.msie && bowser.version <= 11)) {
       // Show un supported modal
       $('#unsupported-browser').modal('show');
