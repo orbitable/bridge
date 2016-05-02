@@ -14,7 +14,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
       scope.dragDownTime = 0;
       // Delay in milleseconds before dragging is effective
       scope.dragThreshold = 250;
-      
+
       // Returns whether or not the time threshold has been passed
       function checkDragThreshold() {
         return (new Date().getTime() > scope.dragDownTime + scope.dragThreshold);
@@ -51,7 +51,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         });
 
       function update(data) {
-        
+
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
           scope.editingBody = scope.selectedBody.copy();
 
@@ -65,12 +65,19 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             document.getElementById('velocityy').value = scope.editingBody.velocity.y;
           }
         }
-           
+
         function isSelected(body) {
           if (body && scope.selectedBody ) {
             return body.id === scope.selectedBody.id;
           }
 
+          return false;
+        }
+
+        function isSelectedNote(note) {
+          if (note && scope.selectedNote ) {
+            return note.id === scope.selectedNote.id;
+          }
           return false;
         }
 
@@ -82,6 +89,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             .attr('fill', (d) => d.color)
             .attr('stroke', (d) => ( isSelected(d) ? 'white' : 'darkgrey' ))
             .attr('stroke-width',(d) => ( isSelected(d) ? (scope.rScale(d.radius) + 30) : 0 ))
+            .attr('hideHabitable', (d) => (d.hideHabitable ? d.hideHabitable : false))  // add false if undef
             .call(drag)
             .on('mouseover',function() {
               d3.select(this)
@@ -102,7 +110,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               simulator.selectedBody = d;
               scope.selectedNote = {};
               eventPump.step(false,true);
-              
+
               scope.$apply();
 
               if (!scope.trackerPanel.isOpen) {
@@ -127,7 +135,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
-                        
+
                         scope.selectedBody = {};
                         scope.selectedNote = d;
                         eventPump.step(false,true);
@@ -162,15 +170,15 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           drawBodies(bodies);
           drawBodies(bodies.enter().append('circle'));
           bodies.exit().remove();
-          
+
          var allNotes = bodyGroup
           .selectAll('rect')
           .data(data.notes);
-          
+
           drawAllNotes(allNotes);
           drawAllNotes(allNotes.enter().append('rect'));
           allNotes.exit().remove();
-          
+
         }
 
         eventPump.register(() => update(simulator));
