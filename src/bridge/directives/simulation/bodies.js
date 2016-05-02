@@ -91,7 +91,6 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             .attr('cy', (d) => scope.yScale(d.position.y))
             .attr('r',  (d) => scope.rScale(d.radius))
             .attr('fill', (d) => d.color)
-            .attr('hideHabitable', (d) => (d.hideHabitable ? d.hideHabitable : false))  // add false if undef
             // .attr('stroke', (d) => ( isSelectedBody(d) ? 'white' : 'darkgrey' ))
             // .attr('stroke-width',(d) => ( isSelectedBody(d) ? (scope.rScale(d.radius) + 30) : 0 ))
             .call(drag)
