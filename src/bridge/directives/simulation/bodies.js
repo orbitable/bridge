@@ -7,7 +7,6 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
     link: function(scope, elem) {
       // TODO: Properly resolve the initial resolution of selected body
       scope.selectedBody = {};
-      scope.editingBody = {};
       scope.selectedNote = {};
 
       // Stores the timestamp when a drag starts
@@ -33,7 +32,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               var pt = d3.mouse(bodies[0][0]);
               d3.select(this)
                 .attr('cx', (pt[0]))
-                .attr('cy', (pt[1]));
+                .attr('cy', (pt[1]))
+                .attr('x', (pt[0]) - 6)
+                .attr('y', (pt[1]) - 6);
             }
           }
         })
@@ -41,36 +42,43 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           if (eventPump.paused && User.current) {
             if (checkDragThreshold()) {
               var pt = d3.mouse(bodies[0][0]);
-              var body = {
+              var item = {
                 position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
               };
-              simulator.updateBody(d.id, body);
+              // TODO: Is there a more elegant way of checking if 'd' is a body or a note?
+              if (typeof d.mass !== "undefined") {
+                simulator.updateBody(d.id, item);
+              }
+              else {
+                simulator.updateNote(d.id, item);
+              }
               eventPump.step(false,true);
             }
           }
         });
 
       function update(data) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
-          scope.editingBody = scope.selectedBody.copy();
 
-          if (scope.editingBody.position) {
-            document.getElementById('positionx').value = scope.editingBody.position.x;
-            document.getElementById('positiony').value = scope.editingBody.position.y;
+          if (scope.selectedBody.position) {
+            document.getElementById('positionx').value = scope.selectedBody.position.x;
+            document.getElementById('positiony').value = scope.selectedBody.position.y;
           }
 
-          if (scope.editingBody.velocity) {
-            document.getElementById('velocityx').value = scope.editingBody.velocity.x;
-            document.getElementById('velocityy').value = scope.editingBody.velocity.y;
+          if (scope.selectedBody.velocity) {
+            document.getElementById('velocityx').value = scope.selectedBody.velocity.x;
+            document.getElementById('velocityy').value = scope.selectedBody.velocity.y;
           }
         }
 
-        function isSelected(body) {
+        function isSelectedBody(body) {
           if (body && scope.selectedBody ) {
             return body.id === scope.selectedBody.id;
           }
-
           return false;
         }
 
@@ -87,26 +95,25 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
             .attr('cy', (d) => scope.yScale(d.position.y))
             .attr('r',  (d) => scope.rScale(d.radius))
             .attr('fill', (d) => d.color)
-            .attr('stroke', (d) => ( isSelected(d) ? 'white' : 'darkgrey' ))
-            .attr('stroke-width',(d) => ( isSelected(d) ? (scope.rScale(d.radius) + 30) : 0 ))
             .attr('hideHabitable', (d) => (d.hideHabitable ? d.hideHabitable : false))  // add false if undef
+            // .attr('stroke', (d) => ( isSelectedBody(d) ? 'white' : 'darkgrey' ))
+            // .attr('stroke-width',(d) => ( isSelectedBody(d) ? (scope.rScale(d.radius) + 30) : 0 ))
             .call(drag)
             .on('mouseover',function() {
               d3.select(this)
                 .transition()
                 .duration(500)
-                .attr('stroke-width',(d) => scope.rScale(d.radius) + 30);
+                .attr('r',(d) => scope.rScale(d.radius) + 10);
             })
           .on('mouseout',function() {
             d3.select(this)
               .transition()
               .duration(500)
-              .attr('stroke-width',(d) => ( isSelected(d) ? (scope.rScale(d.radius) + 30) : 0 ));
+              .attr('r',(d) =>  scope.rScale(d.radius) );
             })
             .on('mousedown', function(d) {
               d3.event.stopPropagation();
               scope.selectedBody = d;
-              scope.editingBody = scope.selectedBody.copy();
               simulator.selectedBody = d;
               scope.selectedNote = {};
               eventPump.step(false,true);
@@ -132,7 +139,10 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .attr('height',  12)
                     .attr('width',  12)
                     .attr('fill-opacity','0.0')
-                    .attr('style',"stroke:grey;stroke-width:2;stroke-opacity:1.0")
+                    .attr('stroke','white')
+                    .attr('stroke-width', (d) => ( isSelectedNote(d) ? 3.0 : 1.0 ))
+                    .attr('stroke-opacity',(d) => ( isSelectedNote(d) ? 1.0 : 0.5 ))
+                    .call(drag)
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
 
@@ -150,15 +160,15 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                         d3.select(this)
                         .transition()
                         .duration(500)
-                        .attr('stroke', 'white')
-                        .attr('stroke-width', 3);
+                        .attr('stroke-width', 3.0)
+                        .attr('stroke-opacity', 1.0);
                     })
                     .on('mouseout',function() {
                         d3.select(this)
                         .transition()
                         .duration(500)
-                        .attr('stroke', 'grey')
-                        .attr('stroke-width', 1);
+                        .attr('stroke-width', (d) => ( isSelectedNote(d) ? 3.0 : 1.0 ))
+                        .attr('stroke-opacity', (d) => ( isSelectedNote(d) ? 1.0 : 0.5 ));
                     });
             }
 

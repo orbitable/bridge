@@ -12,24 +12,10 @@
  * specific language governing permissions and limitations under the License.
  */
 
-var angular = require('angular');
-
-angular.module('bridge.directives')
-  .directive('counter', ['eventPump', 'Units', function(eventPump, Units) {
-
-    function link(scope, element) {
-     
-      var updateCallback = eventPump.register(function() {
-        element.text(Units.timeFromSim(eventPump.simulator.simulationTime).toFixed(3) + " " + Units.labels.time);
-      });
-
-      element.on('destroy', function() {
-        eventPump.unregister(updateCallback);
-        $interval.cancel(intervalId);
-      });
-    }
-
-    return {
-      link: link
-    };
+angular.module('bridge.services')
+  .factory('SimulationNote', ['$resource', function($resource) {
+    return $resource('//mission-control.orbitable.tech/simulations/:id/notes');
+  }])
+  .factory('Note', ['$resource', function($resource) {
+    return $resource('//mission-control.orbitable.tech/notes/:id');
   }]);

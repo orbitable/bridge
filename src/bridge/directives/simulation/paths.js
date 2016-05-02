@@ -35,46 +35,35 @@ angular.module('bridge.directives')
             .selectAll('path')
             .data(l);
 
-          function draw(paths) {
+          function drawPaths(paths) {
             paths
               .attr('d', (d) => d ? lineFunction(d) : '')
               // TODO: Update coloring
-              .attr('stroke', (d) => colorScale(d.id))
+              .attr('stroke', (d) => d.color)
+              .attr('stroke-opacity',0.5)
               .attr('stroke-width', 1)
-              .attr('fill', 'none')
-              .on('mouseover', function() {
-                d3.select(this)
-                  .transition()
-                  .duration(50)
-                  .attr('stroke', 'green')
-                  .attr('stroke-width', 5);
-              })
-              .on('mouseout', function() {
-                d3.select(this)
-                  .transition()
-                  .duration(500)
-                  .attr('stroke-width', 1);
-              });
+              .attr('fill', 'none');
           }
 
-          draw(paths);
-          draw(paths.enter().append('path'));
+          drawPaths(paths);
+          drawPaths(paths.enter().append('path'));
           paths.exit().remove();
         }
 
         eventPump.register(() => update(lineData));
         eventPump.register(function() {
+          
 
           if (delayCount > delayVal) {
             simulator.bodies.forEach(function(body) {
               if (lineData[body.id]) {
+                lineData[body.id].color = body.color;
                 if (lineData[body.id].length > MAX_PATH) {
                   lineData[body.id] = [];
                 }
-
                 lineData[body.id].push({
                   x: scope.xScale(body.position.x),
-                  y: scope.yScale(body.position.y)
+                  y: scope.yScale(body.position.y),
                 });
               }
             });

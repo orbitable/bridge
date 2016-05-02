@@ -36,7 +36,7 @@ angular.module('bridge.directives')
           }
           
           scope.rScale = function(r) {
-            return (Math.log((r + 14961) / 14960)) / Math.LN10
+            return Math.max((Math.log((r + 14961) / 14960)) / Math.LN10,scope.xScale(r));
 
           }
 
