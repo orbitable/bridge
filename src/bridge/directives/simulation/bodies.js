@@ -58,10 +58,6 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
         });
 
       function update(data) {
-<<<<<<< HEAD
-
-=======
->>>>>>> master
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
 
           if (scope.selectedBody.position) {

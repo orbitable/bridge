@@ -79,7 +79,6 @@ angular.module('bridge.controllers')
     };
 
     this.toggleHabitable = function(b){
-      console.log("current: ", b.hideHabitable);
       var body = {
         hideHabitable : !b.hideHabitable
       }
