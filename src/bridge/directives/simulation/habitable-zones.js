@@ -9,7 +9,7 @@ angular.module('bridge.directives')
 
         function update(data) {
           // A conditional function that asserts if a body has a habitable zone
-          var isHabitable = (body) => body !== null && body.luminosity > 0 && body.radius > 0;
+          var isHabitable = (body) => body !== null && body.luminosity > 0 && body.radius > 0 && !body.hideHabitable;
           var zones = zoneGroup
             .selectAll('circle')
             .data(data.filter(isHabitable));
