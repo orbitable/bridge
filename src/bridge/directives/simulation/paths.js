@@ -7,7 +7,7 @@ var lineID = 0;
 var lineMaxCount = 5;
 var delayVal = 10;
 var delayCount = 0;
-var MAX_PATH = 100;
+var MAX_PATH = 300;
 
 angular.module('bridge.directives')
   .directive('paths', ['eventPump', 'simulator', function(eventPump, simulator) {
