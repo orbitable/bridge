@@ -117,11 +117,12 @@
         </li>
       </ul>
     </nav>
-    <nav id="add-group" ng-disabled="!user.current" ng-controller="adminController as a">
+    
+    <nav ng-disabled="!user.current" ng-controller="adminController as a">
       <ul class="nav nav-stacked" id="admin-menu">
         <li>
           <div class="btn-group-vertical" role="group">
-            <button type="button" class="btn btn-side btn-default btn-lg" ng-click="a.add()" data-toggle="tooltip" data-placement="right" title="Add Body">
+            <button id="add-group" type="button" class="btn btn-side btn-default btn-lg" ng-click="a.add()" data-toggle="tooltip" data-placement="right" title="Add Body">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
             <button type="button" class="btn btn-side btn-default btn-lg" ng-click="a.addNote()" data-toggle="tooltip" data-placement="right" title="Add Note">

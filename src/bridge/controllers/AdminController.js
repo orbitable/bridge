@@ -55,7 +55,7 @@ angular.module('bridge.controllers')
 
 
     this.addNote = function() {
-      if (User.current && simulator.isEditable()) {
+      if (User.current) {
         var px, py = 0;
         var bodies = d3.select('#bodies');
 
