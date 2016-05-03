@@ -55,6 +55,14 @@ angular.module('bridge.directives')
         eventPump.register(() => update(lineData));
         eventPump.register(function() {
           
+          
+            lineData.forEach(function(path) {
+                path.data.pop();
+                path.data.push({
+                  x: scope.xScale(path.body.position.x),
+                  y: scope.yScale(path.body.position.y),
+                });
+            });
 
           if (delayCount > delayVal) {
             
@@ -67,6 +75,7 @@ angular.module('bridge.directives')
                   x: scope.xScale(path.body.position.x),
                   y: scope.yScale(path.body.position.y),
                 });
+                
             });
             
             //console.log(lineData);
