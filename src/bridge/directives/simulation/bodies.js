@@ -120,7 +120,10 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                 $('#note-sidebar').hide();
               }
 
-              lineData[d.id] = [];
+              lineData.push({body: d, data: []});
+              if (lineData.length > lineMaxCount) {
+                lineData.shift();
+              }
             });
 
           }

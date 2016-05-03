@@ -2,10 +2,12 @@ var angular = require('angular');
 var d3 = require('d3');
 
 // TODO: This is bad; Correct it
-var lineData = {};
+var lineData = [];
+var lineID = 0;
+var lineMaxCount = 5;
 var delayVal = 10;
 var delayCount = 0;
-var MAX_PATH = 500;
+var MAX_PATH = 100;
 
 angular.module('bridge.directives')
   .directive('paths', ['eventPump', 'simulator', function(eventPump, simulator) {
@@ -23,11 +25,11 @@ angular.module('bridge.directives')
         var lineFunction = d3.svg.line()
           .x((d) => d.x)
           .y((d) => d.y)
-          .interpolate('linear');
+          .interpolate('basis');
 
         function update(data) {
           var l = Object.keys(data).reduce(function(acc, k) {
-            acc.push(data[k]);
+            acc.push(data[k].data);
             return acc;
           }, []);
 
@@ -55,18 +57,19 @@ angular.module('bridge.directives')
           
 
           if (delayCount > delayVal) {
-            simulator.bodies.forEach(function(body) {
-              if (lineData[body.id]) {
-                lineData[body.id].color = body.color;
-                if (lineData[body.id].length > MAX_PATH) {
-                  lineData[body.id] = [];
+            
+            lineData.forEach(function(path) {
+              path.data.color = path.body.color;
+                if (path.data.length > MAX_PATH) {
+                  path.data.shift();
                 }
-                lineData[body.id].push({
-                  x: scope.xScale(body.position.x),
-                  y: scope.yScale(body.position.y),
+                path.data.push({
+                  x: scope.xScale(path.body.position.x),
+                  y: scope.yScale(path.body.position.y),
                 });
-              }
             });
+            
+            //console.log(lineData);
 
             delayCount = 0;
           }
