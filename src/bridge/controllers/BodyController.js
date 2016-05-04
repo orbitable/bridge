@@ -20,6 +20,7 @@ angular.module('bridge.controllers')
     $scope.timestepUnits = 'seconds';
     $scope.simulator = simulator;
     $scope.Units = Units;
+    $scope.User = User;
 
     this.getRunningState = function() {
       return !eventPump.paused;

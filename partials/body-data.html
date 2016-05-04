@@ -67,12 +67,13 @@
     </form>
     <div class="text-center">
       <div class='btn-group' role="group">
-        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)"
-          ng-readonly="b.getRunningState()" data-toggle="tooltip" data-placement="under" title="Delete Body">
+        <button type="button" class="btn btn-default" ng-click="b.remove(selectedBody.id)" ng-class="{'disabled': User.current == null }"
+          ng-readonly="b.getRunningState()" data-toggle="tooltip"
+          data-placement="bottom" title="Delete Body">
             <span class="glyphicon glyphicon-trash"></span>
         </button>
         <button type="button" class="btn btn-default" ng-click="b.toggleHabitable(selectedBody)" ng-readonly="b.getRunningState()"
-         data-toggle="tooltip" data-placement="right" title="Toggle Habitable Zone">
+         data-toggle="tooltip" data-placement="bottom" title="Toggle Habitable Zone">
           <span class="glyphicon glyphicon-record"></span>
       </button>
       </div>
