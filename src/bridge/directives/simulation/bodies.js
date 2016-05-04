@@ -13,7 +13,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
       scope.dragDownTime = 0;
       // Delay in milleseconds before dragging is effective
       scope.dragThreshold = 250;
-      
+
       // Returns whether or not the time threshold has been passed
       function checkDragThreshold() {
         return (new Date().getTime() > scope.dragDownTime + scope.dragThreshold);
@@ -55,7 +55,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               eventPump.step(false,true);
             }
           }
-        });  
+        });
 
       function update(data) {
         if (typeof scope.selectedBody.copy == 'function' && !eventPump.paused) {
@@ -77,14 +77,14 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           }
           return false;
         }
-        
+
         function isSelectedNote(note) {
           if (note && scope.selectedNote ) {
             return note.id === scope.selectedNote.id;
           }
           return false;
         }
-        
+
         function drawBodies(bodies) {
           bodies
             .attr('cx', (d) => scope.xScale(d.position.x))
@@ -112,7 +112,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               simulator.selectedBody = d;
               scope.selectedNote = {};
               eventPump.step(false,true);
-              
+
               scope.$apply();
 
               if (!scope.trackerPanel.isOpen) {
@@ -140,7 +140,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                     .call(drag)
                     .on('mousedown', function(d) {
                         d3.event.stopPropagation();
-                        
+
                         scope.selectedBody = {};
                         scope.selectedNote = d;
                         eventPump.step(false,true);
@@ -175,15 +175,15 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           drawBodies(bodies);
           drawBodies(bodies.enter().append('circle'));
           bodies.exit().remove();
-          
+
          var allNotes = bodyGroup
           .selectAll('rect')
           .data(data.notes);
-          
+
           drawAllNotes(allNotes);
           drawAllNotes(allNotes.enter().append('rect'));
           allNotes.exit().remove();
-          
+
         }
 
         eventPump.register(() => update(simulator));

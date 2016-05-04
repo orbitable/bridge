@@ -78,11 +78,11 @@ angular.module('bridge.controllers')
       $('#note-sidebar').hide();
     };
 
-    this.toggleHabitable = function(){
-      if($('#habitable-zones').attr("visibility") != "hidden"){
-        $('#habitable-zones').attr("visibility", "hidden");
-      } else {
-        $('#habitable-zones').attr("visibility", "visible");
+    this.toggleHabitable = function(b){
+      var body = {
+        hideHabitable : !b.hideHabitable
       }
+      simulator.updateBody(b.id, body);
+      eventPump.step(false,true);
     };
   }]);

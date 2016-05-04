@@ -14,7 +14,7 @@
 
 body {
   font-family: 'Inconsolata','Courier New',Courier,monospace;
-  background-color: #222222;
+  background-color: #040404;
   height: 100%;
 }
 
@@ -147,7 +147,7 @@ counter {
 
 .off {
   background-color: #464545;
-  border-color: #464545; 
+  border-color: #464545;
 }
 
 .off:hover {
@@ -168,11 +168,8 @@ counter {
 
 
 .navbar {
-  /*background-color: #375a7f;*/
   background-color: rgba(34, 34, 34, 0.5);
-  border-color: #375a7f;
-  border-color: #222222;
-  /*opacity: .70;*/
+  border-color: rgba(34, 34, 34, 0.5);
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
