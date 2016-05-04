@@ -9,7 +9,7 @@ angular.module('bridge.directives')
 
         function update(data) {
           // A conditional function that asserts if a body has a habitable zone
-          var isHabitable = (body) => body !== null && body.luminosity > 0 && body.radius > 0;
+          var isHabitable = (body) => body !== null && body.luminosity > 0 && body.radius > 0 && !body.hideHabitable;
           var zones = zoneGroup
             .selectAll('circle')
             .data(data.filter(isHabitable));
@@ -30,9 +30,9 @@ angular.module('bridge.directives')
                .attr('cy', (d) => scope.yScale(d.position.y))
                .attr('r', (d) => ((outerRadius(d) - innerRadius(d)) / 2 + innerRadius(d)))
                .attr('fill-opacity', 0)
-               .attr('stroke','green')
+               .attr('stroke','#02668D')
                .attr('stroke-width', (d) => (outerRadius(d) - innerRadius(d)))
-               .attr('stroke-opacity', 0.25);
+               .attr('stroke-opacity', 0.50);
           }
 
           drawHabitableZone(zones);

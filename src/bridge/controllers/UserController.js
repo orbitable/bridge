@@ -17,14 +17,25 @@ angular.module('bridge.controllers')
     $scope.isPaused = () => eventPump.paused;
     $scope.User = User;
     
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
-    
     this.pause = function() {
       eventPump.pause();
     };
-    
+
+    $(function() {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    var reset = function(b, n) {
+      simulator.reset(b, n);
+      eventPump.step(false,true);
+
+      $('#body-sidebar').hide();
+      $('#note-sidebar').hide();
+      $('#tracker-sidebar').hide();
+      $('#add-group').show();
+
+      lineData = [];
+    };
 
     this.togglePlay = function() {
         if ($scope.isPaused()) {
@@ -35,22 +46,21 @@ angular.module('bridge.controllers')
           eventPump.pause();
         }
       };
-      
-      this.newSimulation = function() {
-        simulator.reset();
-        eventPump.step(false,true);
-      };
-      
+
+    this.newSimulation = function() {
+      eventPump.pause();
+      reset();
+    };
+
     this.paused = function() {
-        return eventPump.paused;
+      return eventPump.paused;
     };
     
     this.refreshLocal = function() {
       if ($scope.isPaused()) {
       
         eventPump.pause();
-
-      
+        
         simulator.resetLocal();
 
         eventPump.step(false,true);
@@ -64,38 +74,11 @@ angular.module('bridge.controllers')
     };
 
     this.refresh = function() {
-        eventPump.pause();
-        Simulation.get({
-          id: $routeParams.simulationId || 'random'},
-          function(s) {
-            SimulationNote.query({id: s._id}, function(notes) {
-
-              simulator.reset(s.bodies, notes);
-              eventPump.step(false,true);
-              $('#body-sidebar').hide();
-              $('#note-sidebar').hide();
-              $('#tracker-sidebar').hide();
-              $('#add-group').show();
-
-              // TODO: Global state is bad we need to resolve this
-              //
-              // Created issue [#93](https://github.com/orbitable/bridge/issues/93)
-              // to capture adding a composite object to collect rendering objects.
-              lineData = [];
-            }, function() {
-              console.log('Unable to load notes');
-              simulator.reset(s.bodies);
-              $('#body-sidebar').hide();
-              $('#note-sidebar').hide();
-              $('#tracker-sidebar').hide();
-              $('#add-group').show();
-
-              lineData = [];
-            });
-          }, function() {
-            console.log('Unable to load simulation');
-          });
-      };
+      Simulation.get({
+        id: $routeParams.simulationId || 'random'},
+          (s) => SimulationNote.query({id: s._id}, (n) => reset(s.bodies, n), () => reset(s)),
+          (s)  => console.log('Unable to load simulation'));
+    };
 
     this.ruler = function() {
         var btn = document.getElementById('btn_ruler');
