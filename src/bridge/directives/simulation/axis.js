@@ -32,6 +32,7 @@ angular.module('bridge.directives')
           .call(yAxis);
 
         scope.zoom.on('zoom', function() {
+          scope.$apply();
           scope.svg.select('.x.axis').call(xAxis);
           scope.svg.select('.y.axis').call(yAxis);
         });
