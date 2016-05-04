@@ -42,9 +42,11 @@
         </div>
       </div>
       <div class="text-center">
-        <button type="button" class="btn btn-default btn" ng-click="n.removeNote(selectedNote.id)"
-        data-toggle="tooltip" data-placement="below" title="Delete Body">
-        <span class="glyphicon glyphicon-trash"></span> </button>
+        <button type="button" class="btn btn-default btn" ng-click="n.removeNote(selectedNote.id)">
+          <div data-toggle="tooltip" data-placement="below" title="Delete Body">
+            <span class="glyphicon glyphicon-trash"></span>
+          </div>
+        </button>
       </div>
     </form>
   </div>

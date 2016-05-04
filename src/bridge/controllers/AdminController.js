@@ -68,6 +68,9 @@ angular.module('bridge.controllers')
         var note = {
           position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
         };
+        $(function() {
+          $('[data-toggle="tooltip"]').tooltip();
+        });
         $('#tracker-sidebar').hide();
         $('#body-sidebar').hide();
         $('#note-sidebar').show();
@@ -81,10 +84,10 @@ angular.module('bridge.controllers')
         svg.on('mousemove', null);
         svg.on('click', null);
         svg.selectAll('#ghost').remove();
-        
+
       });
     };
-    
+
     // Used by addBody. draws a circle that follows cursor.
     function drawGhost(svg, x, y) {
       // select existing (at first this will be empty)
@@ -105,7 +108,7 @@ angular.module('bridge.controllers')
         'opacity': '0.7',
       });
     }
-    
+
       function drawGhostNote(svg, x, y) {
       // select existing (at first this will be empty)
       var ghost = svg.selectAll('#ghost');
