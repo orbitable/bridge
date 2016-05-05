@@ -24,14 +24,16 @@ angular.module('bridge.controllers')
     });
 
     this.removeNote = function(id) {
-      $('#' + id).attr('stroke-width', 0);
-      simulator.deleteNote(id);
-      eventPump.step(false,true);
-      this.closePanel();
+      if (User.current) {
+        $('#' + id).attr('stroke-width', 0);
+        simulator.deleteNote(id);
+        eventPump.step(false,true);
+        this.closePanel();
+      }
     };
 
     this.updateNote = function(note) {
-      if (User.current) {
+      if (User.current && simulator.isEditable()) {
         simulator.updateNote(note.id, note);
         eventPump.step(false, true);
       }

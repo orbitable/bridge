@@ -16,6 +16,10 @@ angular.module('bridge.controllers')
   .controller('userController', ['$routeParams', '$scope', 'eventPump', 'Simulation', 'SimulationNote', 'simulator', 'User',  function($routeParams, $scope, eventPump, Simulation, SimulationNote, simulator, User) {
     $scope.isPaused = () => eventPump.paused;
     $scope.User = User;
+    
+    this.pause = function() {
+      eventPump.pause();
+    };
 
     $(function() {
       $('[data-toggle="tooltip"]').tooltip();
@@ -28,12 +32,21 @@ angular.module('bridge.controllers')
       $('#body-sidebar').hide();
       $('#note-sidebar').hide();
       $('#tracker-sidebar').hide();
+      $('#add-group').prop( "disabled", false );
+      $('#btn_save').prop( "disabled", false );
 
       lineData = [];
     };
 
     this.togglePlay = function() {
-        $scope.isPaused() ? eventPump.resume() : eventPump.pause();
+        if ($scope.isPaused()) {
+          eventPump.resume();
+          $('#add-group').prop( "disabled", true );
+          $('#btn_save').prop( "disabled", true );
+        }
+        else {
+          eventPump.pause();
+        }
       };
 
     this.newSimulation = function() {
@@ -43,6 +56,24 @@ angular.module('bridge.controllers')
 
     this.paused = function() {
       return eventPump.paused;
+    };
+    
+    this.refreshLocal = function() {
+      if ($scope.isPaused()) {
+      
+        eventPump.pause();
+        
+        simulator.resetLocal();
+
+        eventPump.step(false,true);
+        $('#body-sidebar').hide();
+        $('#note-sidebar').hide();
+        $('#tracker-sidebar').hide();
+        $('#add-group').prop( "disabled", false );
+        $('#btn_save').prop( "disabled", false );
+        lineData = [];
+      }
+
     };
 
     this.refresh = function() {
@@ -78,6 +109,13 @@ angular.module('bridge.controllers')
       }
 
       $scope.trackerPanel.isOpen = !$scope.trackerPanel.isOpen;
+    };
+    
+    this.save = function() {
+      if (simulator.isEditable()) {
+        eventPump.pause();
+        $('#save-sim-modal').modal('show');
+      }
     };
 
   }]);
