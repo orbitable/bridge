@@ -24,7 +24,7 @@ angular.module('bridge.controllers')
     });
 
     this.removeNote = function(id) {
-      if (User.current && simulator.isEditable()) {
+      if (User.current) {
         $('#' + id).attr('stroke-width', 0);
         simulator.deleteNote(id);
         eventPump.step(false,true);
