@@ -27,19 +27,20 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
           scope.dragDownTime = new Date().getTime();
         })
         .on('drag', function(d) {
-          if (eventPump.paused && User.current) {
+          if (eventPump.paused && User.current && simulator.isEditable()) {
             if (checkDragThreshold()) {
               var pt = d3.mouse(bodies[0][0]);
               d3.select(this)
                 .attr('cx', (pt[0]))
                 .attr('cy', (pt[1]))
                 .attr('x', (pt[0]) - 6)
-                .attr('y', (pt[1]) - 6);
+                .attr('y', (pt[1]) - 6)
+                .attr('cursor','drag');
             }
           }
         })
         .on('dragend', function(d) {
-          if (eventPump.paused && User.current) {
+          if (eventPump.paused && User.current && simulator.isEditable()) {
             if (checkDragThreshold()) {
               var pt = d3.mouse(bodies[0][0]);
               var item = {
@@ -98,7 +99,8 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               d3.select(this)
                 .transition()
                 .duration(500)
-                .attr('r',(d) => scope.rScale(d.radius) + 10);
+                .attr('r',(d) => scope.rScale(d.radius) + 10)
+                .attr('cursor',simulator.isEditable() ? 'grab' : 'no-drop');
             })
           .on('mouseout',function() {
             d3.select(this)
@@ -116,6 +118,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               scope.$apply();
 
               if (!scope.trackerPanel.isOpen) {
+                $(function() {
+                  $('[data-toggle="tooltip"]').tooltip();
+                });
                 $('#body-sidebar').show();
                 $('#note-sidebar').hide();
               }
@@ -150,6 +155,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
 
                         scope.$apply();
 
+                        $(function() {
+                          $('[data-toggle="tooltip"]').tooltip();
+                        });
                         $('#note-sidebar').show();
                         $('#body-sidebar').hide();
                         $('#tracker-sidebar').hide();
@@ -159,7 +167,8 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                         .transition()
                         .duration(500)
                         .attr('stroke-width', 3.0)
-                        .attr('stroke-opacity', 1.0);
+                        .attr('stroke-opacity', 1.0)
+                        .attr('cursor',simulator.isEditable() ? 'move' : 'no-drop');
                     })
                     .on('mouseout',function() {
                         d3.select(this)

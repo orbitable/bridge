@@ -54,6 +54,7 @@ g {
 
 .sidebar .nav {
   min-width: 54px;
+  max-width: 54px;
 }
 
 .right-sidebar {
@@ -158,6 +159,10 @@ counter {
 .btn-default {
   background-color: #464545;
   border-color: #464545;
+}
+
+.btn-side {
+  min-width: 54px;
 }
 
 .btn-light {
