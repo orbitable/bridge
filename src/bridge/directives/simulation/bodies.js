@@ -116,6 +116,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
               scope.$apply();
 
               if (!scope.trackerPanel.isOpen) {
+                $(function() {
+                  $('[data-toggle="tooltip"]').tooltip();
+                });
                 $('#body-sidebar').show();
                 $('#note-sidebar').hide();
               }
@@ -147,6 +150,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
 
                         scope.$apply();
 
+                        $(function() {
+                          $('[data-toggle="tooltip"]').tooltip();
+                        });
                         $('#note-sidebar').show();
                         $('#body-sidebar').hide();
                         $('#tracker-sidebar').hide();

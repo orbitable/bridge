@@ -6,6 +6,16 @@ var VectorArrowDirective = function(eventPump, simulator, User) {
     link: function(scope, elem) {
       var activeColor   = 'lightgray';
       var inactiveColor = 'gray';
+      
+      // Stores the timestamp when a drag starts
+      scope.dragDownTime = 0;
+      // Delay in milleseconds before dragging is effective
+      scope.dragThreshold = 250;
+      
+      // Returns whether or not the time threshold has been passed
+      function checkDragThreshold() {
+        return (new Date().getTime() > scope.dragDownTime + scope.dragThreshold);
+      }
 
       var vectorGroup = d3.select(elem[0])
         .attr('id', 'vectorGroup');
@@ -47,7 +57,7 @@ var VectorArrowDirective = function(eventPump, simulator, User) {
           .on('dragstart', function() {
             // Do nothing if not logged in
             if (!User.current) { return; }
-
+            scope.dragDownTime = new Date().getTime();
             // Prevent drags from propagating ensuring only the vector arrow
             // responds ot to the drag actions
             d3.event.sourceEvent.stopPropagation();
@@ -55,16 +65,24 @@ var VectorArrowDirective = function(eventPump, simulator, User) {
           .on('drag', function() {
             // Do nothing if not logged in
             if (!User.current) { return; }
+            
+          if (eventPump.paused && User.current && simulator.isEditable()) {
+            if (checkDragThreshold()) {
 
             // Update position of velocity vector on drag
             d3.select(this)
               .attr('x2', d3.event.x)
               .attr('y2', d3.event.y);
+            }
+          }
           })
           .on('dragend', function() {
             // Do nothing if not logged in
             if (!User.current) { return; }
 
+
+          if (eventPump.paused && User.current && simulator.isEditable()) {
+            if (checkDragThreshold()) {
             // Update the velocity of the body at the end of the drag event.
             var pt = d3.mouse(this);
             var body = d3.select(this).data()[0];
@@ -73,7 +91,9 @@ var VectorArrowDirective = function(eventPump, simulator, User) {
               y: sVYi(body, pt[1]),
             };
 
-            body.update({velocity: v});
+            simulator.updateBody(body.id,{velocity: v});
+            }
+          }
           });
 
         vector

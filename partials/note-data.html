@@ -41,8 +41,12 @@
           <div class='input-group-addon'>{{ Units.labels.distance }}</div>
         </div>
       </div>
-      <div class="text-center"><button type="button" class="btn btn-default btn" ng-click="n.removeNote(selectedNote.id)">
-        <span class="glyphicon glyphicon-trash"></span> </button> 
+      <div class="text-center">
+        <button type="button" class="btn btn-default btn" ng-click="n.removeNote(selectedNote.id)">
+          <div data-toggle="tooltip" data-placement="below" title="Delete Body">
+            <span class="glyphicon glyphicon-trash"></span>
+          </div>
+        </button>
       </div>
     </form>
   </div>

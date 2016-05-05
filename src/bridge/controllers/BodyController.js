@@ -21,6 +21,7 @@ angular.module('bridge.controllers')
     $scope.simulator = simulator;
     $scope.Units = Units;
     $scope.eventPump = eventPump;
+    $scope.User = User;
 
     this.getRunningState = function() {
       return !eventPump.paused || !simulator.isEditable();
