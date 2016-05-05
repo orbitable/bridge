@@ -111,7 +111,8 @@ var VectorArrowDirective = function(eventPump, simulator, User) {
 
             d3.select(this)
               .transition()
-              .style('stroke', activeColor);
+              .style('stroke', activeColor)
+              .attr('cursor',simulator.isEditable() ? 'move' : 'no-drop');
           })
           .on('mouseout', function() {
             // Do nothing if not logged in
