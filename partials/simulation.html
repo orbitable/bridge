@@ -89,7 +89,7 @@
       <ul id="file-menu" class="nav nav-stacked" >
         <li>
           <div class="btn-group-vertical" role="group">
-            <button id="btn_new" type="button" class="btn btn-side btn-default btn-lg" ng-disabled="!isPaused()" ng-click="u.newSimulation()" data-toggle="tooltip" data-placement="right" title="New" >
+            <button id="btn_new" ng-show='User.current' type="button" class="btn btn-side btn-default btn-lg" ng-disabled="!isPaused()" ng-click="u.newSimulation()" data-toggle="tooltip" data-placement="right" title="New" >
                 <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
             </button>
               <div class="btn-group">
@@ -104,7 +104,7 @@
                   <li ng-show="User.current"><a href="#/u/{{User.current.username}}">My Simulations</a></li>
                 </ul>
               </div>
-            <button id="btn_save" ng-disabled = "!simulator.isEditable()" type="button" class="btn btn-side btn-default btn-lg" ng-click="u.save()" data-toggle="tooltip" data-placement="right" title="Save">
+            <button id="btn_save" ng-show='User.current' ng-disabled="!simulator.isEditable()" type="button" class="btn btn-side btn-default btn-lg" ng-click="u.save()" data-toggle="tooltip" data-placement="right" title="Save">
               <span class="glyphicon glyphicon-floppy-disk" ></span>
             </button>
               <button type="button" class="btn btn-side btn-default btn-lg" data-toggle="modal"
@@ -118,7 +118,7 @@
       </ul>
     </nav>
     
-    <nav ng-disabled="!user.current" ng-controller="adminController as a">
+    <nav ng-show="user.current" ng-controller="adminController as a">
       <ul class="nav nav-stacked" id="admin-menu">
         <li>
           <div class="btn-group-vertical" role="group">
