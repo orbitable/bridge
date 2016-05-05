@@ -1,6 +1,6 @@
 {
   "name": "bridge",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A collection of web components and UI related to the Orbitable Application",
   "main": "dist/bridge.min.js",
   "directories": {
