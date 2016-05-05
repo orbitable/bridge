@@ -25,7 +25,7 @@ angular.module('bridge.directives')
         var lineFunction = d3.svg.line()
           .x((d) => d.x)
           .y((d) => d.y)
-          .interpolate('basis');
+          .interpolate('cardinal');
 
         function update(data) {
           var l = Object.keys(data).reduce(function(acc, k) {
