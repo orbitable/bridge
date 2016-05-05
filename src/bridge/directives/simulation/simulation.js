@@ -43,6 +43,10 @@ angular.module('bridge.directives')
           scope.rScale = function(r) {
             return Math.max((Math.log((r + 14961) / 14960)) / Math.LN10, scope.xScale(r));
           };
+          
+          scope.rScale.invert = function(r) {
+            return Math.min(Math.exp(r * Math.LN10) * 14960 - 14961,scope.xScale.invert(r));
+          };
 
           scope.zoom = d3.behavior.zoom()
             .x(scope.windowXScale)
