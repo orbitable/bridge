@@ -72,7 +72,8 @@ var VectorArrowDirective = function(eventPump, simulator, User) {
             // Update position of velocity vector on drag
             d3.select(this)
               .attr('x2', d3.event.x)
-              .attr('y2', d3.event.y);
+              .attr('y2', d3.event.y)
+              .attr('cursor','drag');
             }
           }
           })
@@ -112,7 +113,7 @@ var VectorArrowDirective = function(eventPump, simulator, User) {
             d3.select(this)
               .transition()
               .style('stroke', activeColor)
-              .attr('cursor',simulator.isEditable() ? 'move' : 'no-drop');
+              .attr('cursor',simulator.isEditable() ? 'grab' : 'no-drop');
           })
           .on('mouseout', function() {
             // Do nothing if not logged in

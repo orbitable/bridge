@@ -34,7 +34,8 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                 .attr('cx', (pt[0]))
                 .attr('cy', (pt[1]))
                 .attr('x', (pt[0]) - 6)
-                .attr('y', (pt[1]) - 6);
+                .attr('y', (pt[1]) - 6)
+                .attr('cursor','drag');
             }
           }
         })
@@ -99,7 +100,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                 .transition()
                 .duration(500)
                 .attr('r',(d) => scope.rScale(d.radius) + 10)
-                .attr('cursor',simulator.isEditable() ? 'move' : 'no-drop');
+                .attr('cursor',simulator.isEditable() ? 'grab' : 'no-drop');
             })
           .on('mouseout',function() {
             d3.select(this)
