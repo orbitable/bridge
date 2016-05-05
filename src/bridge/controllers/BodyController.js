@@ -20,10 +20,11 @@ angular.module('bridge.controllers')
     $scope.timestepUnits = 'seconds';
     $scope.simulator = simulator;
     $scope.Units = Units;
+    $scope.eventPump = eventPump;
 
     this.getRunningState = function() {
       return !eventPump.paused || !simulator.isEditable();
-    }
+    };
 
     this.selectCenterBody = function(){
         $scope.simulator.orbitTracker.setCenterBody(

@@ -32,7 +32,8 @@ angular.module('bridge.controllers')
       $('#body-sidebar').hide();
       $('#note-sidebar').hide();
       $('#tracker-sidebar').hide();
-      $('#add-group').show();
+      $('#add-group').prop( "disabled", false );
+      $('#btn_save').prop( "disabled", false );
 
       lineData = [];
     };
@@ -40,7 +41,8 @@ angular.module('bridge.controllers')
     this.togglePlay = function() {
         if ($scope.isPaused()) {
           eventPump.resume();
-          $('#add-group').hide();
+          $('#add-group').prop( "disabled", true );
+          $('#btn_save').prop( "disabled", true );
         }
         else {
           eventPump.pause();
@@ -67,7 +69,8 @@ angular.module('bridge.controllers')
         $('#body-sidebar').hide();
         $('#note-sidebar').hide();
         $('#tracker-sidebar').hide();
-        $('#add-group').show();
+        $('#add-group').prop( "disabled", false );
+        $('#btn_save').prop( "disabled", false );
         lineData = [];
       }
 
