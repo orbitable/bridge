@@ -68,9 +68,9 @@
                 <h2 class="form-settings-heading">Units</h2>
                 <label for="distance">Distance</label>
                 <select id="distance" ng-model="Units.labels.distance" ng-change='b.updateUnits()' class="form-control">
-                  <option value="m" selected="selected">Meters (m)</option>
+                  <option value="m">Meters (m)</option>
                   <option value="km">Kilometers (km)</option>
-                  <option value="au">Astronomical Units (au)</option>
+                  <option value="au" selected="selected">Astronomical Units (au)</option>
                 </select>
                 <label for="mass">Mass</label>
                 <select id="mass" ng-model="Units.labels.mass" ng-change='b.updateUnits()' class="form-control">
@@ -80,9 +80,9 @@
                 </select>
                 <label for="time">Time</label>
                 <select ng-model="Units.labels.time" ng-change='b.updateUnits()' class="form-control">
-                  <option value="s" selected="selected">Seconds (s)</option>
+                  <option value="s">Seconds (s)</option>
                   <option value="hr">Hours (hr)</option>
-                  <option value="yr">Years (yr)</option>
+                  <option value="yr" selected="selected">Years (yr)</option>
                 </select>
               </form>
             </div>

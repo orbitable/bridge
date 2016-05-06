@@ -16,29 +16,29 @@ angular.module('bridge.services')
   .factory('Units', function($resource) {
     return {
       labels: {
-        distance: 'm',
+        distance: 'au',
         mass: 'kg',
-        time: 's',
+        time: 'yr',
         speed: 'm/s'
       },
       distanceFromSim: function(d) {
         switch (this.labels.distance) {
           case 'km':
             return d / 1000;
-          case 'au':
-            return d / 149597870700;
-          default:
+          case 'm':
             return d;
+          default: // au
+            return d / 149597870700;
         }
       },
       distanceToSim: function(d) {
         switch (this.labels.distance) {
           case 'km':
             return 1000 * d;
-          case 'au':
-            return 149597870700 * d;
-          default:
+          case 'm':
             return d;
+          default: // au
+            return 149597870700 * d;
         }
       },
       massFromSim: function(d) {
@@ -65,20 +65,20 @@ angular.module('bridge.services')
         switch (this.labels.time) {
           case 'hr':
             return d / (60 * 60);
-          case 'yr':
-            return d / (60 * 60 * 24 * 365);
-          default:
+          case 's':
             return d;
+          default: // yr
+            return d / (60 * 60 * 24 * 365);
         }
       },
       timeToSim: function(d) {
         switch (this.labels.time) {
           case 'hr':
             return d * (60 * 60);
-          case 'yr':
-            return d * (60 * 60 * 24 * 365);
-          default:
+          case 's':
             return d;
+          default: // yr
+            return d * (60 * 60 * 24 * 365);
         }
       }
     };
