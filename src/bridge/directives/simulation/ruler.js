@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 angular.module('bridge.directives')
-  .directive('ruler', ['Scale', 'Units', function(Scale, Units) {
+  .directive('ruler', ['Scale', 'Units', '$filter', function(Scale, Units, $filter) {
     return {
       link: function(scope, elem) {
 
@@ -56,7 +56,7 @@ angular.module('bridge.directives')
 
               rulerGroup.select('g').remove();
 
-              var unitLabel = (d) => d == 0 ? '' : '' + Units.distanceFromSim(d) + ' ' + Units.labels.distance;
+              var unitLabel = (d) => d == 0 ? '' : '' + $filter('number')(Units.distanceFromSim(d), 3) + ' ' + Units.labels.distance;
 
               var rulerAxis = d3.svg.axis()
                .scale(rulerScale)
