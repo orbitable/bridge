@@ -16,7 +16,7 @@ var angular = require('angular');
 var Simulator = require('engine');
 
 angular.module('bridge.services')
-  .factory('simulator', ["eventPump", function(eventPump) {
+  .factory('simulator', ['eventPump', 'Paths', function(eventPump, Paths) {
     var simulator = new Simulator();
     eventPump.simulator = simulator;
     eventPump.timestep = 40000;
@@ -28,6 +28,17 @@ angular.module('bridge.services')
       // irregardless of FSP.
       simulator.update(eventPump.timestep);
     });
+
+    var pathResetIntercept = function(fn) {
+      return function() {
+        Paths.data = [];
+        return fn.apply(this, arguments);
+      };
+    };
+
+    // Intercept calls to reset and remove path data
+    simulator.reset = pathResetIntercept(simulator.reset);
+    simulator.resetLocal = pathResetIntercept(simulator.resetLocal);
 
     return simulator;
   }]);
