@@ -1,8 +1,6 @@
 var angular = require('angular');
 var d3 = require('d3');
 
-// TODO: This is bad; Correct it
-var lineData = [];
 var lineID = 0;
 var lineMaxCount = 5;
 var delayVal = 10;
@@ -10,7 +8,7 @@ var delayCount = 0;
 var MAX_PATH = 300;
 
 angular.module('bridge.directives')
-  .directive('paths', ['eventPump', 'simulator', function(eventPump, simulator) {
+  .directive('paths', ['eventPump', 'Paths', 'simulator', function(eventPump, Paths, simulator) {
     return {
       link: function(scope, elem) {
         var pathsGroup = d3.select(elem[0]);
@@ -52,33 +50,30 @@ angular.module('bridge.directives')
           paths.exit().remove();
         }
 
-        eventPump.register(() => update(lineData));
+        eventPump.register(() => update(Paths.data));
         eventPump.register(function() {
-          
-          
-            lineData.forEach(function(path) {
-                path.data.pop();
-                path.data.push({
-                  x: scope.xScale(path.body.position.x),
-                  y: scope.yScale(path.body.position.y),
-                });
+          Paths.data.forEach(function(path) {
+            path.data.pop();
+            path.data.push({
+              x: scope.xScale(path.body.position.x),
+              y: scope.yScale(path.body.position.y),
             });
+          });
 
           if (delayCount > delayVal) {
-            
-            lineData.forEach(function(path) {
+            Paths.data.forEach(function(path) {
               path.data.color = path.body.color;
-                if (path.data.length > MAX_PATH) {
-                  path.data.shift();
-                }
-                path.data.push({
-                  x: scope.xScale(path.body.position.x),
-                  y: scope.yScale(path.body.position.y),
-                });
-                
+
+              if (path.data.length > MAX_PATH) {
+                path.data.shift();
+              }
+
+              path.data.push({
+                x: scope.xScale(path.body.position.x),
+                y: scope.yScale(path.body.position.y),
+              });
+
             });
-            
-            //console.log(lineData);
 
             delayCount = 0;
           }

@@ -1,7 +1,7 @@
 var angular = require('angular');
 var d3 = require('d3');
 
-var BodiesDirective = function(eventPump, simulator, Scale, User) {
+var BodiesDirective = function(eventPump, Paths, simulator, Scale, User) {
   return {
     scope: false,
     link: function(scope, elem) {
@@ -125,9 +125,9 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
                 $('#note-sidebar').hide();
               }
 
-              lineData.push({body: d, data: []});
-              if (lineData.length > lineMaxCount) {
-                lineData.shift();
+              Paths.data.push({body: d, data: []});
+              if (Paths.data.length > lineMaxCount) {
+                Paths.data.shift();
               }
             });
 
@@ -204,7 +204,7 @@ var BodiesDirective = function(eventPump, simulator, Scale, User) {
 };
 
 // List dependencies to be injected
-BodiesDirective.$inject = ['eventPump', 'simulator', 'Scale', 'User'];
+BodiesDirective.$inject = ['eventPump', 'Paths', 'simulator', 'Scale', 'User'];
 
 // Register Directive
 angular.module('bridge.directives')

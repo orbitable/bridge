@@ -34,8 +34,6 @@ angular.module('bridge.controllers')
       $('#tracker-sidebar').hide();
       $('#add-group').prop( "disabled", false );
       $('#btn_save').prop( "disabled", false );
-
-      lineData = [];
     };
 
     this.togglePlay = function() {
@@ -71,7 +69,6 @@ angular.module('bridge.controllers')
         $('#tracker-sidebar').hide();
         $('#add-group').prop( "disabled", false );
         $('#btn_save').prop( "disabled", false );
-        lineData = [];
       }
 
     };
