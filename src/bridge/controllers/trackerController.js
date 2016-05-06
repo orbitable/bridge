@@ -21,15 +21,13 @@ angular.module('bridge.controllers')
             $scope.simulator.selectedBody,
             $scope.simulator.simulationTime
         );
-        this.updateCallback();
     };
-      
+
     this.selectTargetBody = function(){
         $scope.simulator.orbitTracker.setTargetBody(
             $scope.simulator.selectedBody,
             $scope.simulator.simulationTime
         );
-        this.updateCallback();
     };
     
     this.setState = function(state){
@@ -38,7 +36,6 @@ angular.module('bridge.controllers')
     };
     
     this.getState = function() {
-        this.updateCallback();
         return $scope.simulator.orbitTracker.running;
     };
     
