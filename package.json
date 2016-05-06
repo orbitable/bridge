@@ -42,7 +42,7 @@
     "bootstrap": "^3.3.6",
     "bowser": "^1.0.0",
     "d3": "^3.5.16",
-    "engine": "git+https://github.com/orbitable/engine.git#0.2.6",
+    "engine": "git+https://github.com/orbitable/engine.git#0.2.7",
     "jquery": "^2.2.1",
     "tether": "git+https://github.com/HubSpot/tether.git#v1.1.1"
   }

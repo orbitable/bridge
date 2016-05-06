@@ -17,13 +17,12 @@ angular.module('bridge.controllers')
     $scope.simulator = simulator;
     
     this.selectCenterBody = function(){
-        console.log($scope.simulator.selectedBody.name);
         $scope.simulator.orbitTracker.setCenterBody(
             $scope.simulator.selectedBody,
             $scope.simulator.simulationTime
         );
     };
-      
+
     this.selectTargetBody = function(){
         $scope.simulator.orbitTracker.setTargetBody(
             $scope.simulator.selectedBody,
@@ -33,11 +32,18 @@ angular.module('bridge.controllers')
     
     this.setState = function(state){
         $scope.simulator.orbitTracker.setState(state,$scope.simulator.simulationTime);
+        this.updateCallback();
     };
     
     this.getState = function() {
         return $scope.simulator.orbitTracker.running;
     };
+    
+    this.updateCallback = function() {
+        simulator.orbitTracker.completedCallback = function() {$scope.$apply();};
+    };
+    
+    this.updateCallback();
 
   }
   ]);
