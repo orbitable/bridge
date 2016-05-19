@@ -21,6 +21,7 @@ angular.module('bridge.controllers')
             $scope.simulator.selectedBody,
             $scope.simulator.simulationTime
         );
+        eventPump.step(false,true);
     };
 
     this.selectTargetBody = function(){
@@ -28,11 +29,13 @@ angular.module('bridge.controllers')
             $scope.simulator.selectedBody,
             $scope.simulator.simulationTime
         );
+        eventPump.step(false,true);
     };
     
     this.setState = function(state){
         $scope.simulator.orbitTracker.setState(state,$scope.simulator.simulationTime);
         this.updateCallback();
+        eventPump.step(false,true);
     };
     
     this.getState = function() {
