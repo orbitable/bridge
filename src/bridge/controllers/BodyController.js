@@ -36,9 +36,11 @@ angular.module('bridge.controllers')
     };
     
     this.snapToBody = function(body) {
+      // If the given body IS the following body, clear the following body (disable following)
       if ($scope.followingBody === body) {
         $scope.followingBody = null;
       } 
+      // Otherwise, set the following body to be the given body and snap the view to it
       else {
         $scope.followingBody = body;
         Scale.snapToBody(body); 
