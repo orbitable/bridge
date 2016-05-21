@@ -71,6 +71,10 @@ var BodiesDirective = function(eventPump, Paths, simulator, Scale, User) {
             document.getElementById('velocityy').value = scope.selectedBody.velocity.y;
           }
         }
+        
+        if (scope.followingBody) {
+          Scale.snapToBody(scope.followingBody);
+        }
 
         function isSelectedBody(body) {
           if (body && scope.selectedBody ) {
