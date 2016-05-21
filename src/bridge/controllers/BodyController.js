@@ -13,7 +13,7 @@
  */
 
 angular.module('bridge.controllers')
-  .controller('bodyController', ['$scope', 'eventPump', 'simulator', 'Units', 'User', function($scope, eventPump, simulator, Units, User) {
+  .controller('bodyController', ['$scope', 'eventPump', 'simulator', 'Units', 'User', 'Scale', function($scope, eventPump, simulator, Units, User, Scale) {
     $scope.trackerPanel = {isOpen: false};
 
     $scope.timestep = 40000;
@@ -27,26 +27,22 @@ angular.module('bridge.controllers')
       return !eventPump.paused || !simulator.isEditable();
     };
 
-    this.selectCenterBody = function(){
-        $scope.simulator.orbitTracker.setCenterBody(
-            $scope.selectedBody,
-            $scope.simulator.simulationTime
-        );
-    };
-
-    this.selectTargetBody = function(){
-        $scope.simulator.orbitTracker.setTargetBody(
-            $scope.selectedBody,
-            $scope.simulator.simulationTime
-        );
-    };
-
     this.setState = function(state){
         $scope.simulator.orbitTracker.setState(state,$scope.simulator.simulationTime);
     };
 
     this.getState = function() {
         return $scope.simulator.orbitTracker.running;
+    };
+    
+    this.snapToBody = function(body) {
+      if ($scope.followingBody === body) {
+        $scope.followingBody = null;
+      } 
+      else {
+        $scope.followingBody = body;
+        Scale.snapToBody(body); 
+      } 
     };
 
     this.updateBody = function(body){

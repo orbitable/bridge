@@ -53,6 +53,17 @@ angular.module('bridge.directives')
             translationGroup.attr('transform',
               'translate(' + d3.event.translate + ') scale(' + d3.event.scale + ')');
           });
+         
+          Scale.snapToBody = function(body) {
+            var translate = [
+              -(scope.xScale(body.position.x) * scope.zoom.scale() - scope.width/2),
+              -(scope.yScale(body.position.y) * scope.zoom.scale() - scope.height/2)
+              ];
+            translationGroup.attr('transform',
+              'translate(' + translate + ') scale(' + scope.zoom.scale() + ')'
+            );   
+            scope.zoom.translate(translate);
+          };
 
           scope.svg.call(scope.zoom.translate(scope.windowCenter).event);
           scope.svg.call(scope.zoom);
