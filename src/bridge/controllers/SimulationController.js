@@ -19,7 +19,7 @@ angular.module('bridge.controllers')
     Simulation.get({id: $scope.simulationId}, function(simulation) {
 
       // Update the document title with the simulation title
-      document.title = 'Oribitable - ' + simulation.title;
+      document.title = 'Orbitable - ' + simulation.title;
 
       // Update the simulator with the data
       simulator.reset(simulation.bodies);
