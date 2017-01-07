@@ -21,7 +21,7 @@ angular.module('bridge.services')
     var userService = {
       current: $cookies.getObject(USER_COOKIE_KEY),
       session: $cookies.getObject(SESSION_COOKIE_KEY),
-      host: '//ec2-54-164-149-18.compute-1.amazonaws.com',
+      host: '//ec2-54-164-149-18.compute-1.amazonaws.com:8000',
       registerEndpoint: 'users',
       sessionEndpoint: 'sessions'
     };
