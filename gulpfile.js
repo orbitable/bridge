@@ -40,7 +40,7 @@ gulp.task('webserver', ['build', 'browserify'], function() {
   gulp.watch('index.html', ['build', 'browserify']);
 
   gulp.src(rootDirectory)
-    .pipe(webserver({host: 'localhost',  open: true}));
+    .pipe(webserver({host: 'localhost', port: 80, open: false}));
 });
 
 
