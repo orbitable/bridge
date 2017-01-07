@@ -15,7 +15,7 @@
 var angular = require('angular');
 var bowser = require('bowser');
 
-global.missionControl = 'ec2-54-164-149-18.compute-1.amazonaws.com:8000';
+global.missionControl = 'ec2-34-196-102-11.compute-1.amazonaws.com:8000';
 
 angular.module('bridge.controllers', []);
 angular.module('bridge.controllers.auth', []);
