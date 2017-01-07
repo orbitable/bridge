@@ -14,8 +14,8 @@
 
 angular.module('bridge.services')
   .factory('SimulationNote', ['$resource', function($resource) {
-    return $resource('//ec2-54-164-149-18.compute-1.amazonaws.com:8001/simulations/:id/notes');
+    return $resource('//ec2-54-89-110-47.compute-1.amazonaws.com/simulations/:id/notes');
   }])
   .factory('Note', ['$resource', function($resource) {
-    return $resource('//ec2-54-164-149-18.compute-1.amazonaws.com:8001/notes/:id');
+    return $resource('//ec2-54-89-110-47.compute-1.amazonaws.com/notes/:id');
   }]);
