@@ -14,8 +14,8 @@
 
 angular.module('bridge.services')
   .factory('UserSimulation', ['$resource', function($resource) {
-    return $resource('//ec2-54-164-149-18.compute-1.amazonaws.com:8000/users/:id/simulations');
+    return $resource('//' + global.missionControl + '/users/:id/simulations');
   }])
   .factory('Simulation', ['$resource', function($resource) {
-    return $resource('//ec2-54-164-149-18.compute-1.amazonaws.com:8000/simulations/:id');
+    return $resource('//' + global.missionControl + '/simulations/:id');
   }]);
