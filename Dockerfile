@@ -1,2 +1,2 @@
 FROM node:4-onbuild
-EXPOSE 8000
+EXPOSE 80
