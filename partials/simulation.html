@@ -112,8 +112,8 @@
                   </div>
                 </button>
                 <ul id="drop-left" class="dropdown-menu">
-                  <li><a href="#/s/">All Simulations</a></li>
-                  <li ng-show="User.current"><a href="#/u/{{User.current.username}}">My Simulations</a></li>
+                  <li><a href="#!/s/">All Simulations</a></li>
+                  <li ng-show="User.current"><a href="#!/u/{{User.current.username}}">My Simulations</a></li>
                 </ul>
               </div>
             <button id="btn_save" ng-show='User.current' ng-disabled="!simulator.isEditable()" type="button" class="btn btn-side btn-default btn-lg" ng-click="u.save()" data-toggle="tooltip" data-placement="right" title="Save">

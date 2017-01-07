@@ -21,7 +21,7 @@ angular.module('bridge.services')
     var userService = {
       current: $cookies.getObject(USER_COOKIE_KEY),
       session: $cookies.getObject(SESSION_COOKIE_KEY),
-      host: '//mission-control.orbitable.tech',
+      host: '//localhost:8001',
       registerEndpoint: 'users',
       sessionEndpoint: 'sessions'
     };

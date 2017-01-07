@@ -14,8 +14,8 @@
 
 angular.module('bridge.services')
   .factory('UserSimulation', ['$resource', function($resource) {
-    return $resource('//mission-control.orbitable.tech/users/:id/simulations');
+    return $resource('//localhost:8001/users/:id/simulations');
   }])
   .factory('Simulation', ['$resource', function($resource) {
-    return $resource('//mission-control.orbitable.tech/simulations/:id');
+    return $resource('//localhost:8001/simulations/:id');
   }]);
