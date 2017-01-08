@@ -18,7 +18,7 @@ angular.module('bridge.controllers')
   .controller('adminController', ['$scope', 'Scale', 'Simulation', 'simulator', 'User', 'eventPump', '$log', '$location',  function($scope, Scale, Simulation, simulator, User, eventPump, $log, $location) {
     $scope.user = User;
 
-    this.add = function() {
+    this.add = function(bodyType) {
       if (User.current && simulator.isEditable()) {
         var px, py = 0;
         var bodies = d3.select('#bodies');
@@ -29,12 +29,27 @@ angular.module('bridge.controllers')
           var pt = d3.mouse(bodies[0][0]);
           drawGhost(bodies, pt[0], pt[1]);
         })
-        .on('click', function() {
+        .on('mousedown', function() {
 
           var pt = d3.mouse(bodies[0][0]);
           var body = {
-            position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
-          };
+            star: {
+              mass: 1.989e30,
+              radius: 695700000,
+              luminosity: 1,
+            },
+            planet: {
+              mass: 5.972e24,
+              radius: 6371000
+            },
+            moon: {
+              mass: 7.34767309e22,
+              radius: 1737000
+            }
+          }[bodyType];
+          body.position = {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])};
+          body.velocity = {x: 30000,y: -30000};
+
           $('#note-sidebar').hide();
           $('#tracker-sidebar').hide();
           $('#body-sidebar').show();
@@ -47,11 +62,15 @@ angular.module('bridge.controllers')
 
           // clear listeners and ghost circle
           svg.on('mousemove', null);
-          svg.on('click', null);
+          svg.on('mousedown', null);
           svg.selectAll('#ghost').remove();
         });
       }
     };
+
+    this.toggleAddMenu = function() {
+      $scope.addMenu = !$scope.addMenu;
+    }
 
 
     this.addNote = function() {
@@ -65,7 +84,7 @@ angular.module('bridge.controllers')
           var pt = d3.mouse(bodies[0][0]);
           drawGhostNote(bodies, pt[0], pt[1]);
         })
-        .on('click', function() {
+        .on('mousedown', function() {
         var pt = d3.mouse(bodies[0][0]);
         var note = {
           position: {x: Scale.x.invert(pt[0]), y: Scale.y.invert(pt[1])},
@@ -84,7 +103,7 @@ angular.module('bridge.controllers')
 
         // clear listeners and ghost circle
         svg.on('mousemove', null);
-        svg.on('click', null);
+        svg.on('mousedown', null);
         svg.selectAll('#ghost').remove();
 
       });

@@ -85,6 +85,13 @@
       </ul>
       <ul id="tool-menu" class="nav nav-stacked" >
         <li>
+          <!--<style>
+          .tooltip {
+            text-align: left;
+            min-width: 100px;
+            max-width: 400px
+          }
+          </style>-->
           <div class="btn-group-vertical" role="group">
             <button id="btn_ruler" type="button" class="btn btn-side btn-lg off" ng-click="u.ruler()" data-toggle="tooltip" data-placement="right" title="Ruler" >
               <img src="ruler.png" style="width:20px"/>
@@ -134,13 +141,27 @@
       <ul class="nav nav-stacked" id="admin-menu">
         <li>
           <div class="btn-group-vertical" role="group">
-            <button id="add-group" ng-disabled = "!simulator.isEditable()" type="button" class="btn btn-side btn-default btn-lg" ng-click="a.add()" data-toggle="tooltip" data-placement="right" title="Add Body">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
             <button type="button" class="btn btn-side btn-default btn-lg" ng-click="a.addNote()" data-toggle="tooltip" data-placement="right" title="Add Note">
               <span class="glyphicon glyphicon-comment"></span>
             </button>
+            <button id="add-group" ng-disabled = "!simulator.isEditable()" type="button" class="btn btn-side btn-default btn-lg" ng-click="a.add('star')" data-toggle="tooltip" data-placement="right" title="Add Star">
+              <img src="star.png" style="width:20px"/>
+            </button>
+            <button id="add-group" ng-disabled = "!simulator.isEditable()" type="button" class="btn btn-side btn-default btn-lg" ng-click="a.add('planet')" data-toggle="tooltip" data-placement="right" title="Add Planet">
+              <img src="planet.png" style="width:20px"/>
+            </button>
+            <button id="add-group" ng-disabled = "!simulator.isEditable()" type="button" class="btn btn-side btn-default btn-lg" ng-click="a.add('moon')" data-toggle="tooltip" data-placement="right" title="Add Moon">
+              <img src="moon.png" style="width:20px"/>
+            </button>
+            <!--<button id="addMenuButton" ng-disabled = "!simulator.isEditable()" style="padding-top:2px;padding-bottom:2px"type="button" class="btn btn-side btn-default btn-lg" ng-click="a.toggleAddMenu()" data-toggle="tooltip" data-placement="right" title="Add Body">
+              <span ng-show="!addMenu" class="glyphicon glyphicon-chevron-down"></span>
+              <span ng-show="addMenu" class="glyphicon glyphicon-chevron-up"></span>
+            </button>
+            <button ng-show="addMenu" id="add-group" ng-disabled = "!simulator.isEditable()" type="button" class="btn btn-side btn-default btn-lg" ng-click="a.add()" data-toggle="tooltip" data-placement="right" title="Add Body">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>-->
           </div>
+
         </li>
       </ul>
     </nav>
