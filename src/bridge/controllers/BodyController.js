@@ -87,4 +87,7 @@ angular.module('bridge.controllers')
       simulator.updateBody(b.id, body);
       eventPump.step(false,true);
     };
+
+    $('app-container').show();
+    $('nav').show();
   }]);

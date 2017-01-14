@@ -60,6 +60,8 @@ angular.module('bridge', [
 
       // Hide all the things
       $('#app-container').hide();
+    } else {
+      $('#title-modal').modal('show');
     }
 
   });

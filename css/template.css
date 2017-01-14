@@ -198,6 +198,9 @@ counter {
   border-color: #303030;
   color: white;
 }
+.navbar-right {
+  padding-right: 30px;
+}
 .navbar-brand {
   font-family: Helvetica;
   color: white !important;
@@ -209,4 +212,22 @@ counter {
 
 button, input, optgroup, select, textarea {
   color: black;
+}
+
+.overlay {
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.title-modal {
+  text-align: center;
+  background-color: black;
+  color: white;
+}
+.btn-go {
+  background-color: black;
+  color: white;
+  border-color: white;
+  border-width: 2px;
 }

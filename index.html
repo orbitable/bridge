@@ -13,25 +13,25 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   </head>
   <body class="fill-height" ng-controller='bodyController as b' style="font-family: 'Montserrat';">
-    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="navController">
-      <div class="navbar-header">
+    <nav hidden id="nav" class="navbar navbar-default navbar-fixed-top" ng-controller="navController">
+      <div  class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#" style="font-family: Montserrat">ORBITABLE</a>
+        <img href="#" src="orbitable-small.png" style="padding-top: 5px; padding-left: 20px; width:30%;">
       </div>
-      <div id="navbar" class="navbar-collapse collapse" >
+      <div  id="navbar" class="navbar-collapse collapse" >
         <ul class="nav navbar-nav navbar-right" ng-show="user.current == null ">
           <li><a data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
           <li><a data-toggle="modal" data-target="#sign-in-modal">Sign In</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right" ng-hide="user.current == null">
-          <li>
+          <li >
             <a class="btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-              {{user.current.username}} <span class="glyphicon glyphicon-user"></span>
+              {{user.current.username}} <span  class="glyphicon glyphicon-user"></span>
             </a>
           </li>
           <li>
@@ -91,7 +91,6 @@
         </div>
       </div>
     </div>
-  </div>
   <div class="container narrow">
     <div id="sign-in-modal" class="modal fade" tabindex="-1" role="dialog" ng-controller='signInModalController'>
       <div class="modal-dialog modal-sm">
@@ -206,6 +205,15 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="title-modal" class="modal fade title-modal" data-dismiss="modal">
+      <div class="modal-dialog title-modal">
+        <div class="modal-content title-modal">
+          <div class="modal-body">
+            <img data-dismiss="modal" src="orbitable-large.png">
           </div>
         </div>
       </div>
